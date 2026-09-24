@@ -1,7 +1,7 @@
 declare module '*.css';
 
 interface ImportMetaEnv {
-  readonly VITE_MODELSCOPE_DEMO?: string;
+  readonly VITE_PUBLIC_DEMO?: string;
 }
 
 interface ImportMeta {

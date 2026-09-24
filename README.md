@@ -1,3 +1,13 @@
+---
+title: Chenxi Internal Research Dashboard
+emoji: 🔎
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+short_description: Synthetic-data retrieval dashboard and MCP demo
+---
+
 # Internal Research Retrieval Demo
 
 A local demo that combines an internal-document Retrieval Hub with a configurable research dashboard. The Hub parses and indexes approved files, provides one retrieval policy to HTTP and MCP, and exposes sync/index status. The dashboard connects to that API to search evidence, inspect source documents, and adjust ranking policy.

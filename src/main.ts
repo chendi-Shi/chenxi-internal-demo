@@ -32,7 +32,7 @@ import {
 } from './ui/view-model.ts';
 
 type ConnectionMode = 'fixture' | 'live';
-const modelscopeDemo = import.meta.env.VITE_MODELSCOPE_DEMO === 'true';
+const publicDemo = import.meta.env.VITE_PUBLIC_DEMO === 'true';
 
 function element<T extends HTMLElement>(id: string): T {
   const node = document.getElementById(id);
@@ -102,7 +102,7 @@ class Dashboard {
   async start(): Promise<void> {
     this.renderResearchLenses();
     this.bindEvents();
-    if (modelscopeDemo) {
+    if (publicDemo) {
       this.mode = 'live';
       this.api = new RetrievalApiClient({
         baseUrl: `${window.location.origin}${window.location.pathname.replace(/\/+$/, '')}`,
@@ -110,7 +110,7 @@ class Dashboard {
         anonymousDemo: true,
       });
       element('connection-card').hidden = true;
-      element('modelscope-demo-notice').hidden = false;
+      element('public-demo-notice').hidden = false;
       button('example-policy').hidden = true;
     }
     await this.refreshWorkspace();
@@ -226,8 +226,8 @@ class Dashboard {
       this.setConnectionState(
         this.mode === 'fixture'
           ? 'Fixture 已就绪'
-          : modelscopeDemo
-            ? '魔搭虚构演示已连接'
+          : publicDemo
+            ? '虚构数据演示已连接'
             : '服务已连接',
         'ready',
       );
