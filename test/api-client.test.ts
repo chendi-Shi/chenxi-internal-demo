@@ -119,3 +119,28 @@ test('client refuses policy mutation without an admin credential', async () => {
     MissingCredentialError,
   );
 });
+
+test('anonymous demo mode omits Authorization for read and policy requests', async () => {
+  const calls: Array<{ url: string; init: RequestInit | undefined }> = [];
+  const client = new RetrievalApiClient({
+    baseUrl: 'https://demo.example.test',
+    readToken: '',
+    anonymousDemo: true,
+    fetchFn: async (input, init) => {
+      calls.push({ url: String(input), init });
+      return jsonResponse(
+        calls.length === 1
+          ? { documents: 2, chunks: 2, sources: 2, policy_version: 1 }
+          : contractExamples.policy_update_response,
+      );
+    },
+  });
+
+  await client.getStatus();
+  await client.updatePolicy(structuredClone(contractExamples.policy_update_request));
+
+  assert.equal(calls.length, 2);
+  for (const call of calls) {
+    assert.equal((call.init?.headers as Record<string, string>).Authorization, undefined);
+  }
+});

@@ -1,13 +1,27 @@
 """Read-only MCP, using the official SDK (stdio and Streamable HTTP)."""
 
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
 from mcp.types import ToolAnnotations
 
 from .hub import Hub
 from .hub_models import MCPFetchResult, MCPSearchResult, SearchItem, SearchRequest, SearchResponse
 
 
-def create_mcp(hub: Hub) -> FastMCP:
+def create_mcp(
+    hub: Hub,
+    *,
+    allowed_hosts: list[str] | None = None,
+    allowed_origins: list[str] | None = None,
+) -> FastMCP:
+    transport_security = (
+        TransportSecuritySettings(
+            allowed_hosts=allowed_hosts,
+            allowed_origins=allowed_origins or [],
+        )
+        if allowed_hosts is not None
+        else None
+    )
     mcp = FastMCP(
         "Internal Research Data",
         instructions=(
@@ -18,6 +32,7 @@ def create_mcp(hub: Hub) -> FastMCP:
         ),
         stateless_http=True,
         json_response=True,
+        transport_security=transport_security,
     )
     readonly = ToolAnnotations(
         readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False

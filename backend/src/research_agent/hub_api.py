@@ -5,12 +5,13 @@ from __future__ import annotations
 import hmac
 import sqlite3
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Literal
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -37,10 +38,23 @@ from .hub_runtime import HubCredentials
 
 
 def create_app(
-    hub: Hub, read_token: str, admin_token: str, allowed_origins: list[str] | None = None
+    hub: Hub,
+    read_token: str,
+    admin_token: str,
+    allowed_origins: list[str] | None = None,
+    *,
+    public_demo: bool = False,
+    dashboard_dir: Path | None = None,
+    mcp_allowed_hosts: list[str] | None = None,
+    mcp_allowed_origins: list[str] | None = None,
+    root_path: str = "",
 ) -> FastAPI:
     HubCredentials(read_token=read_token, admin_token=admin_token)
-    mcp = create_mcp(hub)
+    mcp = create_mcp(
+        hub,
+        allowed_hosts=mcp_allowed_hosts,
+        allowed_origins=mcp_allowed_origins,
+    )
     mcp_app = mcp.streamable_http_app()
 
     @asynccontextmanager
@@ -73,6 +87,8 @@ def create_app(
         return hmac.compare_digest(value.encode("utf-8"), expected.encode("utf-8"))
 
     def authorized(credentials: HTTPAuthorizationCredentials | None = credential_dependency):
+        if public_demo:
+            return
         value = credentials.credentials if credentials else ""
         if not (matches(value, read_token) or matches(value, admin_token)):
             raise HTTPException(401, "unauthorized", headers={"WWW-Authenticate": "Bearer"})
@@ -82,12 +98,17 @@ def create_app(
         if not matches(value, admin_token):
             raise HTTPException(403, "admin_token_required")
 
+    def policy_writer(credentials: HTTPAuthorizationCredentials | None = credential_dependency):
+        if public_demo:
+            return
+        administrator(credentials)
+
     @app.middleware("http")
     async def mcp_auth_and_headers(request: Request, call_next):
         if request.url.path == "/mcp" or request.url.path.startswith("/mcp/"):
             header = request.headers.get("authorization", "")
             token = header[7:] if header.lower().startswith("bearer ") else ""
-            if not (matches(token, read_token) or matches(token, admin_token)):
+            if not public_demo and not (matches(token, read_token) or matches(token, admin_token)):
                 return error_response(
                     "unauthorized",
                     401,
@@ -191,9 +212,29 @@ def create_app(
     def policy():
         return hub.policy()
 
-    @app.put("/api/policy", dependencies=admin, response_model=PolicyState)
+    @app.put("/api/policy", dependencies=[Depends(policy_writer)], response_model=PolicyState)
     def update_policy(body: PolicyUpdate):
         return hub.update_policy(body)
+
+    if dashboard_dir is not None:
+        index_file = dashboard_dir / "index.html"
+        if index_file.is_file():
+            assets_dir = dashboard_dir / "assets"
+
+            @app.get("/assets/{asset_path:path}", include_in_schema=False)
+            def dashboard_asset(asset_path: str):
+                asset_file = (assets_dir / asset_path).resolve()
+                try:
+                    asset_file.relative_to(assets_dir.resolve())
+                except ValueError as exc:
+                    raise HTTPException(404, "not_found") from exc
+                if not assets_dir.is_dir() or not asset_file.is_file():
+                    raise HTTPException(404, "not_found")
+                return FileResponse(asset_file)
+
+            @app.get("/", include_in_schema=False)
+            def dashboard_index():
+                return FileResponse(index_file)
 
     # Mount last so /api and /docs retain their routes. MCP remains exactly /mcp.
     app.mount("/", mcp_app)
@@ -204,4 +245,19 @@ def create_app(
             allow_methods=["GET", "POST", "PUT", "DELETE"],
             allow_headers=["Authorization", "Content-Type"],
         )
+    prefix = "/" + root_path.strip("/") if root_path.strip("/") else ""
+    if prefix:
+
+        @app.middleware("http")
+        async def strip_deployment_prefix(request: Request, call_next):
+            path = request.scope["path"]
+            if path == prefix or path.startswith(prefix + "/"):
+                request.scope["root_path"] = prefix
+                request.scope["path"] = path[len(prefix) :] or "/"
+                raw_path = request.scope.get("raw_path", b"")
+                prefix_bytes = prefix.encode("utf-8")
+                if raw_path.startswith(prefix_bytes):
+                    request.scope["raw_path"] = raw_path[len(prefix_bytes) :] or b"/"
+            return await call_next(request)
+
     return app

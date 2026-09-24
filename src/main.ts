@@ -32,6 +32,7 @@ import {
 } from './ui/view-model.ts';
 
 type ConnectionMode = 'fixture' | 'live';
+const modelscopeDemo = import.meta.env.VITE_MODELSCOPE_DEMO === 'true';
 
 function element<T extends HTMLElement>(id: string): T {
   const node = document.getElementById(id);
@@ -101,6 +102,17 @@ class Dashboard {
   async start(): Promise<void> {
     this.renderResearchLenses();
     this.bindEvents();
+    if (modelscopeDemo) {
+      this.mode = 'live';
+      this.api = new RetrievalApiClient({
+        baseUrl: `${window.location.origin}${window.location.pathname.replace(/\/+$/, '')}`,
+        readToken: '',
+        anonymousDemo: true,
+      });
+      element('connection-card').hidden = true;
+      element('modelscope-demo-notice').hidden = false;
+      button('example-policy').hidden = true;
+    }
     await this.refreshWorkspace();
   }
 
@@ -211,7 +223,14 @@ class Dashboard {
       this.policyState = policy;
       this.policyDraft = clonePolicy(policy.policy);
       this.renderWorkspace();
-      this.setConnectionState(this.mode === 'fixture' ? 'Fixture 已就绪' : '服务已连接', 'ready');
+      this.setConnectionState(
+        this.mode === 'fixture'
+          ? 'Fixture 已就绪'
+          : modelscopeDemo
+            ? '魔搭虚构演示已连接'
+            : '服务已连接',
+        'ready',
+      );
       this.showToast(`已载入 Policy v${policy.version}`, 'success');
     } catch (error) {
       this.setConnectionState('连接失败', 'error');

@@ -31,6 +31,7 @@ export interface RetrievalApiClientOptions {
   baseUrl: string;
   readToken: string;
   adminToken?: string;
+  anonymousDemo?: boolean;
   fetchFn?: FetchLike;
   timeoutMs?: number;
 }
@@ -72,6 +73,7 @@ export class RetrievalApiClient implements RetrievalApi {
   private readonly baseUrl: string;
   private readonly readToken: string;
   private readonly adminToken: string | undefined;
+  private readonly anonymousDemo: boolean;
   private readonly fetchFn: FetchLike;
   private readonly timeoutMs: number;
 
@@ -79,6 +81,7 @@ export class RetrievalApiClient implements RetrievalApi {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
     this.readToken = options.readToken;
     this.adminToken = options.adminToken;
+    this.anonymousDemo = options.anonymousDemo ?? false;
     this.fetchFn = options.fetchFn ?? fetch;
     this.timeoutMs = options.timeoutMs ?? 10_000;
   }
@@ -139,7 +142,7 @@ export class RetrievalApiClient implements RetrievalApi {
     body?: unknown,
   ): Promise<ReturnType<typeof parseContract<Name>>> {
     const token = credential === 'admin' ? this.adminToken : this.readToken;
-    if (!token) throw new MissingCredentialError(credential);
+    if (!token && !this.anonymousDemo) throw new MissingCredentialError(credential);
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
@@ -147,8 +150,8 @@ export class RetrievalApiClient implements RetrievalApi {
     try {
       const headers: Record<string, string> = {
         Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
       };
+      if (token) headers.Authorization = `Bearer ${token}`;
       if (body !== undefined) headers['Content-Type'] = 'application/json';
 
       const requestInit: RequestInit = {

@@ -189,6 +189,50 @@ def test_http_auth_contract_cors_and_errors(hub):
         assert schema["paths"]["/api/search"]["post"]["security"]
 
 
+def test_public_demo_serves_dashboard_without_headers_and_limits_writes(hub, workspace):
+    pytest.importorskip("mcp")
+    from fastapi.testclient import TestClient
+
+    from research_agent.hub_api import create_app
+
+    dashboard = workspace / "dashboard"
+    (dashboard / "assets").mkdir(parents=True)
+    (dashboard / "index.html").write_text("demo dashboard", encoding="utf-8")
+    (dashboard / "assets" / "app.js").write_text("demo asset", encoding="utf-8")
+    app = create_app(
+        hub,
+        "r" * 40,
+        "a" * 40,
+        public_demo=True,
+        dashboard_dir=dashboard,
+        root_path="/studios/test/demo",
+    )
+
+    with TestClient(app, base_url="http://localhost") as client:
+        prefix = "/studios/test/demo"
+        assert client.get(prefix + "/").text == "demo dashboard"
+        assert client.get(prefix + "/assets/app.js").text == "demo asset"
+        assert client.get(prefix + "/api/status").json()["documents"] == 2
+        assert client.post(prefix + "/api/search", json={"query": "芯片"}).status_code == 200
+
+        policy_update = {
+            "expected_version": 1,
+            "policy": {"source_weights": {"a": 0.1, "b": 10}, "recency_boost": 0},
+        }
+        assert client.put(prefix + "/api/policy", json=policy_update).json()["version"] == 2
+        results = client.post(prefix + "/api/search", json={"query": "芯片"}).json()
+        assert results["policy_version"] == 2
+        assert results["results"][0]["source_id"] == "b"
+
+        # The demo can change only its synthetic retrieval policy.
+        assert client.post(prefix + "/api/sources", json={"id": "x", "name": "x"}).status_code == 403
+        assert client.post(
+            prefix + "/api/ingest/documents", json={"source_id": "a", "documents": []}
+        ).status_code == 403
+        assert client.delete(prefix + "/api/documents/unknown").status_code == 403
+        assert client.post(prefix + "/mcp", json={}).status_code != 401
+
+
 @pytest.mark.asyncio
 async def test_mcp_tools_are_read_only_and_share_policy(hub):
     pytest.importorskip("mcp")

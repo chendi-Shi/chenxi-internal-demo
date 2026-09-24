@@ -31,6 +31,7 @@ button:disabled { cursor: wait; opacity: .56; }
 .eyebrow, .section-number, .result-kicker { margin: 0; color: var(--accent-dark); font: 650 9px ui-monospace, 'SFMono-Regular', Consolas, monospace; letter-spacing: .12em; }
 .research-header h1 { margin: 7px 0 0; font-size: clamp(30px, 3.4vw, 50px); line-height: 1; letter-spacing: -.055em; }
 .research-summary { max-width: 680px; margin: 12px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.public-demo-note { margin: 0 0 12px; padding: 11px 14px; border: 1px solid #dbe5a5; border-radius: 8px; background: #f7f9e8; color: #35402f; font-size: 11px; line-height: 1.5; }
 .research-context { display: grid; grid-template-columns: repeat(3, minmax(132px, 1fr)); min-width: min(100%, 470px); margin: 0; border: 1px solid var(--line-strong); border-radius: 10px; background: rgb(255 255 255 / 62%); overflow: hidden; }
 .research-context div { padding: 12px 14px; border-right: 1px solid var(--line); }
 .research-context div:last-child { border-right: 0; }
