@@ -18,6 +18,24 @@ function jsonResponse(payload: unknown, status = 200): Response {
   });
 }
 
+test('client preserves the global receiver required by browser fetch', async () => {
+  let receiver: unknown;
+  const fetchFn: FetchLike = async function (this: unknown) {
+    receiver = this;
+    return jsonResponse({ documents: 0, chunks: 0, sources: 0, policy_version: 1 });
+  };
+  const client = new RetrievalApiClient({
+    baseUrl: 'http://example.test',
+    readToken: '',
+    anonymousDemo: true,
+    fetchFn,
+  });
+
+  await client.getStatus();
+
+  assert.equal(receiver, globalThis);
+});
+
 test('client uses one contract-shaped boundary and the correct credentials', async () => {
   const calls: Array<{ url: string; init: RequestInit | undefined }> = [];
   const responses = [

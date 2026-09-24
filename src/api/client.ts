@@ -82,7 +82,7 @@ export class RetrievalApiClient implements RetrievalApi {
     this.readToken = options.readToken;
     this.adminToken = options.adminToken;
     this.anonymousDemo = options.anonymousDemo ?? false;
-    this.fetchFn = options.fetchFn ?? fetch;
+    this.fetchFn = (options.fetchFn ?? fetch).bind(globalThis);
     this.timeoutMs = options.timeoutMs ?? 10_000;
   }
 
