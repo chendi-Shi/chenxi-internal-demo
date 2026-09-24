@@ -1,0 +1,33 @@
+{
+  "name": "mcp-retrieval-policy-demo",
+  "version": "1.0.0",
+  "description": "Retrieval Policy dashboard, evaluation, and MCP integration demo",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:lan": "vite --host 0.0.0.0 --port 0",
+    "demo": "vite --host 0.0.0.0 --port 0",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "preview:lan": "vite preview --host 0.0.0.0 --port 0",
+    "evaluate": "node --experimental-strip-types scripts/run-evaluation.ts",
+    "check:evaluation": "node --experimental-strip-types scripts/run-evaluation.ts --check",
+    "check:live": "node --experimental-strip-types scripts/check-live-integration.ts",
+    "check:mcp-parity": "node --experimental-strip-types scripts/check-mcp-parity.ts",
+    "generate:contracts": "node scripts/generate-contracts.mjs",
+    "check:generated": "node scripts/generate-contracts.mjs --check",
+    "check:foundation": "node scripts/validate-foundation.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "node --experimental-strip-types --test test/*.test.ts",
+    "test": "npm run check:foundation && npm run check:generated && npm run check:evaluation && npm run typecheck && npm run test:unit && vite build"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}

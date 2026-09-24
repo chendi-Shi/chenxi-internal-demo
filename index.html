@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="面向二级市场研究的 Retrieval Policy 配置与证据检索工作台" />
+    <title>Research Retrieval Desk</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Research Retrieval Desk 首页">
+          <span class="brand-mark" aria-hidden="true">RR</span>
+          <span><strong>Research Retrieval Desk</strong><small>Policy-controlled evidence search</small></span>
+        </a>
+        <div class="topbar-meta">
+          <span class="contract-badge">API v1.0.0</span>
+          <span id="connection-state" class="status-badge status-badge--idle">未连接</span>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="research-header" aria-labelledby="workspace-title">
+          <div>
+            <p class="eyebrow">BUY-SIDE RESEARCH WORKSPACE</p>
+            <h1 id="workspace-title">检索证据工作台</h1>
+            <p class="research-summary">以商业模式与财务研究为主线，调整来源优先级和时间偏好，核对下一次检索的服务端排序。</p>
+          </div>
+          <dl class="research-context" aria-label="研究上下文">
+            <div><dt>研究视角</dt><dd>商业模式与财务</dd></div>
+            <div><dt>排序责任</dt><dd>上游 Retrieval Hub</dd></div>
+            <div><dt>内容处理</dt><dd>不可信纯文本</dd></div>
+          </dl>
+        </section>
+
+        <section class="connection-card" aria-labelledby="connection-title">
+          <div class="section-heading section-heading--inline">
+            <div><span class="section-number">ENVIRONMENT</span><h2 id="connection-title">连接环境</h2></div>
+            <p>凭据仅保存在当前页面内存。</p>
+          </div>
+          <form id="connection-form" class="connection-form">
+            <label class="field field--compact"><span>运行模式</span><select id="connection-mode"><option value="fixture">官方虚构 Fixture</option><option value="live">上游 HTTP 服务</option></select></label>
+            <div id="live-fields" class="connection-live" hidden>
+              <label class="field"><span>Base URL</span><input id="base-url" type="url" value="http://127.0.0.1:8765" autocomplete="off" /></label>
+              <label class="field"><span>Read Token</span><input id="read-token" type="password" autocomplete="off" /></label>
+              <label class="field"><span>Admin Token</span><input id="admin-token" type="password" autocomplete="off" /></label>
+            </div>
+            <button id="connect-button" class="button button--dark" type="submit">连接并载入</button>
+          </form>
+        </section>
+
+        <section class="overview-panel" aria-labelledby="status-title">
+          <div class="overview-heading">
+            <div><span class="section-number">RESEARCH UNIVERSE</span><h2 id="status-title">资料库与策略状态</h2></div>
+            <div id="sources-list" class="sources-list" aria-label="数据源"></div>
+          </div>
+          <div id="status-grid" class="metric-grid" aria-live="polite">
+            <div class="metric"><strong>—</strong><span>Documents</span></div>
+            <div class="metric"><strong>—</strong><span>Chunks</span></div>
+            <div class="metric"><strong>—</strong><span>Sources</span></div>
+            <div class="metric metric--accent"><strong>—</strong><span>Policy</span></div>
+          </div>
+        </section>
+
+        <div class="workspace">
+          <aside class="control-column">
+            <section class="panel policy-panel" aria-labelledby="policy-title">
+              <div class="section-heading section-heading--split">
+                <div><span class="section-number">01 · RETRIEVAL POLICY</span><h2 id="policy-title">检索优先级</h2></div>
+                <span id="policy-version" class="version-chip">v—</span>
+              </div>
+              <form id="policy-form">
+                <fieldset>
+                  <legend>来源权重</legend>
+                  <p class="field-help">1 为默认，0 为排除。最终分数由上游返回。</p>
+                  <div id="weight-fields" class="weight-fields"></div>
+                </fieldset>
+                <div class="policy-divider"></div>
+                <div class="form-grid">
+                  <label class="field"><span>新文档加成</span><input id="recency-boost" type="number" min="0" max="3" step="0.05" /></label>
+                  <label class="field"><span>时间半衰期（天）</span><input id="half-life-days" type="number" min="1" max="3650" step="1" /></label>
+                  <label class="field field--wide"><span>默认结果数</span><input id="default-limit" type="number" min="1" max="50" step="1" /></label>
+                </div>
+                <div id="policy-conflict" class="conflict-box" hidden>
+                  <strong>策略版本已变化</strong><span>服务器存在更新，请重新载入后人工核对。</span>
+                  <button id="reload-policy" type="button" class="text-button">重新载入</button>
+                </div>
+                <div id="policy-change-summary" class="policy-change-summary" hidden>
+                  <strong>待保存变化</strong>
+                  <ul id="policy-change-list"></ul>
+                  <span>仅列出输入变化，不预测排名结果。</span>
+                </div>
+                <div class="form-actions">
+                  <button id="example-policy" type="button" class="button button--ghost">示例策略</button>
+                  <button id="save-policy" type="submit" class="button button--accent">保存并复查</button>
+                </div>
+              </form>
+            </section>
+          </aside>
+
+          <section class="analysis-column">
+            <section class="panel search-panel" aria-labelledby="search-title">
+              <div class="section-heading section-heading--split">
+                <div><span class="section-number">02 · EVIDENCE QUERY</span><h2 id="search-title">研究查询</h2></div>
+                <span class="read-only-chip">SERVER ORDER</span>
+              </div>
+              <form id="search-form" class="search-form">
+                <label class="field field--query">
+                  <span>查询词</span>
+                  <div class="query-control"><input id="search-query" type="search" value="芯片" maxlength="500" required /><button id="search-button" type="submit" class="button button--dark">检索证据</button></div>
+                </label>
+                <div class="research-lens-row" aria-labelledby="research-lens-label">
+                  <span id="research-lens-label">研究主题</span>
+                  <div id="research-lenses" class="research-lenses"></div>
+                  <button id="fixture-query" class="lens-button lens-button--baseline" type="button">Fixture 基线</button>
+                </div>
+                <details id="search-filters" class="filters">
+                  <summary>来源、时间与 metadata 过滤 <span>仅对本次查询生效</span></summary>
+                  <div class="filter-grid">
+                    <fieldset class="filter-sources"><legend>限定来源</legend><div id="source-filters" class="check-list"></div></fieldset>
+                    <label class="field"><span>起始时间</span><input id="filter-since" type="datetime-local" /></label>
+                    <label class="field"><span>结束时间</span><input id="filter-until" type="datetime-local" /></label>
+                    <label class="field"><span>结果数</span><input id="search-limit" type="number" min="1" max="50" value="10" /></label>
+                    <label class="field field--wide"><span>Metadata（每行 key=value）</span><textarea id="filter-metadata" rows="3" placeholder="company=虚构公司"></textarea></label>
+                  </div>
+                </details>
+              </form>
+            </section>
+
+            <section class="panel results-panel" aria-labelledby="results-title">
+              <div class="section-heading section-heading--split results-heading">
+                <div><span class="section-number">03 · RANKED EVIDENCE</span><h2 id="results-title">证据与排名</h2></div>
+                <div id="result-summary" class="result-summary">等待首次查询</div>
+              </div>
+              <div class="result-column-labels" aria-hidden="true"><span>顺位与证据</span><span>服务端评分</span></div>
+              <div id="results-list" class="results-list">
+                <div class="empty-state"><strong>等待研究查询</strong><p>先建立结果基线，再调整来源或新鲜度观察下一次服务端排序。</p></div>
+              </div>
+            </section>
+          </section>
+
+          <aside id="document-panel" class="panel document-panel" aria-labelledby="document-title" hidden>
+            <div class="section-heading section-heading--split">
+              <div><span class="section-number">04 · SOURCE DOCUMENT</span><h2 id="document-title">来源全文</h2></div>
+              <button id="close-document" class="icon-button" type="button" aria-label="关闭文档">×</button>
+            </div>
+            <div id="document-content"></div>
+          </aside>
+        </div>
+      </main>
+
+      <footer><span>Research Retrieval Desk</span><span>服务端排序 · 版本可追溯 · 正文按纯文本渲染</span></footer>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

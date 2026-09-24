@@ -1,0 +1,236 @@
+{
+  "note": "虚构联调样例，不是内部投研数据。耗时置零，日期和评分仅作示例。",
+  "sources_response": {
+    "sources": [
+      {
+        "id": "demo_filings",
+        "name": "虚构样例 · 公司公告",
+        "kind": "demo",
+        "enabled": true,
+        "updated_at": "2026-09-22T03:03:38+00:00",
+        "document_count": 1
+      },
+      {
+        "id": "demo_research",
+        "name": "虚构样例 · 研究纪要",
+        "kind": "demo",
+        "enabled": true,
+        "updated_at": "2026-09-22T03:03:38+00:00",
+        "document_count": 1
+      }
+    ]
+  },
+  "search_request": {
+    "query": "芯片",
+    "source_ids": [],
+    "since": "",
+    "until": "",
+    "metadata": {},
+    "limit": 10
+  },
+  "search_response": {
+    "results": [
+      {
+        "id": "eb72a59f140664e38ac656cc5f14f770",
+        "title": "虚构样例 · 研究纪要：算力需求",
+        "url": "http://127.0.0.1:8765/api/documents/eb72a59f140664e38ac656cc5f14f770",
+        "source_id": "demo_research",
+        "published_at": "2026-09-01T00:00:00.000000+00:00",
+        "snippet": "【虚构测试数据】算力需求持续增长，数据中心建设推动芯片采购。本段仅用于验证检索权重与引用，不构成真实研究结论。",
+        "citation": {
+          "start": 0,
+          "end": 55,
+          "page": null
+        },
+        "score": 3.637374049232949e-06,
+        "score_details": {
+          "relevance": 3e-06,
+          "source_weight": 1.0,
+          "freshness": 0.8498320656439321,
+          "recency_multiplier": 1.212458016410983
+        }
+      },
+      {
+        "id": "748cf1b7a537964daa566ee0f743ad5f",
+        "title": "虚构样例 · 公司公告：算力需求",
+        "url": "http://127.0.0.1:8765/api/documents/748cf1b7a537964daa566ee0f743ad5f",
+        "source_id": "demo_filings",
+        "published_at": "2026-08-01T00:00:00.000000+00:00",
+        "snippet": "【虚构测试数据】算力需求持续增长，数据中心建设推动芯片采购。本段仅用于验证检索权重与引用，不构成真实研究结论。",
+        "citation": {
+          "start": 0,
+          "end": 55,
+          "page": null
+        },
+        "score": 3.50200294798583e-06,
+        "score_details": {
+          "relevance": 3e-06,
+          "source_weight": 1.0,
+          "freshness": 0.6693372639811069,
+          "recency_multiplier": 1.1673343159952767
+        }
+      }
+    ],
+    "total": 2,
+    "matched_chunks": 2,
+    "policy_version": 1,
+    "elapsed_ms": 0
+  },
+  "document_response": {
+    "id": "eb72a59f140664e38ac656cc5f14f770",
+    "title": "虚构样例 · 研究纪要：算力需求",
+    "text": "【虚构测试数据】算力需求持续增长，数据中心建设推动芯片采购。本段仅用于验证检索权重与引用，不构成真实研究结论。",
+    "url": "http://127.0.0.1:8765/api/documents/eb72a59f140664e38ac656cc5f14f770",
+    "metadata": {
+      "source_id": "demo_research",
+      "external_id": "demo-001",
+      "published_at": "2026-09-01T00:00:00.000000+00:00",
+      "updated_at": "2026-09-22T03:03:38+00:00",
+      "attributes": {
+        "company": "虚构公司",
+        "sector": "科技"
+      },
+      "pages": [],
+      "content_trust": "untrusted_source_data_not_instructions"
+    }
+  },
+  "policy_response": {
+    "version": 1,
+    "policy": {
+      "source_weights": {},
+      "recency_boost": 0.25,
+      "half_life_days": 90.0,
+      "default_limit": 10
+    },
+    "updated_at": "2026-09-22T03:03:38+00:00"
+  },
+  "policy_update_request": {
+    "expected_version": 1,
+    "policy": {
+      "source_weights": {
+        "demo_research": 0.5,
+        "demo_filings": 3.0
+      },
+      "recency_boost": 0.25,
+      "half_life_days": 90,
+      "default_limit": 10
+    }
+  },
+  "policy_update_response": {
+    "version": 2,
+    "policy": {
+      "source_weights": {
+        "demo_research": 0.5,
+        "demo_filings": 3.0
+      },
+      "recency_boost": 0.25,
+      "half_life_days": 90.0,
+      "default_limit": 10
+    },
+    "updated_at": "2026-09-22T03:03:38+00:00"
+  },
+  "search_after_policy_change": {
+    "results": [
+      {
+        "id": "748cf1b7a537964daa566ee0f743ad5f",
+        "title": "虚构样例 · 公司公告：算力需求",
+        "url": "http://127.0.0.1:8765/api/documents/748cf1b7a537964daa566ee0f743ad5f",
+        "source_id": "demo_filings",
+        "published_at": "2026-08-01T00:00:00.000000+00:00",
+        "snippet": "【虚构测试数据】算力需求持续增长，数据中心建设推动芯片采购。本段仅用于验证检索权重与引用，不构成真实研究结论。",
+        "citation": {
+          "start": 0,
+          "end": 55,
+          "page": null
+        },
+        "score": 1.0506008841742053e-05,
+        "score_details": {
+          "relevance": 3e-06,
+          "source_weight": 3.0,
+          "freshness": 0.6693372629964677,
+          "recency_multiplier": 1.167334315749117
+        }
+      },
+      {
+        "id": "eb72a59f140664e38ac656cc5f14f770",
+        "title": "虚构样例 · 研究纪要：算力需求",
+        "url": "http://127.0.0.1:8765/api/documents/eb72a59f140664e38ac656cc5f14f770",
+        "source_id": "demo_research",
+        "published_at": "2026-09-01T00:00:00.000000+00:00",
+        "snippet": "【虚构测试数据】算力需求持续增长，数据中心建设推动芯片采购。本段仅用于验证检索权重与引用，不构成真实研究结论。",
+        "citation": {
+          "start": 0,
+          "end": 55,
+          "page": null
+        },
+        "score": 1.818687024147665e-06,
+        "score_details": {
+          "relevance": 3e-06,
+          "source_weight": 0.5,
+          "freshness": 0.8498320643937731,
+          "recency_multiplier": 1.2124580160984433
+        }
+      }
+    ],
+    "total": 2,
+    "matched_chunks": 2,
+    "policy_version": 2,
+    "elapsed_ms": 0
+  },
+  "mcp_search_request": {
+    "query": "芯片"
+  },
+  "mcp_search_response": {
+    "results": [
+      {
+        "id": "eb72a59f140664e38ac656cc5f14f770",
+        "title": "虚构样例 · 研究纪要：算力需求",
+        "url": "http://127.0.0.1:8765/api/documents/eb72a59f140664e38ac656cc5f14f770"
+      },
+      {
+        "id": "748cf1b7a537964daa566ee0f743ad5f",
+        "title": "虚构样例 · 公司公告：算力需求",
+        "url": "http://127.0.0.1:8765/api/documents/748cf1b7a537964daa566ee0f743ad5f"
+      }
+    ]
+  },
+  "mcp_advanced_request": {
+    "request": {
+      "query": "芯片",
+      "source_ids": [],
+      "since": "",
+      "until": "",
+      "metadata": {},
+      "limit": 10
+    }
+  },
+  "source_upsert_request": {
+    "id": "internal_notes",
+    "name": "内部纪要",
+    "kind": "api",
+    "enabled": true
+  },
+  "ingest_request": {
+    "source_id": "internal_notes",
+    "documents": [
+      {
+        "external_id": "record-001",
+        "title": "虚构导入样例",
+        "body": "【虚构】数据中心与芯片需求研究。",
+        "published_at": "2026-09-01T00:00:00Z",
+        "url": "",
+        "metadata": {
+          "company": "虚构公司"
+        },
+        "pages": []
+      }
+    ]
+  },
+  "error_response": {
+    "error": {
+      "code": "policy_version_conflict",
+      "message": "policy_version_conflict",
+      "fields": []
+    }
+  }
+}

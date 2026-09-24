@@ -1,0 +1,184 @@
+{
+  "report_version": "1.0",
+  "evidence": {
+    "api_version": "1.0.0",
+    "fixture": "docs/contracts/examples.json",
+    "claim_scope": "Results validate provided fixture evidence only; they do not claim a live upstream or ChatGPT integration."
+  },
+  "experiment_summary": {
+    "passed": 2,
+    "failed": 0,
+    "not_run": 1
+  },
+  "experiments": [
+    {
+      "id": "source_weight",
+      "title": "来源权重改变下一次检索排序",
+      "status": "passed",
+      "query": "芯片",
+      "policy_versions": [
+        1,
+        2
+      ],
+      "assertions": [
+        {
+          "name": "policy version increments",
+          "passed": true,
+          "evidence": "before=v1, after=v2"
+        },
+        {
+          "name": "preferred source becomes rank 1",
+          "passed": true,
+          "evidence": "demo_research → demo_filings"
+        },
+        {
+          "name": "configured source weights are reflected by server results",
+          "passed": true,
+          "evidence": "demo_filings=3.0, demo_research=0.5"
+        },
+        {
+          "name": "relevance guard preserves candidates and relevance components",
+          "passed": true,
+          "evidence": "same_result_set=true, relevance_unchanged=true"
+        },
+        {
+          "name": "saved policy matches evaluated version",
+          "passed": true,
+          "evidence": "policy=1→2"
+        }
+      ]
+    },
+    {
+      "id": "freshness",
+      "title": "相关性与来源权重相同时优先新文档",
+      "status": "passed",
+      "query": "芯片",
+      "policy_versions": [
+        1
+      ],
+      "assertions": [
+        {
+          "name": "comparison holds relevance and source weight constant",
+          "passed": true,
+          "evidence": "relevance=0.000003, source_weight=1"
+        },
+        {
+          "name": "newer document has greater freshness",
+          "passed": true,
+          "evidence": "2026-09-01T00:00:00.000000+00:00 freshness=0.8498320656439321; 2026-08-01T00:00:00.000000+00:00 freshness=0.6693372639811069"
+        },
+        {
+          "name": "newer document ranks first under positive recency boost",
+          "passed": true,
+          "evidence": "recency_boost=0.25, score=0.000003637374049232949>0.00000350200294798583"
+        }
+      ]
+    },
+    {
+      "id": "metadata_filter",
+      "title": "Metadata 精确过滤",
+      "status": "not_run",
+      "query": "芯片",
+      "policy_versions": [
+        1
+      ],
+      "assertions": [],
+      "planned_request": {
+        "query": "芯片",
+        "source_ids": [],
+        "since": "",
+        "until": "",
+        "metadata": {
+          "sector": "科技"
+        },
+        "limit": 10
+      },
+      "limitation": "examples.json contains metadata fields but no filtered SearchResponse; claiming a pass would invent upstream behavior."
+    }
+  ],
+  "token_estimation": {
+    "id": "heuristic-v1",
+    "formula": "ceil(ascii_characters / 4 + han_characters + other_non_ascii_characters)",
+    "caveat": "Transparent payload estimate only; it is not a model-specific billing tokenizer."
+  },
+  "token_metrics": [
+    {
+      "label": "mcp_tool_schemas_search_fetch",
+      "characters": 968,
+      "utf8_bytes": 968,
+      "ascii_characters": 968,
+      "han_characters": 0,
+      "other_non_ascii_characters": 0,
+      "estimated_tokens": 242
+    },
+    {
+      "label": "mcp_tool_schemas_all_three",
+      "characters": 2285,
+      "utf8_bytes": 2285,
+      "ascii_characters": 2285,
+      "han_characters": 0,
+      "other_non_ascii_characters": 0,
+      "estimated_tokens": 572
+    },
+    {
+      "label": "mcp_search_arguments",
+      "characters": 14,
+      "utf8_bytes": 18,
+      "ascii_characters": 12,
+      "han_characters": 2,
+      "other_non_ascii_characters": 0,
+      "estimated_tokens": 5
+    },
+    {
+      "label": "mcp_search_result_envelope",
+      "characters": 696,
+      "utf8_bytes": 804,
+      "ascii_characters": 640,
+      "han_characters": 48,
+      "other_non_ascii_characters": 8,
+      "estimated_tokens": 216
+    },
+    {
+      "label": "mcp_search_documents_result_envelope",
+      "characters": 2288,
+      "utf8_bytes": 2836,
+      "ascii_characters": 2012,
+      "han_characters": 244,
+      "other_non_ascii_characters": 32,
+      "estimated_tokens": 779
+    },
+    {
+      "label": "mcp_fetch_arguments",
+      "characters": 41,
+      "utf8_bytes": 41,
+      "ascii_characters": 41,
+      "han_characters": 0,
+      "other_non_ascii_characters": 0,
+      "estimated_tokens": 11
+    },
+    {
+      "label": "mcp_fetch_result_envelope",
+      "characters": 1072,
+      "utf8_bytes": 1370,
+      "ascii_characters": 922,
+      "han_characters": 134,
+      "other_non_ascii_characters": 16,
+      "estimated_tokens": 381
+    },
+    {
+      "label": "standard_flow_one_search_one_fetch",
+      "characters": 2791,
+      "utf8_bytes": 3201,
+      "ascii_characters": 2583,
+      "han_characters": 184,
+      "other_non_ascii_characters": 24,
+      "estimated_tokens": 855
+    }
+  ],
+  "token_comparisons": {
+    "lean_search_vs_detailed_percent_reduction": 72.3,
+    "advanced_tool_schema_increment_tokens": 330,
+    "one_search_one_fetch_estimated_tokens": 855,
+    "fetch_share_of_standard_flow_percent": 44.6
+  }
+}
