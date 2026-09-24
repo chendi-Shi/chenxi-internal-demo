@@ -19,7 +19,7 @@ The repository contains code and fictional fixtures only. Local documents, datab
 ```text
 Approved local files → backend/ Retrieval Hub → SQLite / FTS5 / optional local vectors
                               ├─ HTTP API 1.2.0 → src/ Research Dashboard
-                              └─ MCP search/fetch → GPT client (account connection is separate)
+                              └─ MCP search/fetch → For private ChatGPT access, follow [the Secure MCP Tunnel setup](docs/CHATGPT_MCP_SETUP.md).
 ```
 
 `backend/` owns ingestion, parsing, indexing, retrieval, server-side ranking, HTTP and MCP. `src/` owns the dashboard, contract-checked HTTP client, policy editor and evaluations. Both use the API contract in `docs/contracts/`; the backend’s exported copy is kept in `backend/docs/contracts/` and checked against it. The browser never reranks results.
@@ -75,7 +75,7 @@ The dashboard displays document, chunk and source counts, semantic-index coverag
 
 The API reference is available at `http://127.0.0.1:8765/docs`. The dashboard contract is [OpenAPI 1.2.0](docs/contracts/openapi.json). Main endpoints include `/api/status`, `/api/retrieval`, `/api/sync`, `/api/sync/files`, `/api/sources`, `/api/search`, `/api/documents/{document_id}` and `/api/policy`.
 
-The backend exposes read-only MCP tools `search`, `fetch` and `search_documents` through `/mcp` or local stdio. A real GPT account connection is a separate setup step and is not part of the local demo.
+The backend exposes read-only MCP tools `search`, `fetch` and `search_documents` through `/mcp` or local stdio. To connect the local library to ChatGPT without publishing the MCP endpoint, follow [the Secure MCP Tunnel setup](docs/CHATGPT_MCP_SETUP.md).
 
 ## Verify
 
