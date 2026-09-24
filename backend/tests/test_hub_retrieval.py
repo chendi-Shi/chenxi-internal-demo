@@ -37,7 +37,7 @@ def corpus(workspace):
         (
             "b",
             "ExampleCloud",
-            "Synthetic fixture. Revenue grew 123% to $456 million. Data center capacity expanded.",
+            "Synthetic fixture. Revenue grew 123% to $456 million. Data center capacity expanded. Semiconductor chip shipments increased.",
         ),
     ):
         hub.upsert_source(SourceDefinition(id=source, name=source))
@@ -68,6 +68,7 @@ def corpus(workspace):
         ("演示云的收入增长情况如何？", "ExampleCloud"),
         ("What is ExampleCloud revenue growth?", "ExampleCloud"),
         ("数据中心", "ExampleCloud"),
+        ("芯片", "ExampleCloud"),
         ("产能", "ExampleCloud"),
     ],
 )
