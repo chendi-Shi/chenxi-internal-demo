@@ -25,6 +25,7 @@ CONCEPTS = (
     ("收入", "营收", "营业收入", "revenue", "revenues", "sales"),
     ("增长", "growth", "grew", "increase", "increased", "increases", "growing"),
     ("数据中心", "data center", "data centers", "datacenter", "datacenters", "data centre"),
+    ("芯片", "半导体", "chip", "chips", "semiconductor", "semiconductors"),
     ("产能", "capacity", "production capacity"),
     ("自由现金流", "free cash flow", "fcf"),
     ("经营现金流", "operating cash flow", "cash from operations"),
