@@ -22,6 +22,9 @@ test('client uses one contract-shaped boundary and the correct credentials', asy
   const calls: Array<{ url: string; init: RequestInit | undefined }> = [];
   const responses = [
     { documents: 2, chunks: 2, sources: 2, policy_version: 1 },
+    contractExamples.retrieval_status,
+    { configured: false, last_cycle: null, files: {}, worker_recent: false },
+    { files: [], total: 0 },
     contractExamples.sources_response,
     contractExamples.search_response,
     contractExamples.document_response,
@@ -42,6 +45,9 @@ test('client uses one contract-shaped boundary and the correct credentials', asy
   });
 
   await client.getStatus();
+  await client.getRetrievalStatus();
+  await client.getSyncStatus();
+  await client.getSyncFiles({ state: 'failed', limit: 10, offset: 20 });
   await client.getSources();
   await client.search(parseContract('SearchRequest', structuredClone(contractExamples.search_request)));
   await client.getDocument(contractExamples.document_response.id);
@@ -52,6 +58,9 @@ test('client uses one contract-shaped boundary and the correct credentials', asy
     calls.map((call) => [call.init?.method, call.url]),
     [
       ['GET', 'http://example.test/api/status'],
+      ['GET', 'http://example.test/api/retrieval'],
+      ['GET', 'http://example.test/api/sync'],
+      ['GET', 'http://example.test/api/sync/files?state=failed&limit=10&offset=20'],
       ['GET', 'http://example.test/api/sources'],
       ['POST', 'http://example.test/api/search'],
       ['GET', `http://example.test/api/documents/${contractExamples.document_response.id}`],
@@ -60,9 +69,9 @@ test('client uses one contract-shaped boundary and the correct credentials', asy
     ],
   );
   assert.equal((calls[0]?.init?.headers as Record<string, string>).Authorization, 'Bearer read-token');
-  assert.equal((calls[5]?.init?.headers as Record<string, string>).Authorization, 'Bearer admin-token');
+  assert.equal((calls[8]?.init?.headers as Record<string, string>).Authorization, 'Bearer admin-token');
   assert.deepEqual(
-    JSON.parse(String(calls[5]?.init?.body)),
+    JSON.parse(String(calls[8]?.init?.body)),
     contractExamples.policy_update_request,
   );
 });

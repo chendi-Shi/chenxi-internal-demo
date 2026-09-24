@@ -1,0 +1,14 @@
+{
+  "source_id": "internal_demo",
+  "documents": [
+    {
+      "external_id": "demo-record-001",
+      "title": "虚构样例：算力供应链观察",
+      "body": "【虚构测试数据】数据中心投资带动芯片订单增长。本段仅用于测试内部数据接口、排序与引用，不代表真实公司情况。",
+      "published_at": "2026-09-01T08:00:00+08:00",
+      "url": "",
+      "metadata": {"company": "虚构公司", "sector": "科技"},
+      "pages": []
+    }
+  ]
+}

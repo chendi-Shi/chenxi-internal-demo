@@ -12,7 +12,7 @@ import { allMcpToolDefinitions, minimalMcpToolDefinitions } from './tool-schemas
 export interface EvaluationReport {
   report_version: '1.0';
   evidence: {
-    api_version: '1.0.0';
+    api_version: '1.2.0';
     fixture: 'docs/contracts/examples.json';
     claim_scope: string;
   };
@@ -79,7 +79,7 @@ export function buildEvaluationReport(): EvaluationReport {
   return {
     report_version: '1.0',
     evidence: {
-      api_version: '1.0.0',
+      api_version: '1.2.0',
       fixture: 'docs/contracts/examples.json',
       claim_scope:
         'Results validate provided fixture evidence only; they do not claim a live upstream or ChatGPT integration.',

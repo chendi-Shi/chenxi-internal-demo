@@ -10,7 +10,7 @@
 - `RESEARCH_HUB_BASE_URL`、`RESEARCH_HUB_READ_TOKEN`、`RESEARCH_HUB_ADMIN_TOKEN` 均未配置。
 - 当前 Codex 会话没有 Retrieval Hub 的 `search`、`fetch`、`search_documents` Custom MCP Tools。
 - MCP resource 清单中也没有 Retrieval Hub Server。
-- 依据仓库边界，未读取或复制用户提供的 Capital IQ 原始 PDF。
+- 公开仓库不包含用户的原始 PDF、数据库或本机数据清单。
 
 因此真实 HTTP、MCP、ChatGPT 引用、metadata filter 和 PDF 数据工程实验保持 `not_run`。Fixture 结果不会替代这些证据。
 
@@ -24,12 +24,12 @@
 4. 一条能稳定命中的脱敏测试查询。
 5. 目标客户端能够访问的引用 URL；不得使用只对宿主机有效的 loopback URL 作为最终引用证据。
 
-### Capital IQ 受控实验
+### 真实 PDF 集合受控实验
 
-1. 三家公司及各自允许匹配的公司名、ticker、曾用名和子公司别名。
-2. 一个明确的自然月和时区口径。
+1. 获准测试的实体与允许使用的名称/别名规则。
+2. 明确的时间范围和时区口径。
 3. 数据使用权限与允许输出的聚合指标范围。
-4. 由上游 Retrieval Hub 负责的受控导入环境；本仓库不直接解析或索引原始 PDF。
+4. 本地受控的导入环境；Git 仓库不保存原始 PDF。
 
 ## 到位后的执行顺序
 
@@ -59,7 +59,7 @@ npm run check:mcp-parity -- /tmp/retrieval-http.json /tmp/retrieval-mcp.json
 - MCP `search → fetch → 引用` 至少成功一组，引用 URL 对目标客户端可达。
 - 策略更新后，HTTP 与 MCP 下一次查询体现新策略，且原策略已安全恢复或记录保留原因。
 - 真实 metadata filter 有上游响应证据。
-- 若执行 Capital IQ 实验，三家公司、月份、别名规则和数据权限均已版本化记录。
+- 若执行真实 PDF 实验，测试实体、时间范围、别名规则和数据权限均已版本化记录在受控环境中。
 
 ## 当前无需再决定的事项
 

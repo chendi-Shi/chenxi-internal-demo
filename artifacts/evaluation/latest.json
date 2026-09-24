@@ -1,7 +1,7 @@
 {
   "report_version": "1.0",
   "evidence": {
-    "api_version": "1.0.0",
+    "api_version": "1.2.0",
     "fixture": "docs/contracts/examples.json",
     "claim_scope": "Results validate provided fixture evidence only; they do not claim a live upstream or ChatGPT integration."
   },
@@ -113,12 +113,12 @@
     },
     {
       "label": "mcp_tool_schemas_all_three",
-      "characters": 2285,
-      "utf8_bytes": 2285,
-      "ascii_characters": 2285,
+      "characters": 2350,
+      "utf8_bytes": 2350,
+      "ascii_characters": 2350,
       "han_characters": 0,
       "other_non_ascii_characters": 0,
-      "estimated_tokens": 572
+      "estimated_tokens": 588
     },
     {
       "label": "mcp_search_arguments",
@@ -140,12 +140,12 @@
     },
     {
       "label": "mcp_search_documents_result_envelope",
-      "characters": 2288,
-      "utf8_bytes": 2836,
-      "ascii_characters": 2012,
+      "characters": 2392,
+      "utf8_bytes": 2940,
+      "ascii_characters": 2116,
       "han_characters": 244,
       "other_non_ascii_characters": 32,
-      "estimated_tokens": 779
+      "estimated_tokens": 805
     },
     {
       "label": "mcp_fetch_arguments",
@@ -176,8 +176,8 @@
     }
   ],
   "token_comparisons": {
-    "lean_search_vs_detailed_percent_reduction": 72.3,
-    "advanced_tool_schema_increment_tokens": 330,
+    "lean_search_vs_detailed_percent_reduction": 73.2,
+    "advanced_tool_schema_increment_tokens": 346,
     "one_search_one_fetch_estimated_tokens": 855,
     "fetch_share_of_standard_flow_percent": 44.6
   }

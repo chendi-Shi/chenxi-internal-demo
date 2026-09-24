@@ -33,7 +33,7 @@
 ## 尚未完成
 
 - 真实 HTTP/MCP 环境中的来源层级、metadata 和引用测试。
-- Capital IQ 受控数据实验。
+- 真实 PDF 集合的受控数据实验。
 
 以上事项继续受 `ROADMAP.md` 的接口和数据边界约束。
 
@@ -66,4 +66,4 @@
 5. 390×844 移动视口首屏与检索结果页均无横向溢出；两张结果卡宽度为 315px，策略、查询与结果按单栏顺序展示。
 6. `npm test` 通过契约、生成物、评测产物、TypeScript strict、26 个行为测试和生产构建。
 
-真实 HTTP/MCP 与 Capital IQ PDF 仍未伪装成已完成；对应条件和复现命令见 `docs/PHASE_E_REPORT.md`。
+真实 ChatGPT 账号、可访问引用 URL 与 PDF 集合质量评估仍未伪装成已完成；对应条件和复现命令见 `docs/PHASE_E_REPORT.md`。

@@ -71,11 +71,24 @@ export interface PolicyUpdate {
   policy: RetrievalPolicy;
 }
 
+export interface RetrievalDiagnostics {
+  mode?: "bilingual" | "hybrid" | "bilingual_fallback";
+  warning?: string | null;
+}
+
 export interface RetrievalPolicy {
   source_weights?: Record<string, number>;
   recency_boost?: number;
   half_life_days?: number;
   default_limit?: number;
+}
+
+export interface RetrievalStatus {
+  enabled: boolean;
+  model: string | null;
+  indexed_chunks: number;
+  total_chunks: number;
+  pending_chunks: number;
 }
 
 export interface ScoreDetails {
@@ -112,6 +125,7 @@ export interface SearchResponse {
   matched_chunks: number;
   policy_version: number;
   elapsed_ms: number;
+  retrieval?: RetrievalDiagnostics;
 }
 
 export interface SourceDefinition {
@@ -141,6 +155,41 @@ export interface StatusResponse {
   policy_version: number;
 }
 
+export interface SyncCycle {
+  started_at: number;
+  finished_at: number | null;
+  pid: number;
+  interval_seconds: number;
+  created: number;
+  updated: number;
+  unchanged: number;
+  skipped: number;
+  errors: Array<Record<string, string>>;
+  semantic: string;
+  semantic_error: string | null;
+}
+
+export interface SyncFile {
+  source_id: string;
+  file: string;
+  state: "ok" | "settling" | "retrying" | "failed" | "missing";
+  attempts: number;
+  next_retry: number;
+  error: string;
+}
+
+export interface SyncFilesResponse {
+  files: Array<SyncFile>;
+  total: number;
+}
+
+export interface SyncStatus {
+  configured: boolean;
+  last_cycle: SyncCycle | null;
+  files: Record<string, number>;
+  worker_recent: boolean;
+}
+
 export interface ContractTypeMap {
   Citation: Citation;
   DeleteResponse: DeleteResponse;
@@ -153,7 +202,9 @@ export interface ContractTypeMap {
   MCPFetchResult: MCPFetchResult;
   PolicyState: PolicyState;
   PolicyUpdate: PolicyUpdate;
+  RetrievalDiagnostics: RetrievalDiagnostics;
   RetrievalPolicy: RetrievalPolicy;
+  RetrievalStatus: RetrievalStatus;
   ScoreDetails: ScoreDetails;
   SearchHit: SearchHit;
   SearchRequest: SearchRequest;
@@ -162,6 +213,10 @@ export interface ContractTypeMap {
   SourceStatus: SourceStatus;
   SourcesResponse: SourcesResponse;
   StatusResponse: StatusResponse;
+  SyncCycle: SyncCycle;
+  SyncFile: SyncFile;
+  SyncFilesResponse: SyncFilesResponse;
+  SyncStatus: SyncStatus;
 }
 
 export type ContractSchemaName = keyof ContractTypeMap;
@@ -517,6 +572,34 @@ export const contractSchemas = {
     ],
     "title": "PolicyUpdate"
   },
+  "RetrievalDiagnostics": {
+    "properties": {
+      "mode": {
+        "type": "string",
+        "enum": [
+          "bilingual",
+          "hybrid",
+          "bilingual_fallback"
+        ],
+        "title": "Mode",
+        "default": "bilingual"
+      },
+      "warning": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Warning"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "RetrievalDiagnostics"
+  },
   "RetrievalPolicy": {
     "properties": {
       "source_weights": {
@@ -556,6 +639,47 @@ export const contractSchemas = {
     "additionalProperties": false,
     "type": "object",
     "title": "RetrievalPolicy"
+  },
+  "RetrievalStatus": {
+    "properties": {
+      "enabled": {
+        "type": "boolean",
+        "title": "Enabled"
+      },
+      "model": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Model"
+      },
+      "indexed_chunks": {
+        "type": "integer",
+        "title": "Indexed Chunks"
+      },
+      "total_chunks": {
+        "type": "integer",
+        "title": "Total Chunks"
+      },
+      "pending_chunks": {
+        "type": "integer",
+        "title": "Pending Chunks"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "enabled",
+      "model",
+      "indexed_chunks",
+      "total_chunks",
+      "pending_chunks"
+    ],
+    "title": "RetrievalStatus"
   },
   "ScoreDetails": {
     "properties": {
@@ -718,6 +842,9 @@ export const contractSchemas = {
       "elapsed_ms": {
         "type": "number",
         "title": "Elapsed Ms"
+      },
+      "retrieval": {
+        "$ref": "#/components/schemas/RetrievalDiagnostics"
       }
     },
     "additionalProperties": false,
@@ -864,6 +991,196 @@ export const contractSchemas = {
       "policy_version"
     ],
     "title": "StatusResponse"
+  },
+  "SyncCycle": {
+    "properties": {
+      "started_at": {
+        "type": "number",
+        "title": "Started At"
+      },
+      "finished_at": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Finished At"
+      },
+      "pid": {
+        "type": "integer",
+        "title": "Pid"
+      },
+      "interval_seconds": {
+        "type": "integer",
+        "title": "Interval Seconds"
+      },
+      "created": {
+        "type": "integer",
+        "title": "Created"
+      },
+      "updated": {
+        "type": "integer",
+        "title": "Updated"
+      },
+      "unchanged": {
+        "type": "integer",
+        "title": "Unchanged"
+      },
+      "skipped": {
+        "type": "integer",
+        "title": "Skipped"
+      },
+      "errors": {
+        "items": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "type": "array",
+        "title": "Errors"
+      },
+      "semantic": {
+        "type": "string",
+        "title": "Semantic"
+      },
+      "semantic_error": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Semantic Error"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "started_at",
+      "finished_at",
+      "pid",
+      "interval_seconds",
+      "created",
+      "updated",
+      "unchanged",
+      "skipped",
+      "errors",
+      "semantic",
+      "semantic_error"
+    ],
+    "title": "SyncCycle"
+  },
+  "SyncFile": {
+    "properties": {
+      "source_id": {
+        "type": "string",
+        "title": "Source Id"
+      },
+      "file": {
+        "type": "string",
+        "title": "File"
+      },
+      "state": {
+        "type": "string",
+        "enum": [
+          "ok",
+          "settling",
+          "retrying",
+          "failed",
+          "missing"
+        ],
+        "title": "State"
+      },
+      "attempts": {
+        "type": "integer",
+        "title": "Attempts"
+      },
+      "next_retry": {
+        "type": "number",
+        "title": "Next Retry"
+      },
+      "error": {
+        "type": "string",
+        "title": "Error"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "source_id",
+      "file",
+      "state",
+      "attempts",
+      "next_retry",
+      "error"
+    ],
+    "title": "SyncFile"
+  },
+  "SyncFilesResponse": {
+    "properties": {
+      "files": {
+        "items": {
+          "$ref": "#/components/schemas/SyncFile"
+        },
+        "type": "array",
+        "title": "Files"
+      },
+      "total": {
+        "type": "integer",
+        "title": "Total"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "files",
+      "total"
+    ],
+    "title": "SyncFilesResponse"
+  },
+  "SyncStatus": {
+    "properties": {
+      "configured": {
+        "type": "boolean",
+        "title": "Configured"
+      },
+      "last_cycle": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/SyncCycle"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "files": {
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "type": "object",
+        "title": "Files"
+      },
+      "worker_recent": {
+        "type": "boolean",
+        "title": "Worker Recent"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "configured",
+      "last_cycle",
+      "files",
+      "worker_recent"
+    ],
+    "title": "SyncStatus"
   }
 } as const;
 
@@ -943,7 +1260,11 @@ export const contractExamples = {
     "total": 2,
     "matched_chunks": 2,
     "policy_version": 1,
-    "elapsed_ms": 0
+    "elapsed_ms": 0,
+    "retrieval": {
+      "mode": "bilingual",
+      "warning": null
+    }
   },
   "document_response": {
     "id": "eb72a59f140664e38ac656cc5f14f770",
@@ -1044,7 +1365,11 @@ export const contractExamples = {
     "total": 2,
     "matched_chunks": 2,
     "policy_version": 2,
-    "elapsed_ms": 0
+    "elapsed_ms": 0,
+    "retrieval": {
+      "mode": "bilingual",
+      "warning": null
+    }
   },
   "mcp_search_request": {
     "query": "芯片"
@@ -1101,5 +1426,12 @@ export const contractExamples = {
       "message": "policy_version_conflict",
       "fields": []
     }
+  },
+  "retrieval_status": {
+    "enabled": false,
+    "model": null,
+    "indexed_chunks": 0,
+    "total_chunks": 2,
+    "pending_chunks": 2
   }
 } as const;

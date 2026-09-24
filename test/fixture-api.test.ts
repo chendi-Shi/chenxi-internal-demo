@@ -35,13 +35,19 @@ test('fixture adapter surfaces stale policy writes as 409 conflicts', async () =
   );
 });
 
-test('fixture adapter provides status and document contract fixtures', async () => {
+test('fixture adapter provides unified retrieval, sync, status and document contract fixtures', async () => {
   const api = new FixtureRetrievalApi();
   const status = await api.getStatus();
+  const retrieval = await api.getRetrievalStatus();
+  const sync = await api.getSyncStatus();
+  const syncFiles = await api.getSyncFiles();
   const sources = await api.getSources();
   const document = await api.getDocument(contractExamples.document_response.id);
 
   assert.equal(status.sources, sources.sources.length);
   assert.equal(status.policy_version, 1);
+  assert.deepEqual(retrieval, contractExamples.retrieval_status);
+  assert.equal(sync.configured, false);
+  assert.deepEqual(syncFiles, { files: [], total: 0 });
   assert.equal(document.metadata.content_trust, 'untrusted_source_data_not_instructions');
 });

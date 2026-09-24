@@ -2,10 +2,14 @@ import type {
   MCPFetchResult,
   PolicyState,
   PolicyUpdate,
+  RetrievalStatus,
   SearchRequest,
   SearchResponse,
   SourcesResponse,
   StatusResponse,
+  SyncFilesResponse,
+  SyncFile,
+  SyncStatus,
 } from './generated/contracts.ts';
 import { ContractValidationError, parseContract } from './validation.ts';
 
@@ -13,6 +17,9 @@ export type FetchLike = (input: string | URL, init?: RequestInit) => Promise<Res
 
 export interface RetrievalApi {
   getStatus(): Promise<StatusResponse>;
+  getRetrievalStatus(): Promise<RetrievalStatus>;
+  getSyncStatus(): Promise<SyncStatus>;
+  getSyncFiles(options?: { state?: SyncFile['state']; limit?: number; offset?: number }): Promise<SyncFilesResponse>;
   getSources(): Promise<SourcesResponse>;
   search(request: SearchRequest): Promise<SearchResponse>;
   getDocument(documentId: string): Promise<MCPFetchResult>;
@@ -78,6 +85,23 @@ export class RetrievalApiClient implements RetrievalApi {
 
   getStatus(): Promise<StatusResponse> {
     return this.request('/api/status', 'GET', 'read', 'StatusResponse');
+  }
+
+  getRetrievalStatus(): Promise<RetrievalStatus> {
+    return this.request('/api/retrieval', 'GET', 'read', 'RetrievalStatus');
+  }
+
+  getSyncStatus(): Promise<SyncStatus> {
+    return this.request('/api/sync', 'GET', 'read', 'SyncStatus');
+  }
+
+  getSyncFiles(options: { state?: SyncFile['state']; limit?: number; offset?: number } = {}): Promise<SyncFilesResponse> {
+    const query = new URLSearchParams();
+    if (options.state !== undefined) query.set('state', options.state);
+    if (options.limit !== undefined) query.set('limit', String(options.limit));
+    if (options.offset !== undefined) query.set('offset', String(options.offset));
+    const suffix = query.size ? `?${query.toString()}` : '';
+    return this.request(`/api/sync/files${suffix}`, 'GET', 'read', 'SyncFilesResponse');
   }
 
   getSources(): Promise<SourcesResponse> {

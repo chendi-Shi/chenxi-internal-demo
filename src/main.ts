@@ -18,6 +18,8 @@ import type {
   SearchResponse,
   SourceStatus,
   StatusResponse,
+  RetrievalStatus,
+  SyncStatus,
 } from './api/generated/contracts.ts';
 import {
   clonePolicy,
@@ -87,6 +89,8 @@ class Dashboard {
   private mode: ConnectionMode = 'fixture';
   private sources: SourceStatus[] = [];
   private status: StatusResponse | undefined;
+  private retrievalStatus: RetrievalStatus | undefined;
+  private syncStatus: SyncStatus | undefined;
   private policyState: PolicyState | undefined;
   private policyDraft: RetrievalPolicy = {};
   private searchResponse: SearchResponse | undefined;
@@ -193,12 +197,16 @@ class Dashboard {
     this.setBusy(button('connect-button'), true, '载入中…');
     this.setConnectionState('正在连接', 'loading');
     try {
-      const [status, sources, policy] = await Promise.all([
+      const [status, retrievalStatus, syncStatus, sources, policy] = await Promise.all([
         this.api.getStatus(),
+        this.api.getRetrievalStatus(),
+        this.api.getSyncStatus(),
         this.api.getSources(),
         this.api.getPolicy(),
       ]);
       this.status = status;
+      this.retrievalStatus = retrievalStatus;
+      this.syncStatus = syncStatus;
       this.sources = sources.sources;
       this.policyState = policy;
       this.policyDraft = clonePolicy(policy.policy);
@@ -222,12 +230,24 @@ class Dashboard {
   }
 
   private renderStatus(): void {
-    if (!this.status) return;
+    if (!this.status || !this.retrievalStatus || !this.syncStatus) return;
+    const failed = this.syncStatus.files.failed ?? 0;
+    const retrying = this.syncStatus.files.retrying ?? 0;
+    const missing = this.syncStatus.files.missing ?? 0;
+    const syncLabel = !this.syncStatus.configured
+      ? '未配置'
+      : failed + retrying + missing > 0
+        ? `异常 ${failed + retrying + missing}`
+        : '正常';
     const values = [
       [String(this.status.documents), 'Documents'],
       [String(this.status.chunks), 'Chunks'],
       [String(this.status.sources), 'Sources'],
       [`v${this.status.policy_version}`, 'Policy'],
+      [this.retrievalStatus.enabled
+        ? `${this.retrievalStatus.indexed_chunks}/${this.retrievalStatus.total_chunks}`
+        : '关键词', 'Semantic index'],
+      [syncLabel, 'File sync'],
     ];
     const grid = element('status-grid');
     clear(grid);

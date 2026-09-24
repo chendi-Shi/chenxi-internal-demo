@@ -4,7 +4,7 @@
 
 ## 1. 可运行 Demo
 
-环境要求：Node.js 22.18 或更高版本。
+环境要求：Python 3.11+、Node.js 22.18+。本仓库现包含 Retrieval Hub 与 Dashboard；快速启动请按根目录 `README.md` 分别启动后端和前端。
 
 ```bash
 npm install
@@ -26,18 +26,14 @@ Live 模式通过页面连接已有 Retrieval Hub HTTP API。浏览器跨设备�
 系统保持单一权威检索边界：
 
 ```text
-原始文档 → 上游 Retrieval Hub（接入 / 索引 / ranking / policy / HTTP / MCP）
-                                      │
-                   ┌──────────────────┴──────────────────┐
-                   │                                     │
-             HTTP API Client                         MCP Client
-                   │                                     │
-        Dashboard / Policy Eval                    ChatGPT / Agent
+获准本地文档 → backend/ Retrieval Hub（接入 / 索引 / ranking / policy）
+                              ├─ HTTP API → src/ Dashboard / Policy Eval
+                              └─ MCP Server → GPT 客户端（账号连接另行配置）
 ```
 
-本仓库只负责 Dashboard、契约客户端、fixture、策略实验和 token 测量。所有 HTTP 调用集中在 `src/api/client.ts`；OpenAPI DTO 保持 `snake_case`；Dashboard 不读取上游原始目录，也不实现第二套检索或排序。
+合并仓库的 `backend/` 实现数据接入、索引、ranking、HTTP 与 MCP；`src/` 实现 Dashboard、契约客户端、fixture、策略实验和 token 测量。所有浏览器 HTTP 调用集中在 `src/api/client.ts`；OpenAPI DTO 保持 `snake_case`；Dashboard 不读取原始目录，也不实现第二套检索或排序。
 
-策略更新流程是 `GET /api/policy` → 编辑 → `PUT /api/policy`，保存时携带最近读取的 `expected_version`。下一次搜索返回的 `policy_version` 进入 UI 和评测记录；409 冲突不会自动覆盖。
+策略更新流程是 `GET /api/policy` → 编辑 → `PUT /api/policy`，保存时携带最近读取的 `expected_version`。下一次搜索返回的 `policy_version` 进入 UI 和评测记录；409 冲突不会自动覆盖。状态卡同时展示语义索引覆盖率与文件同步状态。
 
 ## 3. MCP tools 设计
 
@@ -100,10 +96,10 @@ fixture 模式同样不在客户端执行公式：它只重放正式交付包里
 - MCP/token：passage/range fetch、分页、按需加载高级 tool、只 fetch 最终引用文档。
 - 运维层：队列积压、吞吐、失败率、索引新鲜度、备份恢复和容量规划。
 
-Capital IQ PDF 实验与更详细的扩展计划见 `docs/memos/DATA_ENGINEERING_AND_SCALE.md`。
+本地授权 PDF 实验与规模化扩展计划见 `docs/memos/DATA_ENGINEERING_AND_SCALE.md`。
 
 ## 8. 完成边界
 
 本仓库责任范围内的 Demo、Dashboard、契约客户端、fixture、策略与 token 评测、生产构建验收、架构说明和规模化建议已经完成。阶段 F 因此关闭。
 
-尚未声明完成的项目只有需要外部环境或上游数据责任的阶段 E：真实 HTTP/MCP 排序一致性、ChatGPT `search → fetch → 引用`、真实 metadata filter，以及 Capital IQ 受控导入实验。它们的必要输入、通过条件和复现命令统一记录在 `docs/memos/EXTERNAL_ACCEPTANCE.md`；没有这些条件时继续保持 `not_run`。
+尚未声明完成的项目是目标 ChatGPT 账号的 `search → fetch → 引用`、对真实文档集合的检索质量评估及引用可达性验收。它们的必要输入、通过条件和复现命令统一记录在 `docs/memos/EXTERNAL_ACCEPTANCE.md`；没有这些条件时继续保持 `not_run`。

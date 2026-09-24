@@ -4,10 +4,14 @@ import type {
   MCPFetchResult,
   PolicyState,
   PolicyUpdate,
+  RetrievalStatus,
   SearchRequest,
   SearchResponse,
   SourcesResponse,
   StatusResponse,
+  SyncFilesResponse,
+  SyncFile,
+  SyncStatus,
 } from './generated/contracts.ts';
 import { parseContract } from './validation.ts';
 
@@ -46,6 +50,23 @@ export class FixtureRetrievalApi implements RetrievalApi {
       sources: contractExamples.sources_response.sources.length,
       policy_version: this.policyState.version,
     });
+  }
+
+  async getRetrievalStatus(): Promise<RetrievalStatus> {
+    return cloneFixture('RetrievalStatus', contractExamples.retrieval_status);
+  }
+
+  async getSyncStatus(): Promise<SyncStatus> {
+    return parseContract('SyncStatus', {
+      configured: false,
+      last_cycle: null,
+      files: {},
+      worker_recent: false,
+    });
+  }
+
+  async getSyncFiles(_options: { state?: SyncFile['state']; limit?: number; offset?: number } = {}): Promise<SyncFilesResponse> {
+    return parseContract('SyncFilesResponse', { files: [], total: 0 });
   }
 
   async getSources(): Promise<SourcesResponse> {

@@ -2,7 +2,7 @@
 
 更新日期：2026-09-24
 
-路线图遵循“先固定契约，再实现客户端，再做效果评测，最后接真实 ChatGPT 环境”的顺序。阶段变更不得隐式扩大到原始内容处理或上游服务重写。
+路线图覆盖合并后的 Retrieval Hub（A）和 Dashboard（B）。先固定共同契约，再分别验证后端、页面和端到端检索；真实 ChatGPT 账号连接仍单独安排。
 
 ## 阶段 A：地基与接口契约固化 — 已完成
 
@@ -12,7 +12,8 @@
 
 - `MISSION.md`、`ROADMAP.md`、`AGENTS.md`；
 - 集成架构与工程规范；
-- 第一部分交付的 OpenAPI、examples 和 handoff 原样归档；
+- 合并后 OpenAPI、examples 与 HTTP/MCP 责任边界统一；
+- 后端与 Dashboard 同仓库，契约版本 1.2.0；
 - 项目级 `mcp-retrieval-demo` Skill；
 - 零依赖 foundation/contract 校验；
 - 接口缺口及 token 风险清单。
@@ -22,7 +23,7 @@
 - `npm test` 通过；
 - OpenAPI 版本、核心路径和核心 schema 可自动验证；
 - Skill 结构验证通过；
-- 架构明确“不处理系统原文件”和“不在客户端重排”。
+- 架构明确本地数据不入 Git、HTTP/MCP 共用后端 ranking、Dashboard 不重排。
 
 ## 阶段 B：契约客户端与 mock 基线 — 已完成
 
@@ -31,7 +32,7 @@
 计划交付：
 
 - TypeScript 严格模式工程骨架；
-- 单一 API client，覆盖 sources/search/document/policy/status；
+- 单一 API client，覆盖来源、搜索、文档、策略、语义索引和文件同步状态；
 - 从 OpenAPI 派生或校验的边界类型；
 - 基于 `examples.json` 的 mock server 或 fixture adapter；
 - 401、403、404、409、413、422 错误映射测试。
@@ -85,7 +86,7 @@
 
 ## 阶段 E：MCP / ChatGPT 联调 — 进行中
 
-目标：验证上游 MCP 在目标 ChatGPT 环境中的真实行为。
+目标：验证本地 Hub 的 HTTP/MCP 行为，并在具备条件后验证目标 ChatGPT 环境。
 
 计划交付：
 
@@ -100,7 +101,7 @@
 - 策略更新后 MCP 下一次查询使用新版本；
 - 若完整 `fetch` 超出预算，形成明确的上游契约变更建议。
 
-当前推进：先以 `npm run dev:lan` 在受信任局域网进行临时端口的 fixture 页面验收；真实 MCP / ChatGPT、认证与引用测试仍等待可访问的上游环境。此步骤不使用公网 tunnel，也不扩大接口范围。
+当前本地 Hub 和 Dashboard 已在同仓库实现；fixture 页面可独立运行，HTTP 服务可本机启动。真实 GPT 账号、可访问的外部引用 URL 和目标环境认证仍未连接，因此 ChatGPT 端到端引用验收保持 `not_run`。
 
 2026-09-24 补充：已提供 `npm run check:live` 只读检查，覆盖 health、status、sources、policy、search、首条 fetch、Policy 版本一致性及 payload/token 指标。当前本机 8765 无上游服务、环境变量无 Read/Admin Token、会话无 Retrieval Hub MCP tools，因此真实 HTTP/MCP 项保持 `not_run`；证据见 `docs/PHASE_E_REPORT.md`。
 
@@ -115,7 +116,7 @@
 - 增量入库、队列、ANN、ACL、审计与索引版本建议；
 - 未完成项、责任人和接口变更记录。
 
-完成证据：本地 fixture Demo 的一键运行、架构/MCP/ranking 说明、问题清单与规模化建议已整理在 `docs/DELIVERY.md`。2026-09-24 已对 `dist/` 生产包完成 1674×854 桌面和 390×844 移动视口验收，策略 v1→v2、下一次检索重排、正文读取与 metadata 复用均通过。真实 MCP / ChatGPT 与 Capital IQ PDF 数据工程实验属于阶段 E 和上游数据责任，所需外部输入统一登记在 `docs/memos/EXTERNAL_ACCEPTANCE.md`，不阻止阶段 F 在本仓库责任范围内关闭。
+完成证据：本地 fixture Demo、合并后安装说明、架构/MCP/ranking、问题清单和规模化建议见 `README.md`、`docs/DELIVERY.md` 和 `docs/ARCHITECTURE.md`。真实文档集质量评估及 GPT 账号端到端验收需要相应受控环境，状态与前置条件记录在 `docs/memos/EXTERNAL_ACCEPTANCE.md`。
 
 ## 阶段推进规则
 

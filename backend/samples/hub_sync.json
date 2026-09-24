@@ -1,0 +1,15 @@
+{
+  "roots": [
+    {
+      "path": "../inbox",
+      "source_id": "internal_notes",
+      "source_name": "Internal notes",
+      "external_prefix": ""
+    }
+  ],
+  "interval_seconds": 60,
+  "settle_seconds": 30,
+  "retry_seconds": 60,
+  "max_attempts": 5,
+  "semantic": true
+}

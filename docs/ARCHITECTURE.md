@@ -2,12 +2,13 @@
 
 ## 1. 架构结论
 
-第一部分同事交付的 Retrieval Hub 是权威检索边界。本仓库不接触系统原始内容，不实现第二套 ranking；它通过既有 HTTP API 管理策略和评测结果，通过既有 MCP 接口验证 ChatGPT 链路。
+本仓库将 Retrieval Hub 与 Dashboard 放在同一代码库中。`backend/` 是文档接入、索引、检索、服务端 ranking、HTTP 与 MCP 的唯一后端；`src/` 通过同一 OpenAPI 契约调用 HTTP 并呈现结果，不实现第二套 ranking。
 
 ```mermaid
 flowchart LR
-    subgraph UPSTREAM[第一部分 · 上游 Retrieval Hub]
-        DATA[数据接入与原始内容\n本仓库不处理]
+    subgraph REPO[合并仓库]
+      subgraph HUB[backend/ · Retrieval Hub]
+        DATA[获准的本地文件]
         INDEX[解析 / 分块 / SQLite FTS5]
         RANK[统一检索与策略排序]
         POLICY[(PolicyState\nversioned)]
@@ -17,9 +18,8 @@ flowchart LR
         POLICY --> RANK
         RANK --> HTTP
         RANK --> MCP
-    end
-
-    subgraph THIS_REPO[本仓库 · Retrieval Policy Demo]
+      end
+      subgraph UI[Dashboard · src/]
         CLIENT[类型安全 API Client]
         DASH[Policy Dashboard]
         EVAL[Policy / Token Eval]
@@ -27,6 +27,7 @@ flowchart LR
         MOCK --> CLIENT
         CLIENT --> DASH
         CLIENT --> EVAL
+      end
     end
 
     HTTP --> CLIENT
@@ -39,17 +40,16 @@ flowchart LR
 
 | 组件 | 责任方 | 本仓库如何使用 |
 |---|---|---|
-| 数据适配、文档解析、索引 | 第一部分 | 视为上游黑盒；阶段开发不要求原始文件 |
-| 检索与 ranking | 第一部分 | 消费 `SearchResponse`，不在 UI 重排 |
-| Policy 持久化与版本 | 第一部分 | GET 后携带 `expected_version` PUT |
-| MCP Server | 第一部分 | 阶段 E 验证 search/fetch/citation |
-| Dashboard | 本仓库 | 编辑策略、执行查询、解释分数与冲突 |
-| Mock 与契约校验 | 本仓库 | 使用 OpenAPI 和 examples 支撑独立开发 |
-| 策略/token 评测 | 本仓库 | 固定查询、版本、排序、延迟和 payload 指标 |
+| 数据适配、文档解析、索引 | `backend/` | 读取本机明确配置的文件目录，原始数据不入 Git |
+| 检索、ranking 与 Policy 状态 | `backend/` | HTTP 和 MCP 共用实现及数据库状态 |
+| HTTP 与 MCP 服务 | `backend/` | HTTP API 提供 Dashboard 能力；MCP 提供只读 search/fetch |
+| Dashboard | `src/` | 编辑策略、执行查询、解释服务端结果和冲突 |
+| Mock 与契约校验 | 根目录 | 使用 OpenAPI 和 examples 支撑 fixture 开发 |
+| 策略/token 评测 | 根目录 | 固定查询、版本、排序、延迟和 payload 指标 |
 
 ## 3. 契约边界
 
-机器可读源为 [`contracts/openapi.json`](contracts/openapi.json)，当前 API 版本 `1.0.0`。
+机器可读源为 [`contracts/openapi.json`](contracts/openapi.json)，当前 API 版本 `1.2.0`。后端导出副本为 `backend/docs/contracts/`，测试会检查两份契约一致。
 
 本仓库主要依赖：
 
@@ -57,13 +57,16 @@ flowchart LR
 |---|---|
 | `GET /healthz` | 连通性与 API 版本 |
 | `GET /api/status` | 文档、chunk、来源和 policy 版本摘要 |
+| `GET /api/retrieval` | 语义索引模型与覆盖率 |
+| `GET /api/sync` | 文件同步状态汇总 |
+| `GET /api/sync/files` | 分页文件状态与重试信息 |
 | `GET /api/sources` | 展示来源及启用状态 |
 | `POST /api/search` | 查询、query 级 filter、分项评分和排序 |
 | `GET /api/documents/{document_id}` | 结果详情与引用检查 |
 | `GET /api/policy` | 获取当前策略及版本 |
 | `PUT /api/policy` | 带乐观锁更新共享策略 |
 
-管理类 source/ingest/delete endpoint 属于上游能力，不进入本项目 MVP 页面。
+管理类 source/ingest/delete endpoint 由 Hub 管理；当前 Dashboard 页面只读展示数据源和同步状态，通过受限 API 更新检索策略。
 
 ## 4. Retrieval Policy 生效链路
 
