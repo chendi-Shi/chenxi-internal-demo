@@ -65,6 +65,10 @@ def run(argv=None):
     semantic = sub.add_parser("index-semantic", help="Build/resume local semantic index")
     semantic.add_argument("--engine", choices=["e5", "ollama"], default="e5")
     semantic.add_argument("--model-dir", type=Path, help="Local E5 model cache directory")
+    semantic.add_argument(
+        "--strategy", choices=["all_chunks", "document_samples"], default="all_chunks",
+        help="Index every passage or three representative passages per PDF",
+    )
     sub.add_parser("retrieval-status", help="Show local semantic index coverage")
     sub.add_parser("disable-semantic", help="Use bilingual lexical retrieval only")
     search = sub.add_parser("search", help="Test local keyword retrieval")
@@ -131,6 +135,7 @@ def run(argv=None):
                 hub,
                 engine=args.engine,
                 model_directory=args.model_dir,
+                strategy=args.strategy,
                 progress=lambda done, total: print(
                     f"Embedding chunks: {done}/{total}", file=sys.stderr, flush=True
                 ),

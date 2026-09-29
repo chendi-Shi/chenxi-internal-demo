@@ -153,7 +153,7 @@ MCP tool 均为只读；策略只能通过受管理权限保护的 HTTP API 修�
 - loopback URL 无法直接证明 ChatGPT 可访问，阶段 E 需单独验证可达性、认证和引用 URL。
 - 文档标题、snippet、正文均视为不可信纯文本。
 
-本地 MCP 可通过 OpenAI Secure MCP Tunnel 接入 ChatGPT。隧道客户端在能访问资料库的本机运行，通过出站连接转发请求，无需公开后端。搜索结果和按需 fetch 的完整原文会发送给 ChatGPT。接入步骤见 [ChatGPT MCP setup](CHATGPT_MCP_SETUP.md)。
+本地 MCP 可通过 OpenAI Secure MCP Tunnel 接入 ChatGPT：隧道客户端在能访问资料库的本机运行，并经出站连接转发 MCP 请求；资料库服务不需要公开到互联网。ChatGPT 会收到用户问题对应的搜索结果，调用 `fetch` 时还会收到完整原文。隧道 ID、运行密钥和资料库数据都不进入 Git；资料库继续留在本机。接入步骤与账号限制见 [`CHATGPT_MCP_SETUP.md`](CHATGPT_MCP_SETUP.md)。
 
 ## 9. 已知架构风险
 

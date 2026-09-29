@@ -188,9 +188,16 @@ class SearchResponse(StrictModel):
 class RetrievalStatus(StrictModel):
     enabled: bool
     model: str | None
+    strategy: str | None = None
     indexed_chunks: int
     total_chunks: int
     pending_chunks: int
+    indexed_documents: int = 0
+    total_documents: int = 0
+    pending_documents: int = 0
+    indexed_samples: int = 0
+    total_samples: int = 0
+    pending_samples: int = 0
 
 
 class SyncCycle(StrictModel):

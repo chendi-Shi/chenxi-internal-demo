@@ -31,4 +31,4 @@ The backend already exposes a read-only MCP server with `search`, `search_docume
 - Confirm the response treats document text as untrusted content, distinguishes source-document instructions from the user's request, and cites source plus page rather than inventing unsupported claims.
 - Repeat a search after changing the Dashboard retrieval policy to confirm the new `policy_version` is used.
 
-`fetch` returns the full source document. Use it only when the question requires original context, and review your organization’s data rules before connecting internal materials to ChatGPT. Disconnect the app or stop `tunnel-client` to end access.
+`fetch` returns the full source document. Use it only when the question requires original context, and review your organization's data rules before connecting internal materials to ChatGPT. Disconnect the app or stop `tunnel-client` to end access.

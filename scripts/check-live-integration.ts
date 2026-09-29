@@ -21,8 +21,10 @@ if (!readToken) {
   if (!healthResponse.ok) throw new Error(`Health check failed with HTTP ${healthResponse.status}`);
 
   const api = new RetrievalApiClient({ baseUrl, readToken, timeoutMs: 15_000 });
-  const [status, sources, policy] = await Promise.all([
+  const [status, retrievalStatus, syncStatus, sources, policy] = await Promise.all([
     api.getStatus(),
+    api.getRetrievalStatus(),
+    api.getSyncStatus(),
     api.getSources(),
     api.getPolicy(),
   ]);
@@ -64,6 +66,10 @@ if (!readToken) {
     policy_version: policy.version,
     source_ids: sources.sources.map((source) => source.id),
     document_count: status.documents,
+    retrieval_strategy: retrievalStatus.strategy ?? null,
+    indexed_documents: retrievalStatus.indexed_documents ?? null,
+    total_documents: retrievalStatus.total_documents ?? null,
+    sync_configured: syncStatus.configured,
     matched_chunks: search.matched_chunks,
     result_ids: search.results.map((result) => result.id),
     fetched_document_id: firstDocument?.id ?? null,

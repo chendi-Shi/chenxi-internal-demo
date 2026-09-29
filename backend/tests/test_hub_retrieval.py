@@ -37,7 +37,8 @@ def corpus(workspace):
         (
             "b",
             "ExampleCloud",
-            "Synthetic fixture. Revenue grew 123% to $456 million. Data center capacity expanded. Semiconductor chip shipments increased.",
+            "Synthetic fixture. Revenue grew 123% to $456 million. Data center capacity expanded. "
+            "Semiconductor chip shipments increased.",
         ),
     ):
         hub.upsert_source(SourceDefinition(id=source, name=source))
@@ -86,6 +87,44 @@ def test_expansion_does_not_drop_unknown_constraints(corpus):
     assert corpus.search(SearchRequest(query="SampleStorage 毛利率", source_ids=["b"]))["total"] == 0
     assert corpus.search(SearchRequest(query='" OR * --'))["total"] == 0
     assert corpus.search(SearchRequest(query="请问是多少？"))["total"] == 0
+
+
+def test_topic_acronyms_and_question_words_do_not_restrict_titles(corpus, monkeypatch):
+    from research_agent.hub_query import plan_query
+
+    corpus.ingest(IngestRequest(source_id="a", documents=[DocumentInput(
+        external_id="memory", title="Memory review",
+        body="AI server demand has tightened HBM supply.",
+    )]))
+    assert plan_query("Which AI HBM?").entities == ()
+    assert any(
+        item["title"] == "Memory review"
+        for item in corpus.search(SearchRequest(query="Which AI HBM?"))["results"]
+    )
+    assert plan_query("UnknownCompany AI HBM").entities == (("UnknownCompany",),)
+    enable_vectors(corpus)
+    monkeypatch.setattr(semantic, "query_vector", lambda *_: (1.0, 0.0))
+    assert [item["title"] for item in corpus.search(SearchRequest(query="HBM"))["results"]] == ["Memory review"]
+
+
+def test_long_natural_language_query_is_normalized_and_bounded(corpus):
+    from research_agent.hub_query import MAX_LITERAL_TERMS, plan_query
+    from research_agent.store import search_tokens
+
+    noise = "".join(chr(0x4E00 + index) for index in range(70))
+    noise += " " + "".join(chr(0x4E50 + index) for index in range(70))
+    query = (
+        "请结合演示云的 GPU 供需、客户对数据中心产能的需求，以及芯片扩张情况，"
+        "分析供应变化和相关经营情况。 "
+        + noise
+    )
+    assert len(set(search_tokens(query).split())) > 128
+    plan = plan_query(query, corpus.entity_aliases)
+    assert plan.expression
+    assert plan.expression.count(" OR ") < MAX_LITERAL_TERMS + 80
+    result = corpus.search(SearchRequest(query=query))
+    assert result["total"] == 1
+    assert result["results"][0]["title"] == "ExampleCloud"
 
 
 def enable_vectors(hub):
@@ -177,6 +216,36 @@ def test_index_is_resumable_and_model_changes_are_detected(corpus, monkeypatch):
     monkeypatch.setattr(semantic, "model_digest", lambda: "second")
     with pytest.raises(semantic.SemanticUnavailable, match="model_changed"):
         semantic.query_vector(config, "question")
+
+
+def test_large_document_gets_sampled_semantic_coverage_and_citations(corpus, monkeypatch):
+    body = "Opening passage. " + "Analysis of operations. " * 450
+    corpus.ingest(
+        IngestRequest(
+            source_id="a",
+            documents=[DocumentInput(external_id="long", title="Industry review", body=body)],
+        )
+    )
+    monkeypatch.setattr(semantic, "model_digest", lambda: "sample-model")
+    monkeypatch.setattr(semantic, "embed", lambda texts, **_: [(1.0, 0.0)] * len(texts))
+    first = semantic.build_index(corpus, strategy="document_samples")
+    assert first["strategy"] == "document_samples"
+    assert first["indexed_documents"] == first["total_documents"] == 3
+    assert first["pending_samples"] == 0
+    assert first["pending_chunks"] > 0
+    assert semantic.build_index(corpus, existing_config={
+        "model": semantic.MODEL,
+        "model_digest": "sample-model",
+        "dimensions": 2,
+        "minimum_similarity": 0.5,
+        "strategy": "document_samples",
+    })["processed"] == 0
+    monkeypatch.setattr(semantic, "query_vector", lambda *_: (1.0, 0.0))
+    result = corpus.search(SearchRequest(query="unrelated conceptual paraphrase"))
+    item = next(row for row in result["results"] if row["title"] == "Industry review")
+    original = corpus.fetch(item["id"])["text"]
+    assert result["retrieval"]["mode"] == "hybrid"
+    assert item["snippet"] == original[item["citation"]["start"] : item["citation"]["end"]]
 
 
 def test_invalid_embedding_is_rejected():

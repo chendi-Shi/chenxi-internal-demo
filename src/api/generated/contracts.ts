@@ -86,9 +86,16 @@ export interface RetrievalPolicy {
 export interface RetrievalStatus {
   enabled: boolean;
   model: string | null;
+  strategy?: string | null;
   indexed_chunks: number;
   total_chunks: number;
   pending_chunks: number;
+  indexed_documents?: number;
+  total_documents?: number;
+  pending_documents?: number;
+  indexed_samples?: number;
+  total_samples?: number;
+  pending_samples?: number;
 }
 
 export interface ScoreDetails {
@@ -657,6 +664,17 @@ export const contractSchemas = {
         ],
         "title": "Model"
       },
+      "strategy": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Strategy"
+      },
       "indexed_chunks": {
         "type": "integer",
         "title": "Indexed Chunks"
@@ -668,6 +686,36 @@ export const contractSchemas = {
       "pending_chunks": {
         "type": "integer",
         "title": "Pending Chunks"
+      },
+      "indexed_documents": {
+        "type": "integer",
+        "title": "Indexed Documents",
+        "default": 0
+      },
+      "total_documents": {
+        "type": "integer",
+        "title": "Total Documents",
+        "default": 0
+      },
+      "pending_documents": {
+        "type": "integer",
+        "title": "Pending Documents",
+        "default": 0
+      },
+      "indexed_samples": {
+        "type": "integer",
+        "title": "Indexed Samples",
+        "default": 0
+      },
+      "total_samples": {
+        "type": "integer",
+        "title": "Total Samples",
+        "default": 0
+      },
+      "pending_samples": {
+        "type": "integer",
+        "title": "Pending Samples",
+        "default": 0
       }
     },
     "additionalProperties": false,

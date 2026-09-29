@@ -258,9 +258,6 @@ class Hub:
 
     def search(self, request: SearchRequest, now: datetime | None = None):
         started = time.perf_counter()
-        tokens = list(dict.fromkeys(search_tokens(request.query).split()))
-        if len(tokens) > 128:
-            raise HubError("query_too_complex")
         plan = plan_query(request.query, self.entity_aliases)
         expression = plan.expression
         diagnostics = {"mode": "bilingual", "warning": None}
@@ -310,6 +307,8 @@ class Hub:
                         params,
                     )
                 ]
+                if plan.entities or plan.dates:
+                    rows = [row for row in rows if plan.accepts_title(row["title"])]
                 if vector is not None:
                     # Same snapshot and filters as lexical retrieval, including disabled sources.
                     if hub_semantic.configuration(conn) != semantic_config:
@@ -337,9 +336,11 @@ class Hub:
                             existing = candidates.get(row["chunk_id"])
                             if existing is not None:
                                 existing["relevance"] += 0.6 * max(0, similarity)
-                            elif similarity >= semantic_config[
-                                "minimum_similarity"
-                            ] and plan.accepts_title(row["title"]):
+                            elif (
+                                similarity >= semantic_config["minimum_similarity"]
+                                and plan.accepts_title(row["title"])
+                                and plan.accepts_passage(row["title"], row["text"])
+                            ):
                                 row["relevance"] = 0.6 * similarity
                                 candidates[row["chunk_id"]] = row
                         rows = list(candidates.values())

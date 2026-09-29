@@ -49,6 +49,7 @@ class SyncConfig(StrictModel):
     settle_seconds: int = Field(default=30, ge=0, le=3600)
     retry_seconds: int = Field(default=60, ge=1, le=86400)
     max_attempts: int = Field(default=5, ge=1, le=100)
+    max_file_mb: int = Field(default=20, ge=1, le=100)
     semantic: bool = True
 
 
@@ -132,6 +133,7 @@ class Synchronizer:
 
     def cycle(self, *, now=None, retry_failed=False):
         now = time.time() if now is None else now
+        settings = Settings(max_file_mb=self.config.max_file_mb)
         report = {
             "started_at": now,
             "finished_at": None,
@@ -201,7 +203,7 @@ class Synchronizer:
                     if now - before.st_mtime < self.config.settle_seconds:
                         self.save(key, old["sha"] if old else "", "settling", 0, 0, "", ids, now)
                         continue
-                    if before.st_size > Settings().max_file_mb * 1024 * 1024:
+                    if before.st_size > settings.max_file_mb * 1024 * 1024:
                         raise ValueError("file_size_limit")
                     raw = path.read_bytes()
                     after = path.stat()
@@ -222,7 +224,7 @@ class Synchronizer:
                     attempts = attempts if same and not retry_failed else 0
                     binding = root.bindings.get(relative)
                     name = binding.name if binding else path.name
-                    parsed = parse_bytes(name, raw, Settings())
+                    parsed = parse_bytes(name, raw, settings)
                     if not parsed or (binding and len(parsed) != 1):
                         raise ValueError("invalid_record_count")
                     documents = []
@@ -321,7 +323,7 @@ class Synchronizer:
                     config = configuration(conn)
                 if not config:
                     report["semantic"] = "not_configured"
-                elif status["pending_chunks"]:
+                elif status.get("pending_samples", status["pending_chunks"]):
                     report["semantic"] = "indexing"
                     self.runtime(report)
                     # Automatic sync never downloads models or changes the selected engine.

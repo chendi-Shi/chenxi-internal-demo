@@ -1750,6 +1750,17 @@
             ],
             "title": "Model"
           },
+          "strategy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strategy"
+          },
           "indexed_chunks": {
             "type": "integer",
             "title": "Indexed Chunks"
@@ -1761,6 +1772,36 @@
           "pending_chunks": {
             "type": "integer",
             "title": "Pending Chunks"
+          },
+          "indexed_documents": {
+            "type": "integer",
+            "title": "Indexed Documents",
+            "default": 0
+          },
+          "total_documents": {
+            "type": "integer",
+            "title": "Total Documents",
+            "default": 0
+          },
+          "pending_documents": {
+            "type": "integer",
+            "title": "Pending Documents",
+            "default": 0
+          },
+          "indexed_samples": {
+            "type": "integer",
+            "title": "Indexed Samples",
+            "default": 0
+          },
+          "total_samples": {
+            "type": "integer",
+            "title": "Total Samples",
+            "default": 0
+          },
+          "pending_samples": {
+            "type": "integer",
+            "title": "Pending Samples",
+            "default": 0
           }
         },
         "additionalProperties": false,

@@ -36,6 +36,26 @@ test('client preserves the global receiver required by browser fetch', async () 
   assert.equal(receiver, globalThis);
 });
 
+test('client accepts retrieval coverage returned by the live hub', async () => {
+  const payload = {
+    ...contractExamples.retrieval_status,
+    strategy: 'document_samples',
+    indexed_documents: 3143,
+    total_documents: 3143,
+    pending_documents: 0,
+    indexed_samples: 9425,
+    total_samples: 9425,
+    pending_samples: 0,
+  };
+  const client = new RetrievalApiClient({
+    baseUrl: 'http://example.test',
+    readToken: 'read-token',
+    fetchFn: async () => jsonResponse(payload),
+  });
+
+  assert.deepEqual(await client.getRetrievalStatus(), payload);
+});
+
 test('client uses one contract-shaped boundary and the correct credentials', async () => {
   const calls: Array<{ url: string; init: RequestInit | undefined }> = [];
   const responses = [

@@ -126,13 +126,33 @@ def embedding_text(row):
     return row["title"] + "\n" + row["text"]
 
 
+def sampled_text(row):
+    # Keep local inference practical for large PDF libraries. The selected
+    # passages retain their own chunk IDs, so citations still point to the
+    # passage that was embedded.
+    return row["title"] + "\n" + row["text"][:350]
+
+
+SAMPLED_CHUNKS = """
+    SELECT id FROM (
+        SELECT id, row_number() OVER (PARTITION BY document_id ORDER BY id) AS position,
+               count(*) OVER (PARTITION BY document_id) AS length
+        FROM hub_chunks
+    ) WHERE position IN (1, (length + 1) / 2, length)
+"""
+
+
 def build_index(
-    hub, *, batch_size=8, progress=None, engine="ollama", model_directory=None, existing_config=None
+    hub, *, batch_size=8, progress=None, engine="ollama", model_directory=None,
+    existing_config=None, strategy="all_chunks"
 ):
     """Resumable batches; skip cached content, never hold a write lock during inference."""
     e5_config = None
     if existing_config:
         engine = existing_config.get("engine", "ollama")
+        strategy = existing_config.get("strategy", "all_chunks")
+    if strategy not in {"all_chunks", "document_samples"}:
+        raise SemanticUnavailable("unknown_index_strategy")
     if engine == "e5":
         from .hub_e5 import prepare, runtime
 
@@ -141,19 +161,21 @@ def build_index(
     elif engine != "ollama":
         raise SemanticUnavailable("unknown_embedding_engine")
     identity = e5_config["model_digest"] if e5_config else model_digest()
+    text_for_index = sampled_text if strategy == "document_samples" else embedding_text
+    selection = f"WHERE c.id IN ({SAMPLED_CHUNKS})" if strategy == "document_samples" else ""
     with hub.connection() as conn:
         rows = conn.execute(
             "SELECT c.id,d.title,c.text,v.content_hash FROM hub_chunks c "
             "JOIN hub_documents d ON d.id=c.document_id LEFT JOIN hub_vectors v "
-            "ON v.chunk_id=c.id AND v.model_digest=? ORDER BY c.id",
+            f"ON v.chunk_id=c.id AND v.model_digest=? {selection} ORDER BY c.id",
             (identity,),
         ).fetchall()
-    pending = [r for r in rows if r["content_hash"] != digest(embedding_text(r))]
+    pending = [r for r in rows if r["content_hash"] != digest(text_for_index(r))]
     completed = 0
     dimensions = None
     for offset in range(0, len(pending), batch_size):
         batch = pending[offset : offset + batch_size]
-        texts = [embedding_text(r) for r in batch]
+        texts = [text_for_index(r) for r in batch]
         vectors = runtime(e5_config).encode(texts) if e5_config else embed(texts, timeout=180)
         dimensions = len(vectors[0])
         if not e5_config and model_digest() != identity:
@@ -166,10 +188,10 @@ def build_index(
                     (row["id"],),
                 ).fetchone()
                 # An update may reuse a chunk row ID. Never attach an old vector to new text.
-                if current and embedding_text(current) == embedding_text(row):
+                if current and text_for_index(current) == text_for_index(row):
                     conn.execute(
                         "INSERT OR REPLACE INTO hub_vectors VALUES(?,?,?,?)",
-                        (row["id"], identity, digest(embedding_text(row)), pack(vector)),
+                        (row["id"], identity, digest(text_for_index(row)), pack(vector)),
                     )
         completed += len(batch)
         if progress:
@@ -188,6 +210,7 @@ def build_index(
             "dimensions": dimensions,
             "minimum_similarity": 0.5,
         }
+        config = {**config, "strategy": strategy}
         conn.execute("INSERT OR REPLACE INTO hub_semantic VALUES(1,?)", (json.dumps(config),))
     return {"processed": completed, "cached": len(rows) - len(pending), **index_status(hub)}
 
@@ -196,6 +219,7 @@ def index_status(hub):
     with hub.connection() as conn:
         config = configuration(conn)
         total = conn.execute("SELECT count(*) FROM hub_chunks").fetchone()[0]
+        total_documents = conn.execute("SELECT count(*) FROM hub_documents").fetchone()[0]
         indexed = (
             conn.execute(
                 "SELECT count(*) FROM hub_vectors WHERE model_digest=?", (config["model_digest"],)
@@ -203,10 +227,34 @@ def index_status(hub):
             if config
             else 0
         )
+        indexed_documents = (
+            conn.execute(
+                "SELECT count(DISTINCT c.document_id) FROM hub_vectors v "
+                "JOIN hub_chunks c ON c.id=v.chunk_id WHERE v.model_digest=?",
+                (config["model_digest"],),
+            ).fetchone()[0]
+            if config else 0
+        )
+        if config and config.get("strategy") == "document_samples":
+            total_samples, indexed_samples = conn.execute(
+                "SELECT count(*), count(v.chunk_id) FROM hub_chunks c "
+                f"LEFT JOIN hub_vectors v ON v.chunk_id=c.id AND v.model_digest=? "
+                f"WHERE c.id IN ({SAMPLED_CHUNKS})",
+                (config["model_digest"],),
+            ).fetchone()
+        else:
+            total_samples, indexed_samples = total, indexed
     return {
         "enabled": config is not None,
         "model": config["model"] if config else None,
+        "strategy": config.get("strategy", "all_chunks") if config else None,
         "indexed_chunks": indexed,
         "total_chunks": total,
         "pending_chunks": total - indexed,
+        "indexed_documents": indexed_documents,
+        "total_documents": total_documents,
+        "pending_documents": total_documents - indexed_documents,
+        "indexed_samples": indexed_samples,
+        "total_samples": total_samples,
+        "pending_samples": total_samples - indexed_samples,
     }
