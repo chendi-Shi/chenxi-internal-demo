@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import sqlite3
 import time
 from contextlib import contextmanager
@@ -30,7 +31,8 @@ class HubError(ValueError):
 
 
 class Hub:
-    def __init__(self, directory: Path, base_url: str = "http://127.0.0.1:8765"):
+    def __init__(self, directory: Path, base_url: str = "http://127.0.0.1:8765", *,
+                 retrieval_backend: str | None = None, retrieval_stage: str | None = None):
         DocumentInput.valid_url(base_url)
         if not base_url or urlsplit(base_url).query or urlsplit(base_url).fragment:
             raise HubError("invalid_base_url")
@@ -38,6 +40,14 @@ class Hub:
         self.entity_aliases = load_entity_aliases(directory / "query-aliases.local.json")
         self.db = directory / "hub.sqlite3"
         self.base_url = base_url.rstrip("/")
+        self.retrieval_backend = retrieval_backend or os.environ.get("CHENXI_RETRIEVAL_BACKEND", "sqlite")
+        self._postgres = None
+        if self.retrieval_backend not in {"sqlite", "postgres"}:
+            raise HubError("invalid_retrieval_backend")
+        if self.retrieval_backend == "postgres":
+            from .hub_postgres import PostgresRetrieval
+
+            self._postgres = PostgresRetrieval(stage=retrieval_stage)
         with self.connection() as conn:
             conn.execute("PRAGMA journal_mode=WAL")
             version = conn.execute("PRAGMA user_version").fetchone()[0]
@@ -257,6 +267,27 @@ class Hub:
             }
 
     def search(self, request: SearchRequest, now: datetime | None = None):
+        if self._postgres is None:
+            return self._search_sqlite(request, now)
+        started = time.perf_counter()
+        from .hub_postgres import PostgresRetrievalUnavailable
+
+        try:
+            return self._postgres.search(self, request, now)
+        except Exception as exc:
+            # All retrieval providers are read-only. The fallback preserves the same
+            # live policy/filter/fetch authority. Never expose driver errors or URLs.
+            reason = str(exc) if isinstance(exc, PostgresRetrievalUnavailable) else "postgres_unavailable"
+            result = self._search_sqlite(request, now)
+            previous = result["retrieval"]["warning"]
+            result["retrieval"]["warning"] = ";".join(
+                value for value in (reason + "_using_sqlite", previous) if value)
+            if result["retrieval"]["mode"] == "bilingual":
+                result["retrieval"]["mode"] = "bilingual_fallback"
+            result["elapsed_ms"] = round((time.perf_counter() - started) * 1000, 2)
+            return result
+
+    def _search_sqlite(self, request: SearchRequest, now: datetime | None = None):
         started = time.perf_counter()
         plan = plan_query(request.query, self.entity_aliases)
         expression = plan.expression

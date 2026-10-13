@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
+import os
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from pydantic import ValidationError
 
@@ -14,6 +17,72 @@ from .hub_adapters import LocalFilesAdapter, sync_adapter
 from .hub_models import DocumentInput, IngestRequest, SearchRequest, SourceDefinition
 from .hub_runtime import init_local, load_credentials
 from .hub_semantic import SemanticUnavailable
+
+
+def prepare_service_dependencies(hub: Hub):
+    """Load optional native libraries before stdio/HTTP worker threads start.
+
+    On Windows, first importing NumPy's native extension from a running stdio
+    tool can stall. This loads libraries only; models and embeddings stay lazy.
+    A lexical-only installation still needs none of the semantic extras.
+    """
+    from .hub_semantic import configuration
+
+    with hub.connection() as conn:
+        semantic = configuration(conn)
+    postgres = hub._postgres
+    # Even PG lexical can fall back to the SQLite E5 path on a stale snapshot
+    # or database outage, so any configured E5 path needs startup preloading.
+    native_required = (
+        postgres is not None and postgres.stage in {"rerank", "rewrite"}
+    ) or (
+        semantic is not None and semantic.get("engine") == "e5"
+    )
+    if not native_required:
+        return
+    try:
+        for module in ("numpy", "onnxruntime", "tokenizers"):
+            importlib.import_module(module)
+    except (ImportError, OSError):
+        # Keep the existing query-time provider fallback and credential-free
+        # diagnostics when optional packages are unavailable.
+        print("semantic_native_preload_unavailable", file=sys.stderr)
+
+
+def configure_postgres(path: Path):
+    """Read a local runtime config without exposing its DSN in argv or output.
+
+    Database-management metadata may also be present in the local file. Only the
+    four retrieval settings below are consumed by this read-only service.
+    """
+    if path.stat().st_size > 32_768:
+        raise HubError("invalid_postgres_config")
+    config = json.loads(path.read_text(encoding="utf-8-sig"))
+    if not isinstance(config, dict):
+        raise HubError("invalid_postgres_config")
+    url = config.get("database_url")
+    if not isinstance(url, str) or not 1 <= len(url) <= 4096:
+        raise HubError("invalid_postgres_config")
+    parsed = urlsplit(url)
+    if parsed.scheme not in {"postgres", "postgresql"} or not parsed.hostname:
+        raise HubError("invalid_postgres_config")
+    stage = config.get("stage", "rrf")
+    if not isinstance(stage, str) or stage not in {"lexical", "dense", "hybrid", "rrf", "rerank", "rewrite"}:
+        raise HubError("invalid_postgres_config")
+    limit = config.get("candidate_limit", 100)
+    if isinstance(limit, bool) or not isinstance(limit, int) or not 50 <= limit <= 1000:
+        raise HubError("invalid_postgres_config")
+    directory = config.get("reranker_dir")
+    if directory is not None and (not isinstance(directory, str) or not directory.strip()):
+        raise HubError("invalid_postgres_config")
+    os.environ["CHENXI_DATABASE_URL"] = url
+    os.environ["CHENXI_RETRIEVAL_BACKEND"] = "postgres"
+    os.environ["CHENXI_RETRIEVAL_STAGE"] = stage
+    os.environ["CHENXI_PG_CANDIDATE_LIMIT"] = str(limit)
+    if directory:
+        os.environ["CHENXI_PG_RERANKER_DIR"] = str((path.parent / directory).resolve())
+    else:
+        os.environ.pop("CHENXI_PG_RERANKER_DIR", None)
 
 
 def seed_demo(hub: Hub):
@@ -45,6 +114,12 @@ def run(argv=None):
     parser = argparse.ArgumentParser(description="Internal data retrieval + MCP backend")
     parser.add_argument("--data-dir", type=Path, default=Path("data/hub"))
     parser.add_argument("--base-url", default=None)
+    parser.add_argument("--postgres-config", type=Path,
+                        help="Local PostgreSQL runtime JSON; DSN is not passed in argv or printed")
+    parser.add_argument("--retrieval-backend", choices=["sqlite", "postgres"], default=None,
+                        help="Shared HTTP/MCP retrieval engine; defaults to CHENXI_RETRIEVAL_BACKEND or sqlite")
+    parser.add_argument("--retrieval-stage", choices=["lexical", "dense", "hybrid", "rrf", "rerank", "rewrite"],
+                        default=None, help="Opt-in PostgreSQL stage; defaults to CHENXI_RETRIEVAL_STAGE or rrf")
     parser.add_argument(
         "--credentials", type=Path, help="Local credential file; environment overrides it"
     )
@@ -103,7 +178,10 @@ def run(argv=None):
         raise HubError("invalid_port")
     base_url = args.base_url or f"http://127.0.0.1:{port}"
     credentials_path = args.credentials or args.data_dir / "access.local.json"
-    hub = Hub(args.data_dir, base_url)
+    if args.postgres_config is not None:
+        configure_postgres(args.postgres_config)
+    hub = Hub(args.data_dir, base_url, retrieval_backend=args.retrieval_backend,
+              retrieval_stage=args.retrieval_stage)
     if args.command == "demo":
         result = seed_demo(hub)
     elif args.command == "init":
@@ -166,6 +244,7 @@ def run(argv=None):
         result = sync_adapter(hub, args.source_id, adapter)
         result["errors"] = adapter.errors
     elif args.command == "stdio":
+        prepare_service_dependencies(hub)
         from .hub_mcp import create_mcp
 
         create_mcp(hub).run(transport="stdio")
@@ -184,6 +263,7 @@ def run(argv=None):
         import uvicorn
 
         credentials = load_credentials(credentials_path)
+        prepare_service_dependencies(hub)
         app = create_app(hub, credentials.read_token, credentials.admin_token, args.cors_origin)
         from contextlib import ExitStack
         from threading import Event, Thread

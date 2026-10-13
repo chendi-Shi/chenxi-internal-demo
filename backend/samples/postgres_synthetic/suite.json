@@ -1,0 +1,502 @@
+{
+  "dataset_kind": "synthetic",
+  "version": "2026-10-09-v1",
+  "annotation_method": "Invented passages with fixed evidence-known qrels; never derived from candidate rankings.",
+  "documents": [
+    {
+      "id": "syn-gpu-liquid",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Aurora accelerators and cooling",
+      "body": "This is synthetic test data. Aurora Devices uses liquid cooling for its high-power server accelerators. The company says air cooling no longer removes enough heat from dense AI racks. The fictional 2026 liquid cooling pilot lowered rack temperature by 12 degrees.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Aurora"
+      },
+      "date": "2026-06-01T00:00:00Z"
+    },
+    {
+      "id": "syn-gpu-air",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Boreal consumer graphics",
+      "body": "This is synthetic test data. Boreal Graphics sells consumer GPUs for gaming desktops. Its low-power card uses air cooling and has no liquid cooling pilot. Demand comes from game releases rather than AI data centers.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Boreal"
+      },
+      "date": "2026-05-01T00:00:00Z"
+    },
+    {
+      "id": "syn-memory-stack",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Cedar stacked memory",
+      "body": "This is synthetic test data. Cedar Memory manufactures vertically stacked high-bandwidth memory for AI accelerators. Advanced packaging capacity limits HBM output. The fictional supplier expects packaging expansion in 2027 to ease shortages.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Cedar"
+      },
+      "date": "2026-05-15T00:00:00Z"
+    },
+    {
+      "id": "syn-memory-phone",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Dogwood mobile memory",
+      "body": "This is synthetic test data. Dogwood Memory makes smartphone NAND storage. Phone inventory is high, so the company expects lower NAND prices. This business is separate from vertically stacked accelerator memory.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Dogwood"
+      },
+      "date": "2026-05-16T00:00:00Z"
+    },
+    {
+      "id": "syn-foundry-yield",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Elm foundry manufacturing",
+      "body": "This is synthetic test data. Elm Foundry's 2nm manufacturing line has weak yield because of defect density. Process improvements raised the proportion of usable chips from 55 percent to 72 percent in the fictional quarter.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Elm"
+      },
+      "date": "2026-04-01T00:00:00Z"
+    },
+    {
+      "id": "syn-foundry-demand",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Fir mature-node capacity",
+      "body": "This is synthetic test data. Fir Foundry makes mature-node automotive chips. Its factory utilization fell due to weak car orders, even though the manufacturing yield remained stable. The factory is not a 2nm facility.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Fir"
+      },
+      "date": "2026-04-02T00:00:00Z"
+    },
+    {
+      "id": "syn-cloud-capex",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Grove cloud cash flow",
+      "body": "This is synthetic test data. Grove Cloud invested heavily in new AI server farms. Capital expenditure rose faster than operating cash inflow, making free cash flow negative. The fictional 2026 capital budget is 18 billion dollars and capacity is constrained by electrical power.",
+      "metadata": {
+        "sector": "cloud",
+        "company": "Grove"
+      },
+      "date": "2026-03-01T00:00:00Z"
+    },
+    {
+      "id": "syn-cloud-subscriptions",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Hazel cloud software",
+      "body": "This is synthetic test data. Hazel Software sells subscription project-management tools. It leases server capacity and maintains positive free cash flow. Its growth depends on paid seats, not building AI server farms.",
+      "metadata": {
+        "sector": "software",
+        "company": "Hazel"
+      },
+      "date": "2026-03-02T00:00:00Z"
+    },
+    {
+      "id": "syn-power-contract",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Iris power agreement",
+      "body": "This is synthetic test data. Iris Data Centers signed a twenty-year electricity purchase agreement with a wind farm. The long-term contract reduces exposure to volatile electricity prices. It does not remove delays in grid interconnection.",
+      "metadata": {
+        "sector": "cloud",
+        "company": "Iris"
+      },
+      "date": "2026-02-01T00:00:00Z"
+    },
+    {
+      "id": "syn-power-delay",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Juniper grid constraints",
+      "body": "This is synthetic test data. Juniper Hosting delayed its new data center because the electric utility had not completed the grid connection. The company has available servers and financing but cannot energize the building.",
+      "metadata": {
+        "sector": "cloud",
+        "company": "Juniper"
+      },
+      "date": "2026-02-02T00:00:00Z"
+    },
+    {
+      "id": "syn-search-ads",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Kestrel advertising assistant",
+      "body": "This is synthetic test data. Kestrel Search uses an AI advertising assistant to match conversational queries with merchant landing pages. It creates headlines and descriptions from existing assets. The invented experiment improved conversion rate by 15 percent.",
+      "metadata": {
+        "sector": "ads",
+        "company": "Kestrel"
+      },
+      "date": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": "syn-search-organic",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Larch web index",
+      "body": "This is synthetic test data. Larch Search expanded its organic web index and improved crawling speed. It has no advertising assistant and does not create merchant ad headlines. Click traffic rose because more pages were indexed.",
+      "metadata": {
+        "sector": "search",
+        "company": "Larch"
+      },
+      "date": "2026-01-02T00:00:00Z"
+    },
+    {
+      "id": "syn-agent-seats",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Maple paid enterprise agents",
+      "body": "This is synthetic test data. Maple Office added six million paid AI agent seats during its fictional quarter. Large enterprises moved from pilots to broad deployment. The agents automate routine document drafting and scheduling, while human reviewers approve sensitive actions.",
+      "metadata": {
+        "sector": "software",
+        "company": "Maple"
+      },
+      "date": "2026-07-01T00:00:00Z"
+    },
+    {
+      "id": "syn-agent-trials",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Nutmeg free trials",
+      "body": "This is synthetic test data. Nutmeg Office reports six million free trial registrations. Those trials are not paid seats and do not imply enterprise deployment. Its product makes calendar suggestions without automatic document drafting.",
+      "metadata": {
+        "sector": "software",
+        "company": "Nutmeg"
+      },
+      "date": "2026-07-02T00:00:00Z"
+    },
+    {
+      "id": "syn-chip-sale",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Oak programmable chip divestiture",
+      "body": "This is synthetic test data. Oak Semiconductors sold 51 percent of its programmable chip subsidiary to an investment firm. The transaction valued the business at eight billion dollars. Oak retained a minority stake and used the proceeds to fund manufacturing upgrades.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Oak"
+      },
+      "date": "2025-12-01T00:00:00Z"
+    },
+    {
+      "id": "syn-chip-acquire",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Pine design acquisition",
+      "body": "This is synthetic test data. Pine Processors acquired a complete system-design company for eight billion dollars. Pine bought all of the business rather than selling a majority stake. It retained designers to speed AI rack deployment.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Pine"
+      },
+      "date": "2025-12-02T00:00:00Z"
+    },
+    {
+      "id": "syn-quantum",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Quartz quantum error correction",
+      "body": "This is synthetic test data. Quartz Labs demonstrated lower logical error rates when it added more physical qubits. The experiment is a quantum error-correction milestone, but the team has not demonstrated commercially useful quantum applications.",
+      "metadata": {
+        "sector": "research",
+        "company": "Quartz"
+      },
+      "date": "2026-08-01T00:00:00Z"
+    },
+    {
+      "id": "syn-quantum-classical",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Rowan classical processor",
+      "body": "This is synthetic test data. Rowan Computing increased classical CPU clock speed. More transistors do not make this a quantum processor. The benchmark measures integer arithmetic and has no qubit error-correction experiment.",
+      "metadata": {
+        "sector": "chips",
+        "company": "Rowan"
+      },
+      "date": "2026-08-02T00:00:00Z"
+    },
+    {
+      "id": "syn-security",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Spruce cloud security acquisition",
+      "body": "This is synthetic test data. Spruce Cloud acquired a security startup for 32 billion dollars. The startup detects threats and manages compliance across several cloud platforms. Spruce expects the deal to attract regulated healthcare and financial-services customers.",
+      "metadata": {
+        "sector": "cloud",
+        "company": "Spruce"
+      },
+      "date": "2026-09-01T00:00:00Z"
+    },
+    {
+      "id": "syn-security-device",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Tamarack endpoint security",
+      "body": "This is synthetic test data. Tamarack Security protects laptops with antivirus software. Its product focuses on endpoints rather than multi-cloud compliance. It has not been acquired by Spruce Cloud.",
+      "metadata": {
+        "sector": "security",
+        "company": "Tamarack"
+      },
+      "date": "2026-09-02T00:00:00Z"
+    },
+    {
+      "id": "syn-funding",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Umber funding plan",
+      "body": "This is synthetic test data. Umber Infrastructure announced 50 billion dollars of combined debt and equity financing to fund AI data centers. Equity issuance reduces near-term credit concerns but dilutes existing shareholders. The capital raise is a plan, not deployed computing capacity.",
+      "metadata": {
+        "sector": "cloud",
+        "company": "Umber"
+      },
+      "date": "2026-09-10T00:00:00Z"
+    },
+    {
+      "id": "syn-funding-buyback",
+      "source_id": "synthetic_beta",
+      "title": "Synthetic: Violet buyback plan",
+      "body": "This is synthetic test data. Violet Infrastructure plans a share repurchase financed from cash flow. It is reducing share count rather than issuing equity. It announced no fifty-billion-dollar debt and equity raise.",
+      "metadata": {
+        "sector": "cloud",
+        "company": "Violet"
+      },
+      "date": "2026-09-11T00:00:00Z"
+    },
+    {
+      "id": "syn-chinese-chip",
+      "source_id": "synthetic_alpha",
+      "title": "虚构：星河芯片订单",
+      "body": "这是虚构测试资料。星河芯片的人工智能加速器订单增加，但先进封装产能不足导致交货延迟。公司计划在2027年扩大封装产线。消费电子存储芯片价格变化不能解释这次延迟。",
+      "metadata": {
+        "sector": "chips",
+        "company": "星河"
+      },
+      "date": "2026-06-20T00:00:00Z"
+    },
+    {
+      "id": "syn-chinese-cloud",
+      "source_id": "synthetic_beta",
+      "title": "虚构：月湾云自由现金流",
+      "body": "这是虚构测试资料。月湾云大幅增加服务器和机房投资，资本支出超过经营现金流，因此自由现金流转负。公司仍然获得新客户，现金流下降主要源于建设投入而非需求萎缩。",
+      "metadata": {
+        "sector": "cloud",
+        "company": "月湾"
+      },
+      "date": "2026-06-21T00:00:00Z"
+    },
+    {
+      "id": "syn-old-cloud",
+      "source_id": "synthetic_alpha",
+      "title": "Synthetic: Grove older cloud budget",
+      "body": "This is synthetic test data. In 2024 Grove Cloud's capital budget was five billion dollars and free cash flow remained positive. This older report precedes the new AI server investment cycle.",
+      "metadata": {
+        "sector": "cloud",
+        "company": "Grove"
+      },
+      "date": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "syn-disabled",
+      "source_id": "synthetic_disabled",
+      "title": "Synthetic: disabled source Grove evidence",
+      "body": "This is synthetic test data. Grove Cloud capital expenditure and free cash flow evidence in a disabled source must not be visible to any retrieval branch.",
+      "metadata": {
+        "sector": "cloud",
+        "company": "Grove"
+      },
+      "date": "2026-09-01T00:00:00Z"
+    }
+  ],
+  "queries": [
+    {
+      "id": "s01",
+      "query": "Why does Aurora need liquid cooling for dense AI racks?",
+      "filters": {},
+      "qrels": {
+        "syn-gpu-liquid": 2
+      },
+      "language": "en"
+    },
+    {
+      "id": "s02",
+      "query": "哪些因素限制Cedar的高带宽堆叠内存产量？",
+      "filters": {},
+      "qrels": {
+        "syn-memory-stack": 2
+      },
+      "language": "zh"
+    },
+    {
+      "id": "s03",
+      "query": "How did Elm improve the share of usable 2nm chips?",
+      "filters": {},
+      "qrels": {
+        "syn-foundry-yield": 2
+      },
+      "language": "en"
+    },
+    {
+      "id": "s04",
+      "query": "为什么Grove建设AI服务器机房后自由现金流转负？",
+      "filters": {
+        "since": "2026-01-01T00:00:00Z"
+      },
+      "qrels": {
+        "syn-cloud-capex": 2
+      },
+      "language": "zh"
+    },
+    {
+      "id": "s05",
+      "query": "How does Iris reduce exposure to volatile electricity prices?",
+      "filters": {},
+      "qrels": {
+        "syn-power-contract": 2
+      },
+      "language": "en"
+    },
+    {
+      "id": "s06",
+      "query": "Juniper服务器和资金都有了，为什么新机房仍不能启用？",
+      "filters": {},
+      "qrels": {
+        "syn-power-delay": 2
+      },
+      "language": "zh"
+    },
+    {
+      "id": "s07",
+      "query": "How does Kestrel create ads for conversational search queries?",
+      "filters": {},
+      "qrels": {
+        "syn-search-ads": 2
+      },
+      "language": "en"
+    },
+    {
+      "id": "s08",
+      "query": "Maple新增的六百万用户是付费AI席位还是免费试用？",
+      "filters": {},
+      "qrels": {
+        "syn-agent-seats": 2,
+        "syn-agent-trials": 1
+      },
+      "language": "zh"
+    },
+    {
+      "id": "s09",
+      "query": "What stake did Oak sell in its programmable chip business and how were proceeds used?",
+      "filters": {},
+      "qrels": {
+        "syn-chip-sale": 2
+      },
+      "language": "en"
+    },
+    {
+      "id": "s10",
+      "query": "Quartz增加物理量子比特时错误率有什么变化，是否已有商用？",
+      "filters": {},
+      "qrels": {
+        "syn-quantum": 2
+      },
+      "language": "zh"
+    },
+    {
+      "id": "s11",
+      "query": "Why could Spruce's multi-cloud security deal attract regulated customers?",
+      "filters": {},
+      "qrels": {
+        "syn-security": 2
+      },
+      "language": "en"
+    },
+    {
+      "id": "s12",
+      "query": "Umber债股融资如何同时缓解信用风险和摊薄股东？",
+      "filters": {},
+      "qrels": {
+        "syn-funding": 2
+      },
+      "language": "zh"
+    },
+    {
+      "id": "s13",
+      "query": "星河芯片订单增长但交货延迟的原因是什么？",
+      "filters": {
+        "metadata": {
+          "company": "星河"
+        }
+      },
+      "qrels": {
+        "syn-chinese-chip": 2
+      },
+      "language": "zh"
+    },
+    {
+      "id": "s14",
+      "query": "月湾云现金流下降是需求萎缩还是建设投入？",
+      "filters": {},
+      "qrels": {
+        "syn-chinese-cloud": 2
+      },
+      "language": "zh"
+    },
+    {
+      "id": "s15",
+      "query": "Grove capital budget",
+      "filters": {
+        "until": "2025-01-01T00:00:00Z"
+      },
+      "qrels": {
+        "syn-old-cloud": 2
+      },
+      "language": "en"
+    },
+    {
+      "id": "s16",
+      "query": "Grove cash flow and investment",
+      "filters": {
+        "source_ids": [
+          "synthetic_alpha"
+        ],
+        "since": "2026-01-01T00:00:00Z",
+        "metadata": {
+          "sector": "cloud"
+        }
+      },
+      "qrels": {
+        "syn-cloud-capex": 2
+      },
+      "language": "en"
+    },
+    {
+      "id": "s17",
+      "query": "Aurora liquid cooling",
+      "filters": {
+        "source_ids": [
+          "synthetic_missing"
+        ]
+      },
+      "qrels": {},
+      "kind": "no_answer_filter",
+      "language": "en"
+    },
+    {
+      "id": "s18",
+      "query": "Grove cloud investment",
+      "filters": {
+        "until": "1900-01-01T00:00:00Z"
+      },
+      "qrels": {},
+      "kind": "no_answer_filter",
+      "language": "en"
+    },
+    {
+      "id": "s19",
+      "query": "Quantum processor",
+      "filters": {
+        "metadata": {
+          "company": "synthetic-no-such-company"
+        }
+      },
+      "qrels": {},
+      "kind": "no_answer_filter",
+      "language": "en"
+    },
+    {
+      "id": "s20",
+      "query": "Grove cash flow",
+      "filters": {
+        "source_ids": [
+          "synthetic_disabled"
+        ]
+      },
+      "qrels": {},
+      "kind": "no_answer_filter",
+      "language": "en"
+    }
+  ]
+}

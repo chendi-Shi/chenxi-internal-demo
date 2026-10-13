@@ -34,6 +34,7 @@ export interface RetrievalApiClientOptions {
   anonymousDemo?: boolean;
   fetchFn?: FetchLike;
   timeoutMs?: number;
+  searchTimeoutMs?: number;
 }
 
 export class ApiError extends Error {
@@ -76,6 +77,7 @@ export class RetrievalApiClient implements RetrievalApi {
   private readonly anonymousDemo: boolean;
   private readonly fetchFn: FetchLike;
   private readonly timeoutMs: number;
+  private readonly searchTimeoutMs: number;
 
   constructor(options: RetrievalApiClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
@@ -84,6 +86,10 @@ export class RetrievalApiClient implements RetrievalApi {
     this.anonymousDemo = options.anonymousDemo ?? false;
     this.fetchFn = (options.fetchFn ?? fetch).bind(globalThis);
     this.timeoutMs = options.timeoutMs ?? 10_000;
+    this.searchTimeoutMs = options.searchTimeoutMs ?? 120_000;
+    if (!Number.isFinite(this.searchTimeoutMs) || this.searchTimeoutMs <= 0) {
+      throw new RangeError('searchTimeoutMs must be a positive finite number');
+    }
   }
 
   getStatus(): Promise<StatusResponse> {
@@ -113,7 +119,7 @@ export class RetrievalApiClient implements RetrievalApi {
 
   search(request: SearchRequest): Promise<SearchResponse> {
     const body = parseContract('SearchRequest', request);
-    return this.request('/api/search', 'POST', 'read', 'SearchResponse', body);
+    return this.request('/api/search', 'POST', 'read', 'SearchResponse', body, this.searchTimeoutMs);
   }
 
   getDocument(documentId: string): Promise<MCPFetchResult> {
@@ -140,12 +146,13 @@ export class RetrievalApiClient implements RetrievalApi {
     credential: Credential,
     responseSchema: Name,
     body?: unknown,
+    timeoutMs = this.timeoutMs,
   ): Promise<ReturnType<typeof parseContract<Name>>> {
     const token = credential === 'admin' ? this.adminToken : this.readToken;
     if (!token && !this.anonymousDemo) throw new MissingCredentialError(credential);
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
       const headers: Record<string, string> = {

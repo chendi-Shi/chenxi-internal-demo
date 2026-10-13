@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.0-pg17
+    environment:
+      POSTGRES_DB: chenxi_retrieval
+      POSTGRES_USER: chenxi
+      POSTGRES_PASSWORD: ${CHENXI_POSTGRES_PASSWORD:?Set a local database password}
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - chenxi_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chenxi -d chenxi_retrieval"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  chenxi_pgdata:

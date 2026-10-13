@@ -1,5 +1,13 @@
 # Roadmap
 
+## 2026-10-13：PostgreSQL 检索升级 — 本地消融与 MCP 验收完成
+
+PostgreSQL + pgvector、快照迁移、统一 HTTP/MCP adapter 和 lexical/dense/hybrid/RRF/rerank/规则 query rewrite 六阶段均已实现。真实资料库 22 题 × 3 轮 × 6 阶段共 396 次正式测量完成，失败和降级为 0；结果和负增益见 [真实库匿名报告](docs/evaluation/POSTGRES_REAL_REPORT.md)。已有向量覆盖仅 6.74%，20 条有答案问题为 agent 核对原文的非盲测小样本，不能据此宣称全库泛化或答案生成准确率。
+
+本机选择 RRF 混合 profile，并完成官方 SDK 实际 stdio 启动、三个只读工具、中英文请求、HTTP 排序与策略一致性、来源/metadata 过滤和 PDF 引用验收，见 [MCP 验收记录](docs/evaluation/POSTGRES_MCP_ACCEPTANCE.md)。已修复 Windows stdio 首次 NumPy 原生导入等待；最终后端 83 项测试与前端 33 项单元测试通过。当前会话需重载 MCP 配置才会发现新工具，ChatGPT 云隧道目前没有运行，云端账号联调仍未验收。
+
+复现命令、运行开关、预热与中断恢复规则见 [检索实验说明](docs/POSTGRES_RETRIEVAL_BASELINE.md)；[虚构样例报告](docs/evaluation/POSTGRES_SYNTHETIC_REPORT.md)保留为功能诊断。下一步是独立人工标注集、全量 passage 向量覆盖、多语言重排、LLM query rewrite 与增量 PostgreSQL 快照同步；策略管理数据和 fetch 原文目前仍在 SQLite。
+
 更新日期：2026-09-24
 
 路线图覆盖合并后的 Retrieval Hub（A）和 Dashboard（B）。先固定共同契约，再分别验证后端、页面和端到端检索；真实 ChatGPT 账号连接仍单独安排。
@@ -84,7 +92,9 @@
 
 完成证据见 [`docs/PHASE_D_REPORT.md`](docs/PHASE_D_REPORT.md) 和 [`docs/evaluation/BASELINE.md`](docs/evaluation/BASELINE.md)。Metadata filter 的实验规范可重复运行，但由于上游交付包没有过滤后的 SearchResponse，结果诚实标记为 `not_run`，留待阶段 E 补录。
 
-## 阶段 E：MCP / ChatGPT 联调 — 进行中
+## 阶段 E：MCP / ChatGPT 联调 — 本地完成，云端进行中
+
+2026-10-13 更新：PostgreSQL/RRF 本地实际 stdio MCP、HTTP TestClient 与原文引用一致性已验收，证据见 [POSTGRES_MCP_ACCEPTANCE.md](docs/evaluation/POSTGRES_MCP_ACCEPTANCE.md)。下文的 9 月记录保留为当时状态；云端 ChatGPT 传输、账号和外部引用 URL 验收仍独立安排。
 
 目标：验证本地 Hub 的 HTTP/MCP 行为，并在具备条件后验证目标 ChatGPT 环境。
 

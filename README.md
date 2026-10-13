@@ -17,12 +17,16 @@ The repository contains code and fictional fixtures only. Local documents, datab
 ## Architecture
 
 ```text
-Approved local files → backend/ Retrieval Hub → SQLite / FTS5 / optional local vectors
+Approved local files → backend/ Retrieval Hub → SQLite / FTS5 / optional PostgreSQL + pgvector
                               ├─ HTTP API 1.2.0 → src/ Research Dashboard
                               └─ MCP search/fetch → For private ChatGPT access, follow [the Secure MCP Tunnel setup](docs/CHATGPT_MCP_SETUP.md).
 ```
 
 `backend/` owns ingestion, parsing, indexing, retrieval, server-side ranking, HTTP and MCP. `src/` owns the dashboard, contract-checked HTTP client, policy editor and evaluations. Both use the API contract in `docs/contracts/`; the backend’s exported copy is kept in `backend/docs/contracts/` and checked against it. The browser never reranks results.
+
+The optional [PostgreSQL retrieval pipeline](docs/POSTGRES_RETRIEVAL_BASELINE.md) provides lexical and dense baselines, normalized hybrid fusion, RRF, local ONNX reranking, and bilingual rule query rewriting. Both HTTP and MCP select the same stage from a private runtime config. Source controls, policy state and original-document verification remain in SQLite during this migration. Experiments report each stage separately; enabling another stage does not imply better retrieval quality.
+
+The [2026-10-13 real-library diagnostic](docs/evaluation/POSTGRES_REAL_REPORT.md) measures all six stages on 20 agent-labelled answerable questions and two filter controls, with three repeats per stage. It publishes anonymous aggregates only, including negative gains and the 6.74% passage-vector coverage limit. The selected mixed profile is RRF; lexical has the strongest overall quality in this small sample. [Local MCP acceptance](docs/evaluation/POSTGRES_MCP_ACCEPTANCE.md) verifies the real PostgreSQL backend, HTTP/MCP consistency, all three read-only tools, filters and PDF citations for Chinese and English requests. It does not establish a live ChatGPT cloud connection or generated-answer accuracy.
 
 ## Run locally on Windows
 

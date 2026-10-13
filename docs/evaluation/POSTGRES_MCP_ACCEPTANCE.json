@@ -1,0 +1,96 @@
+{
+  "measured_on": "2026-10-13",
+  "status": "pass",
+  "transport": "stdio",
+  "server": "chenxi-library",
+  "local_client_configuration": "registered_in_codex",
+  "active_stage": "rrf",
+  "tested_case_count": 3,
+  "tested_languages": [
+    "zh",
+    "en"
+  ],
+  "http_verification": "FastAPI TestClient with real Hub/PostgreSQL; not an externally deployed HTTP listener",
+  "mcp_verification": "Official MCP SDK subprocess using the actual managed launcher",
+  "checks": [
+    {
+      "backend": "postgresql_pgvector",
+      "stage": "rrf",
+      "tested_query_language": "zh",
+      "candidate_limit": 100,
+      "checked_tools": [
+        "search",
+        "search_documents",
+        "fetch"
+      ],
+      "stdio_initialize": "pass",
+      "readonly_tools": "pass",
+      "http_mcp_filtered_ranking": "pass",
+      "compact_search_ranking": "pass",
+      "same_policy_version": "pass",
+      "original_offsets_and_pdf_page": "pass",
+      "source_filter": "pass",
+      "metadata_filter": "pass",
+      "provider_degradation": false,
+      "sqlite_fallback": false,
+      "result_count": 5,
+      "elapsed_seconds": 119.18
+    },
+    {
+      "backend": "postgresql_pgvector",
+      "stage": "rrf",
+      "tested_query_language": "zh",
+      "candidate_limit": 100,
+      "checked_tools": [
+        "search",
+        "search_documents",
+        "fetch"
+      ],
+      "stdio_initialize": "pass",
+      "readonly_tools": "pass",
+      "http_mcp_filtered_ranking": "pass",
+      "compact_search_ranking": "pass",
+      "same_policy_version": "pass",
+      "original_offsets_and_pdf_page": "pass",
+      "source_filter": "pass",
+      "metadata_filter": "pass",
+      "provider_degradation": false,
+      "sqlite_fallback": false,
+      "result_count": 5,
+      "elapsed_seconds": 64.39
+    },
+    {
+      "backend": "postgresql_pgvector",
+      "stage": "rrf",
+      "tested_query_language": "en",
+      "candidate_limit": 100,
+      "checked_tools": [
+        "search",
+        "search_documents",
+        "fetch"
+      ],
+      "stdio_initialize": "pass",
+      "readonly_tools": "pass",
+      "http_mcp_filtered_ranking": "pass",
+      "compact_search_ranking": "pass",
+      "same_policy_version": "pass",
+      "original_offsets_and_pdf_page": "pass",
+      "source_filter": "pass",
+      "metadata_filter": "pass",
+      "provider_degradation": false,
+      "sqlite_fallback": false,
+      "result_count": 5,
+      "elapsed_seconds": 95.49
+    }
+  ],
+  "resolved_issue": {
+    "before_fix_timeout_attempts": 2,
+    "cause_observed": "first native NumPy import during Windows stdio tool execution",
+    "fix": "conditionally preload native libraries before server transport starts",
+    "retrieval_scoring_changed": false
+  },
+  "current_chat_tool_discovery": "requires_MCP_client_reload; not established by SDK tests",
+  "chatgpt_cloud_connection": "not_verified; cloud_tunnel_not_running",
+  "quality_scope": "Runtime consistency and citation checks, not answer relevance or generation quality",
+  "privacy": "No query text, document IDs, source text, local paths, tokens or credentials are included"
+}

@@ -1,5 +1,7 @@
 # Retrieval Policy Demo 架构
 
+2026-10-09 新增 PostgreSQL + pgvector 检索和分阶段消融：`research_agent.pg_lab` 在专用 `retrieval_lab` schema 导入只读数据快照；HTTP/MCP 通过 `--postgres-config` 共用 `PostgresRetrieval` adapter。默认安装仍使用 SQLite，来源控制、策略和 fetch 原文校验也仍以 SQLite 为准。详见 [PostgreSQL 检索 baseline](POSTGRES_RETRIEVAL_BASELINE.md)。
+
 ## 1. 架构结论
 
 本仓库将 Retrieval Hub 与 Dashboard 放在同一代码库中。`backend/` 是文档接入、索引、检索、服务端 ranking、HTTP 与 MCP 的唯一后端；`src/` 通过同一 OpenAPI 契约调用 HTTP 并呈现结果，不实现第二套 ranking。
@@ -9,12 +11,14 @@ flowchart LR
     subgraph REPO[合并仓库]
       subgraph HUB[backend/ · Retrieval Hub]
         DATA[获准的本地文件]
-        INDEX[解析 / 分块 / SQLite FTS5]
+        INDEX[解析 / 分块 / SQLite 原文]
+        PG[(可选 PostgreSQL\nGIN / pgvector)]
         RANK[统一检索与策略排序]
         POLICY[(PolicyState\nversioned)]
         HTTP[HTTP API /api]
         MCP[MCP\nsearch / fetch / search_documents]
         DATA --> INDEX --> RANK
+        INDEX -->|只读快照| PG --> RANK
         POLICY --> RANK
         RANK --> HTTP
         RANK --> MCP
@@ -92,13 +96,16 @@ sequenceDiagram
     end
 ```
 
-上游当前排序语义：
+统一策略使用同一套来源与新鲜度乘数；`relevance` 由所选后端和检索阶段提供：
 
 ```text
-relevance = max(0, -BM25)
 freshness = 0.5 ^ (age_days / half_life_days)
 score = relevance × source_weight × (1 + recency_boost × freshness)
 ```
+
+SQLite 纯全文检索的 `relevance = max(0, -BM25)`；启用本地语义索引时使用归一化全文分数与 cosine 相似度的加权融合。PostgreSQL lexical 使用 `ts_rank`，dense 使用精确 cosine，hybrid 使用分路归一化加和，RRF 使用排名倒数融合。PostgreSQL rerank/rewrite 阶段将 CrossEncoder logit 经单调且为正的 softplus 转换后应用策略乘数。上述分数均不代表答案正确率或置信度。
+
+PostgreSQL 先排除权重为 0 的来源，再产生受 `candidate_limit` 限制的候选池，正来源权重和新鲜度在该池内生效；它与 SQLite 对全部全文匹配评分的候选范围不同。离线消融评测比较检索阶段本身，不叠加 Dashboard 策略。
 
 Dashboard 只解释 `score_details`，不能重新执行该公式后改变结果。
 
@@ -128,13 +135,13 @@ MCP tool 均为只读；策略只能通过受管理权限保护的 HTTP API 修�
 - 标准 `search` 结果保持轻量；
 - 固定查询避免无效重复调用；
 - 对重复 query/result 做实验级缓存，但缓存不能掩盖 policy version 变化。
+- 后端拥有分块、召回与排序实现，并共享 HTTP/MCP adapter；MCP tool 描述与传输配置也由该后端维护。
 
-本仓库当前不能单方面控制：
+当前契约与客户端行为的约束：
 
 - `fetch` 返回完整正文且不能静默截断；
-- MCP Server 的 tool 描述及传输配置；
-- 上游 FTS 分块、召回和 ranking；
-- ChatGPT 是否多次 fetch。
+- 调整 MCP schema 或 `fetch` 语义需要同步契约和客户端验收；
+- ChatGPT 决定何时调用工具以及是否多次 fetch，本仓库不能据此承诺固定调用次数。
 
 若实测完整 `fetch` 超预算，优先形成上游提案，例如增加可引用的 passage item、范围读取或分页工具；在契约变更前不伪造现有 `fetch` 语义。
 
@@ -161,7 +168,7 @@ MCP tool 均为只读；策略只能通过受管理权限保护的 HTTP API 修�
 |---|---|---|
 | `fetch` 完整正文无 token 上限 | 上下文成本不可预测 | 阶段 D/E 测量，必要时提接口变更 |
 | 引用 URL 可能是 loopback 或需 Bearer Token | ChatGPT 无法打开引用 | 阶段 E 验证，不在阶段 A 假设成功 |
-| FTS 查询要求词项全部出现 | 自然语言 query 可能低召回 | 先用受控短查询评测，记录失败样例 |
+| 语言、索引与候选覆盖不足 | 自然语言 query 可能低召回或误召回 | PostgreSQL 使用 OR 全文词项并分中英文评测；报告向量覆盖率与候选限额 |
 | metadata filter 不是持久策略 | 不能自动影响标准 MCP `search` | 明确区分 query filter 与 policy |
 | `source_weight` 允许 0–10 | 高权重可能强烈放大相关性 | Dashboard 显示警告并做相关性回归测试 |
 | 上游尚无 token telemetry | 难以直接核算模型成本 | 客户端记录 UTF-8 字节与 tokenizer 估算 |

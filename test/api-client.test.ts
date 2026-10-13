@@ -182,3 +182,66 @@ test('anonymous demo mode omits Authorization for read and policy requests', asy
     assert.equal((call.init?.headers as Record<string, string>).Authorization, undefined);
   }
 });
+
+test('slow search survives the generic deadline while status still aborts after 10 seconds', async (context) => {
+  context.mock.timers.enable({ apis: ['setTimeout'] });
+  const fetchFn: FetchLike = (input, init) => new Promise((resolve, reject) => {
+    init?.signal?.addEventListener('abort', () => reject(init.signal?.reason), { once: true });
+    if (String(input).endsWith('/api/search')) {
+      setTimeout(() => resolve(jsonResponse(contractExamples.search_response)), 15_000);
+    }
+  });
+  const client = new RetrievalApiClient({ baseUrl: 'http://example.test', readToken: 'read-token', fetchFn });
+  const status = assert.rejects(client.getStatus(), { name: 'AbortError' });
+  const search = client.search(parseContract('SearchRequest', structuredClone(contractExamples.search_request)));
+
+  context.mock.timers.tick(10_000);
+  await status;
+  context.mock.timers.tick(5_000);
+
+  assert.deepEqual(await search, contractExamples.search_response);
+});
+
+test('search aborts at its finite 120 second default even with a custom generic timeout', async (context) => {
+  context.mock.timers.enable({ apis: ['setTimeout'] });
+  let signal: AbortSignal | null | undefined;
+  const client = new RetrievalApiClient({
+    baseUrl: 'http://example.test',
+    readToken: 'read-token',
+    timeoutMs: 5_000,
+    fetchFn: (_input, init) => new Promise((_resolve, reject) => {
+      signal = init?.signal;
+      signal?.addEventListener('abort', () => reject(signal?.reason), { once: true });
+    }),
+  });
+  const aborted = assert.rejects(client.search(parseContract('SearchRequest', structuredClone(contractExamples.search_request))), { name: 'AbortError' });
+
+  context.mock.timers.tick(119_999);
+  assert.equal(signal?.aborted, false);
+  context.mock.timers.tick(1);
+  await aborted;
+});
+
+test('search uses an explicitly configured search deadline', async (context) => {
+  context.mock.timers.enable({ apis: ['setTimeout'] });
+  const client = new RetrievalApiClient({
+    baseUrl: 'http://example.test',
+    readToken: 'read-token',
+    searchTimeoutMs: 2_000,
+    fetchFn: (_input, init) => new Promise((_resolve, reject) => {
+      init?.signal?.addEventListener('abort', () => reject(init.signal?.reason), { once: true });
+    }),
+  });
+  const aborted = assert.rejects(client.search(parseContract('SearchRequest', structuredClone(contractExamples.search_request))), { name: 'AbortError' });
+
+  context.mock.timers.tick(2_000);
+  await aborted;
+});
+
+test('search deadline rejects non-finite and non-positive values', () => {
+  for (const searchTimeoutMs of [Infinity, NaN, 0, -1]) {
+    assert.throws(() => new RetrievalApiClient({
+      baseUrl: 'http://example.test', readToken: 'read-token', searchTimeoutMs,
+    }), RangeError);
+  }
+});

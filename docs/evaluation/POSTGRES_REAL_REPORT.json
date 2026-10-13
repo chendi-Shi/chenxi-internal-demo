@@ -1,0 +1,564 @@
+{
+  "dataset_kind": "private_real_library_agent_labelled_diagnostic",
+  "measured_date": "2026-10-13",
+  "snapshot": {
+    "document_count": 3143,
+    "chunk_count": 174070,
+    "vector_count": 11736,
+    "vector_coverage_percent": 6.742115240995002
+  },
+  "protocol": {
+    "query_count": 22,
+    "answerable_questions": 20,
+    "answerable_by_language": {
+      "zh": 10,
+      "en": 10
+    },
+    "impossible_filter_controls": 2,
+    "planned_warmup_full_passes_per_process_session": 1,
+    "warmup_restart_policy": "Interrupted stages resume measured checkpoints after another complete warmup pass. Actual and additional warmup counts are recorded separately for each stage.",
+    "warmup_failure_definition": "Only raised warmup exceptions are counted. Provider warnings returned during warmup are not retained, so zero warmup_failures does not establish warning-free warmup.",
+    "artifact_io": {
+      "writer_policy": "One active driver per output directory; a local file lock prevents concurrent driver writers.",
+      "resumed_output_storage": "Checkpoint continuation was relocated to a nonsynchronized local directory exposed by a junction; earlier completed results were preserved.",
+      "checkpoint_writes_in_reported_query_latency": false
+    },
+    "measured_full_passes": 3,
+    "top_k": 10,
+    "measured_runs_per_stage": 66,
+    "measured_runs_all_six_stages": 396,
+    "independent_question_count": 22,
+    "candidate_limit_per_branch": 100,
+    "rerank_document_pool": 50,
+    "stage_design": {
+      "lexical": "Keyword-only baseline.",
+      "dense": "Independent vector-only baseline.",
+      "hybrid": "Sum of positive branch scores normalized by each branch maximum; equal branch contributions.",
+      "rrf": "Replaces score-normalized fusion with the sum of 1/(60+rank) over keyword and vector branch ranks.",
+      "rerank": "RRF followed by cross-encoder scoring of up to 50 distinct-document representative passages.",
+      "rewrite": "Original query plus up to two rule expansions, each sent through keyword and vector recall; all lists use RRF and the cross-encoder scores using the original query."
+    },
+    "stage_order": [
+      "lexical",
+      "dense",
+      "hybrid",
+      "rrf",
+      "rerank",
+      "rewrite"
+    ],
+    "execution_environment": "Local CPU shared with unrelated independent Python workloads; neither CPU load nor task isolation was controlled.",
+    "latency_percentile": "p50 median; p95 nearest rank ceil(0.95*N).",
+    "latency_setup_scope": "Per-query timing includes work and lazy initialization executed inside the retrieval timer. Setup performed before that timer, such as cross-encoder provider construction, is excluded. Lazy E5/runtime initialization can contribute to the first warmup query; measured aggregates follow warmup.",
+    "lexical_ranking": "PostgreSQL ts_rank term-frequency ranking, not ts_rank_cd cover density or BM25",
+    "lexical_query_preprocessing": "Standard stop-word removal; Chinese bigrams suppress broad single-character OR terms; at most 96 OR terms.",
+    "postgres_execution": "Late text materialization after candidate cut; a savepoint around each warmup and measured query prevents SQL exceptions poisoning later queries.",
+    "ranking_metrics": {
+      "recall": "Fraction of positive qrel document IDs present in the first ten unique IDs.",
+      "mrr": "Reciprocal rank of the first grade-positive document in the first ten.",
+      "ndcg": "Graded gain 2^relevance-1 with log2(rank+1) discount, normalized by ideal qrels ordering."
+    },
+    "embedding_model": "intfloat/multilingual-e5-small",
+    "reranker_model": "Xenova/ms-marco-MiniLM-L-6-v2",
+    "reranker_revision": "a09144355adeed5f58c8ed011d209bf8ee5a1fec",
+    "query_rewrite": "deterministic_bilingual_rules_not_LLM"
+  },
+  "annotation": "Agent read original document bodies before stage comparison and built answer-known questions with verified evidence anchors. Grade 2 direct evidence, grade 1 partial context. This is not an exhaustive independently human-labelled gold set.",
+  "local_profile_choice": {
+    "stage": "rrf",
+    "reason": "Fulfills the requested keyword-plus-vector retrieval. Within the mixed stages it has the highest Recall@10 and Chinese nDCG@10 in this diagnostic and avoids the cross-encoder dependency.",
+    "qualification": "It is an operational compromise, not the highest-scoring retrieval stage overall. Lexical has higher overall Recall@10 and nDCG@10; rewrite has higher overall nDCG@10 than RRF. HTTP/MCP acceptance is separate, and this purposive diagnostic is not an independent generalization evaluation."
+  },
+  "limitations": [
+    "Purposive answer-known sample; no independent held-out evaluation or statistical significance claim.",
+    "Unjudged documents are treated as irrelevant for these diagnostics; legitimate unjudged evidence can be penalized.",
+    "Metrics are document-ID-level; identical full-body copies have identical qrels but count separately in recall denominators.",
+    "Two negative cases use impossible filters; no semantic answerability or generation accuracy is measured.",
+    "Vector coverage is partial. Dense baseline searches the existing vector subset, not every passage.",
+    "The pinned MiniLM cross-encoder is trained on English MS MARCO; this is not a multilingual reranker evaluation.",
+    "Chinese and English groups contain different topics, so their score difference is not a controlled language-effect estimate.",
+    "Rewrite uses local deterministic bilingual rules; it is not an LLM query-rewrite experiment.",
+    "Benchmarks measure raw staged retrieval rankings; Dashboard source-weight and recency overlays require separate HTTP/MCP consistency checks.",
+    "Latency is local CPU elapsed retrieval time including per-query embeddings/rewrite/rerank and any lazy initialization inside the query timer. Setup outside that timer, such as cross-encoder provider construction, is excluded. No response generation or network transport is measured.",
+    "Lazy E5 or runtime initialization can be included in the first warmup query. Measured aggregates follow warmup; first-query timing does not isolate one initialization component.",
+    "First-query timing records the first warmup query and is not a full service cold-start measurement.",
+    "Three repeated runs estimate local timing variability, not 60 independent relevance questions.",
+    "Stages run in fixed sequence on a shared local CPU, so cache and workload differences prevent a causal speedup claim.",
+    "Unrelated independent Python workloads were running on the same machine and were preserved. CPU contention was not isolated or held constant; stage latency differences are observational, not causal performance improvements.",
+    "Interrupted model stages can resume measured cases after an extra warmup. Their latency observations may span multiple process sessions; the recorded session and warmup counts must be considered.",
+    "Warmup failure counters record raised exceptions only. Warmup provider warnings were not collected; zero exceptions must not be presented as zero warmup degradation.",
+    "The first four stages were freshly measured on 2026-10-13 before checkpoint fingerprints were added. Their complete results were explicitly reused after snapshot, question, label and arithmetic revalidation; no historical source hash is fabricated.",
+    "Using this diagnostic to select a profile does not establish independent generalization quality."
+  ],
+  "stages": [
+    {
+      "stage": "lexical",
+      "aggregate": {
+        "recall_at_k": 0.6375,
+        "mrr_at_k": 0.39130952380952383,
+        "ndcg_at_k": 0.44476789678234346,
+        "query_count": 22,
+        "measured_runs": 66,
+        "repeats": 3,
+        "warmup_runs": 22,
+        "warmup_failures": 0,
+        "no_answer_return_rate": 0,
+        "degraded_queries": 0,
+        "failure_rate": 0,
+        "cold_first_query_ms": 4982.24,
+        "p50_ms": 1426.26,
+        "p95_ms": 4742.63
+      },
+      "execution": {
+        "planned_warmup_runs_per_process_session": 22,
+        "actual_warmup_runs": 22,
+        "additional_warmup_runs": 0,
+        "process_sessions": null,
+        "source_data_provider_fingerprint_recorded": false,
+        "provenance": "legacy_complete_stage_revalidated_without_historical_source_fingerprint"
+      },
+      "by_language": {
+        "en": {
+          "recall_at_k": 0.975,
+          "mrr_at_k": 0.71,
+          "ndcg_at_k": 0.7631348044240143
+        },
+        "zh": {
+          "recall_at_k": 0.3,
+          "mrr_at_k": 0.07261904761904761,
+          "ndcg_at_k": 0.12640098914067263
+        }
+      },
+      "nondegraded": {
+        "recall_at_k": 0.6375,
+        "mrr_at_k": 0.39130952380952383,
+        "ndcg_at_k": 0.44476789678234346
+      },
+      "filter_controls": {
+        "measured_runs": 6,
+        "failed_runs": 0,
+        "successful_empty_runs": 6
+      },
+      "changes_vs_lexical": {
+        "recall_at_k": {
+          "percentage_points": 0.0,
+          "relative_percent": 0.0
+        },
+        "mrr_at_k": {
+          "percentage_points": 0.0,
+          "relative_percent": 0.0
+        },
+        "ndcg_at_k": {
+          "percentage_points": 0.0,
+          "relative_percent": 0.0
+        }
+      },
+      "incremental_reference": null,
+      "changes_vs_incremental_reference": {}
+    },
+    {
+      "stage": "dense",
+      "aggregate": {
+        "recall_at_k": 0.2375,
+        "mrr_at_k": 0.10464285714285715,
+        "ndcg_at_k": 0.13593377359262282,
+        "query_count": 22,
+        "measured_runs": 66,
+        "repeats": 3,
+        "warmup_runs": 22,
+        "warmup_failures": 0,
+        "no_answer_return_rate": 0,
+        "degraded_queries": 0,
+        "failure_rate": 0,
+        "cold_first_query_ms": 4307.39,
+        "p50_ms": 156.065,
+        "p95_ms": 258.3
+      },
+      "execution": {
+        "planned_warmup_runs_per_process_session": 22,
+        "actual_warmup_runs": 22,
+        "additional_warmup_runs": 0,
+        "process_sessions": null,
+        "source_data_provider_fingerprint_recorded": false,
+        "provenance": "legacy_complete_stage_revalidated_without_historical_source_fingerprint"
+      },
+      "by_language": {
+        "en": {
+          "recall_at_k": 0.475,
+          "mrr_at_k": 0.2092857142857143,
+          "ndcg_at_k": 0.27186754718524564
+        },
+        "zh": {
+          "recall_at_k": 0.0,
+          "mrr_at_k": 0,
+          "ndcg_at_k": 0.0
+        }
+      },
+      "nondegraded": {
+        "recall_at_k": 0.2375,
+        "mrr_at_k": 0.10464285714285715,
+        "ndcg_at_k": 0.13593377359262282
+      },
+      "filter_controls": {
+        "measured_runs": 6,
+        "failed_runs": 0,
+        "successful_empty_runs": 6
+      },
+      "changes_vs_lexical": {
+        "recall_at_k": {
+          "percentage_points": -40.0,
+          "relative_percent": -62.745098039215684
+        },
+        "mrr_at_k": {
+          "percentage_points": -28.666666666666668,
+          "relative_percent": -73.25829023425617
+        },
+        "ndcg_at_k": {
+          "percentage_points": -30.883412318972063,
+          "relative_percent": -69.43714360320729
+        }
+      },
+      "incremental_reference": null,
+      "changes_vs_incremental_reference": {}
+    },
+    {
+      "stage": "hybrid",
+      "aggregate": {
+        "recall_at_k": 0.3125,
+        "mrr_at_k": 0.25,
+        "ndcg_at_k": 0.2625127308723885,
+        "query_count": 22,
+        "measured_runs": 66,
+        "repeats": 3,
+        "warmup_runs": 22,
+        "warmup_failures": 0,
+        "no_answer_return_rate": 0,
+        "degraded_queries": 0,
+        "failure_rate": 0,
+        "cold_first_query_ms": 7449.02,
+        "p50_ms": 1598.77,
+        "p95_ms": 7109.84
+      },
+      "execution": {
+        "planned_warmup_runs_per_process_session": 22,
+        "actual_warmup_runs": 22,
+        "additional_warmup_runs": 0,
+        "process_sessions": null,
+        "source_data_provider_fingerprint_recorded": false,
+        "provenance": "legacy_complete_stage_revalidated_without_historical_source_fingerprint"
+      },
+      "by_language": {
+        "en": {
+          "recall_at_k": 0.625,
+          "mrr_at_k": 0.5,
+          "ndcg_at_k": 0.525025461744777
+        },
+        "zh": {
+          "recall_at_k": 0.0,
+          "mrr_at_k": 0,
+          "ndcg_at_k": 0.0
+        }
+      },
+      "nondegraded": {
+        "recall_at_k": 0.3125,
+        "mrr_at_k": 0.25,
+        "ndcg_at_k": 0.2625127308723885
+      },
+      "filter_controls": {
+        "measured_runs": 6,
+        "failed_runs": 0,
+        "successful_empty_runs": 6
+      },
+      "changes_vs_lexical": {
+        "recall_at_k": {
+          "percentage_points": -32.49999999999999,
+          "relative_percent": -50.98039215686274
+        },
+        "mrr_at_k": {
+          "percentage_points": -14.130952380952383,
+          "relative_percent": -36.111956191055675
+        },
+        "ndcg_at_k": {
+          "percentage_points": -18.225516590995493,
+          "relative_percent": -40.97759016072721
+        }
+      },
+      "incremental_reference": "lexical",
+      "changes_vs_incremental_reference": {
+        "recall_at_k": {
+          "percentage_points": -32.49999999999999,
+          "relative_percent": -50.98039215686274
+        },
+        "mrr_at_k": {
+          "percentage_points": -14.130952380952383,
+          "relative_percent": -36.111956191055675
+        },
+        "ndcg_at_k": {
+          "percentage_points": -18.225516590995493,
+          "relative_percent": -40.97759016072721
+        }
+      }
+    },
+    {
+      "stage": "rrf",
+      "aggregate": {
+        "recall_at_k": 0.5125,
+        "mrr_at_k": 0.24041666666666667,
+        "ndcg_at_k": 0.304928393224264,
+        "query_count": 22,
+        "measured_runs": 66,
+        "repeats": 3,
+        "warmup_runs": 22,
+        "warmup_failures": 0,
+        "no_answer_return_rate": 0,
+        "degraded_queries": 0,
+        "failure_rate": 0,
+        "cold_first_query_ms": 5915.51,
+        "p50_ms": 2415.125,
+        "p95_ms": 7487.2
+      },
+      "execution": {
+        "planned_warmup_runs_per_process_session": 22,
+        "actual_warmup_runs": 22,
+        "additional_warmup_runs": 0,
+        "process_sessions": null,
+        "source_data_provider_fingerprint_recorded": false,
+        "provenance": "legacy_complete_stage_revalidated_without_historical_source_fingerprint"
+      },
+      "by_language": {
+        "en": {
+          "recall_at_k": 0.825,
+          "mrr_at_k": 0.44583333333333336,
+          "ndcg_at_k": 0.5378826480093999
+        },
+        "zh": {
+          "recall_at_k": 0.2,
+          "mrr_at_k": 0.035,
+          "ndcg_at_k": 0.07197413843912809
+        }
+      },
+      "nondegraded": {
+        "recall_at_k": 0.5125,
+        "mrr_at_k": 0.24041666666666667,
+        "ndcg_at_k": 0.304928393224264
+      },
+      "filter_controls": {
+        "measured_runs": 6,
+        "failed_runs": 0,
+        "successful_empty_runs": 6
+      },
+      "changes_vs_lexical": {
+        "recall_at_k": {
+          "percentage_points": -12.5,
+          "relative_percent": -19.607843137254903
+        },
+        "mrr_at_k": {
+          "percentage_points": -15.089285714285715,
+          "relative_percent": -38.560997870398545
+        },
+        "ndcg_at_k": {
+          "percentage_points": -13.983950355807945,
+          "relative_percent": -31.441006549650513
+        }
+      },
+      "incremental_reference": "hybrid",
+      "changes_vs_incremental_reference": {
+        "recall_at_k": {
+          "percentage_points": 19.999999999999996,
+          "relative_percent": 63.99999999999999
+        },
+        "mrr_at_k": {
+          "percentage_points": -0.9583333333333333,
+          "relative_percent": -3.833333333333333
+        },
+        "ndcg_at_k": {
+          "percentage_points": 4.241566235187549,
+          "relative_percent": 16.157563944010928
+        }
+      }
+    },
+    {
+      "stage": "rerank",
+      "aggregate": {
+        "recall_at_k": 0.3625,
+        "mrr_at_k": 0.27666666666666667,
+        "ndcg_at_k": 0.3009186861663649,
+        "query_count": 22,
+        "measured_runs": 66,
+        "repeats": 3,
+        "warmup_runs": 22,
+        "warmup_failures": 0,
+        "no_answer_return_rate": 0,
+        "degraded_queries": 0,
+        "failure_rate": 0,
+        "cold_first_query_ms": 10283.73,
+        "p50_ms": 18404.25,
+        "p95_ms": 59427.57
+      },
+      "execution": {
+        "planned_warmup_runs_per_process_session": 22,
+        "actual_warmup_runs": 22,
+        "additional_warmup_runs": 0,
+        "process_sessions": 1,
+        "source_data_provider_fingerprint_recorded": true,
+        "provenance": "checkpoint_bound_to_data_provider_and_source_fingerprint"
+      },
+      "by_language": {
+        "en": {
+          "recall_at_k": 0.725,
+          "mrr_at_k": 0.5533333333333333,
+          "ndcg_at_k": 0.6018373723327298
+        },
+        "zh": {
+          "recall_at_k": 0.0,
+          "mrr_at_k": 0,
+          "ndcg_at_k": 0.0
+        }
+      },
+      "nondegraded": {
+        "recall_at_k": 0.3625,
+        "mrr_at_k": 0.27666666666666667,
+        "ndcg_at_k": 0.3009186861663649
+      },
+      "filter_controls": {
+        "measured_runs": 6,
+        "failed_runs": 0,
+        "successful_empty_runs": 6
+      },
+      "changes_vs_lexical": {
+        "recall_at_k": {
+          "percentage_points": -27.499999999999996,
+          "relative_percent": -43.13725490196078
+        },
+        "mrr_at_k": {
+          "percentage_points": -11.464285714285715,
+          "relative_percent": -29.29723151810161
+        },
+        "ndcg_at_k": {
+          "percentage_points": -14.384921061597854,
+          "relative_percent": -32.34253453467532
+        }
+      },
+      "incremental_reference": "rrf",
+      "changes_vs_incremental_reference": {
+        "recall_at_k": {
+          "percentage_points": -14.999999999999996,
+          "relative_percent": -29.268292682926827
+        },
+        "mrr_at_k": {
+          "percentage_points": 3.6250000000000004,
+          "relative_percent": 15.077989601386482
+        },
+        "ndcg_at_k": {
+          "percentage_points": -0.40097070578991034,
+          "relative_percent": -1.3149667748224765
+        }
+      },
+      "rerank_document_pool": {
+        "answerable_measured_runs": 60,
+        "mean_documents_scored": 50,
+        "maximum_documents_scored": 50
+      }
+    },
+    {
+      "stage": "rewrite",
+      "aggregate": {
+        "recall_at_k": 0.4125,
+        "mrr_at_k": 0.28291666666666665,
+        "ndcg_at_k": 0.3166919300056514,
+        "query_count": 22,
+        "measured_runs": 66,
+        "repeats": 3,
+        "warmup_runs": 44,
+        "warmup_failures": 0,
+        "no_answer_return_rate": 0,
+        "degraded_queries": 0,
+        "failure_rate": 0,
+        "cold_first_query_ms": 41360.07,
+        "p50_ms": 15378.34,
+        "p95_ms": 37245.69
+      },
+      "execution": {
+        "planned_warmup_runs_per_process_session": 22,
+        "actual_warmup_runs": 44,
+        "additional_warmup_runs": 22,
+        "process_sessions": 2,
+        "source_data_provider_fingerprint_recorded": true,
+        "provenance": "checkpoint_bound_to_data_provider_and_source_fingerprint"
+      },
+      "by_language": {
+        "en": {
+          "recall_at_k": 0.725,
+          "mrr_at_k": 0.5533333333333333,
+          "ndcg_at_k": 0.6018373723327298
+        },
+        "zh": {
+          "recall_at_k": 0.1,
+          "mrr_at_k": 0.0125,
+          "ndcg_at_k": 0.03154648767857287
+        }
+      },
+      "nondegraded": {
+        "recall_at_k": 0.4125,
+        "mrr_at_k": 0.28291666666666665,
+        "ndcg_at_k": 0.3166919300056514
+      },
+      "filter_controls": {
+        "measured_runs": 6,
+        "failed_runs": 0,
+        "successful_empty_runs": 6
+      },
+      "changes_vs_lexical": {
+        "recall_at_k": {
+          "percentage_points": -22.499999999999996,
+          "relative_percent": -35.29411764705882
+        },
+        "mrr_at_k": {
+          "percentage_points": -10.839285714285719,
+          "relative_percent": -27.700030422878015
+        },
+        "ndcg_at_k": {
+          "percentage_points": -12.807596677669208,
+          "relative_percent": -28.796135625626945
+        }
+      },
+      "incremental_reference": "rerank",
+      "changes_vs_incremental_reference": {
+        "recall_at_k": {
+          "percentage_points": 4.999999999999999,
+          "relative_percent": 13.79310344827586
+        },
+        "mrr_at_k": {
+          "percentage_points": 0.6249999999999978,
+          "relative_percent": 2.2590361445783054
+        },
+        "ndcg_at_k": {
+          "percentage_points": 1.5773243839286466,
+          "relative_percent": 5.241696366627801
+        }
+      },
+      "rerank_document_pool": {
+        "answerable_measured_runs": 60,
+        "mean_documents_scored": 50,
+        "maximum_documents_scored": 50
+      },
+      "rewrite_activation": {
+        "positive_questions": 20,
+        "positive_unique_question_count_rewritten": 9,
+        "positive_unique_question_activation_rate": 0.45,
+        "mean_variants_including_original": 1.45,
+        "by_language": {
+          "zh": {
+            "positive_questions": 10,
+            "positive_unique_question_count_rewritten": 4,
+            "mean_variants_including_original": 1.4
+          },
+          "en": {
+            "positive_questions": 10,
+            "positive_unique_question_count_rewritten": 5,
+            "mean_variants_including_original": 1.5
+          }
+        }
+      }
+    }
+  ]
+}
