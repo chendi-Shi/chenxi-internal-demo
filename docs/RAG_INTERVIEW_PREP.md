@@ -26,9 +26,9 @@
 | [真实库原报告](evaluation/POSTGRES_REAL_REPORT.md) | 历史测量日期 2026-10-13 | 20 个有答案问题 + 2 个过滤控制；向量覆盖 6.742%；阶段比较存在明确限制 | 全量向量库结论、中文天然弱于英文、稠密模型一定更差 |
 | [公开数据配置](../backend/samples/rag_ablation/public_datasets.json) 与[加载器](../backend/benchmarks/public_benchmark_data.py) | 固定 revision、下载哈希、完整 corpus、分割校验和预锁定问题机制已实现；三个数据集已规范化并核验 | FiQA test 648、SciFact test 300、T2 官方 dev 已锁定 1,000；不按 qrels 删减语料 | 已完成 1,948 题模型实测；T2 是独立 test；已排除预训练数据污染 |
 | [公开 GPU 实验矩阵](../backend/samples/rag_ablation/public_gpu_matrix.json) 与[runner](../backend/benchmarks/run_public_gpu_ablation.py) | 已实现；本文件未引用任何尚未产出的公开模型完成报告 | 计划 2 embedding × 2 输入长度 × 3 数据集 × 18 配置；可恢复、分离实际推理 telemetry 与缓存回放 | 把计划数量写成已完成结果；把回放 p95 写成在线推理 p95 |
+| [HTTP/MCP 本地验收](evaluation/POSTGRES_MCP_ACCEPTANCE.md)、[架构](ARCHITECTURE.md) | 仓库保留本地验收记录和契约 | HTTP/MCP 共用后端检索与策略版本，Dashboard 不自行重排 | 云端 ChatGPT 账号、外部 URL 与生产权限体系全部验收 |
 
 公开实验的当前完成状态与全部实测收益统一看[自动导出报告](evaluation/PUBLIC_GPU_ABLATION.md)。数据校验还发现 FiQA 官方语料含 38 个空文档，其中 1 条选定测试正例标注指向空文档；它们全部保留，未为改善指标删除。该发现展示的是数据审计能力，不是模型收益。
-| [HTTP/MCP 本地验收](evaluation/POSTGRES_MCP_ACCEPTANCE.md)、[架构](ARCHITECTURE.md) | 仓库保留本地验收记录和契约 | HTTP/MCP 共用后端检索与策略版本，Dashboard 不自行重排 | 云端 ChatGPT 账号、外部 URL 与生产权限体系全部验收 |
 
 ### 组件增益应如何讲
 
