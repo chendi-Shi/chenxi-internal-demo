@@ -172,3 +172,11 @@ MCP tool 均为只读；策略只能通过受管理权限保护的 HTTP API 修�
 | metadata filter 不是持久策略 | 不能自动影响标准 MCP `search` | 明确区分 query filter 与 policy |
 | `source_weight` 允许 0–10 | 高权重可能强烈放大相关性 | Dashboard 显示警告并做相关性回归测试 |
 | 上游尚无 token telemetry | 难以直接核算模型成本 | 客户端记录 UTF-8 字节与 tokenizer 估算 |
+
+## 10. 离线消融与长时评估
+
+`research_agent.rag_ablation` 与 `backend/benchmarks/` 是隔离的实验入口，复用检索组件，不替换 HTTP/MCP 的生产阶段。SQLite 实验调用真实 Hub ingest/search；PostgreSQL 矩阵允许分别开关通道、融合、规则改写与重排。公开 GPU runner 使用固定来源和哈希的完整语料、DirectML ONNX 推理、CPU exact dense 参考检索和 FTS5 词法索引。
+
+检查点、模型、原始语料、profiling 和逐题轨迹保存在忽略目录。每次运行绑定模型/数据/源码/协议指纹，真实推理耗时和缓存回放耗时分开。GPU 模型须以实际 kernel profiling 证明执行，不能只检查 provider 名称。未完成、预算停止、失败与完成状态分开，公开报告仅导出审查后的指标与公共案例 ID。
+
+该路径评估检索证据，不生成最终回答，也不覆盖线上并发 SLA。实验设计、统计口径和范围见 [RAG_ABLATION.md](RAG_ABLATION.md) 与 [PUBLIC_GPU_ABLATION.md](PUBLIC_GPU_ABLATION.md)。

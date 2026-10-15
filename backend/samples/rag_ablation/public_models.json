@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "verified_metadata_date": "2026-10-15",
+  "runtime": "onnxruntime-directml; FP32 ONNX; verify actual DML node execution before measuring",
+  "models": [
+    {
+      "id": "e5_small",
+      "repo": "intfloat/multilingual-e5-small",
+      "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+      "purpose": "embed",
+      "dimension": 384,
+      "pooling": "attention_mask_mean_l2",
+      "query_prefix": "query: ",
+      "passage_prefix": "passage: ",
+      "pad_token": "<pad>",
+      "provenance": "Author repository ONNX export; multilingual retrieval encoder.",
+      "files": [
+        {"path": "onnx/model.onnx", "local_path": "onnx/model.onnx", "url": "https://huggingface.co/intfloat/multilingual-e5-small/resolve/614241f622f53c4eeff9890bdc4f31cfecc418b3/onnx/model.onnx", "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665", "size": 470268510},
+        {"path": "tokenizer.json", "local_path": "tokenizer.json", "url": "https://huggingface.co/intfloat/multilingual-e5-small/resolve/614241f622f53c4eeff9890bdc4f31cfecc418b3/tokenizer.json", "sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39", "size": 17082730}
+      ]
+    },
+    {
+      "id": "reranker_en",
+      "repo": "Xenova/ms-marco-MiniLM-L-6-v2",
+      "revision": "a09144355adeed5f58c8ed011d209bf8ee5a1fec",
+      "purpose": "rerank",
+      "pooling": "single_raw_logit",
+      "query_prefix": "",
+      "passage_prefix": "",
+      "pad_token": "[PAD]",
+      "provenance": "Xenova ONNX conversion of cross-encoder/ms-marco-MiniLM-L-6-v2; English MS MARCO training.",
+      "files": [
+        {"path": "onnx/model.onnx", "local_path": "onnx/model.onnx", "url": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2/resolve/a09144355adeed5f58c8ed011d209bf8ee5a1fec/onnx/model.onnx", "sha256": "c623d0bcb99f4622beb413eaef00cfbe5db20df9f1dd982da4b4f26022881870", "size": 90992115},
+        {"path": "tokenizer.json", "local_path": "tokenizer.json", "url": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2/resolve/a09144355adeed5f58c8ed011d209bf8ee5a1fec/tokenizer.json", "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66", "size": 711396}
+      ]
+    },
+    {
+      "id": "minilm_multilingual",
+      "repo": "Xenova/paraphrase-multilingual-MiniLM-L12-v2",
+      "revision": "2c4055b12046f11709e9df2c122e59ffbdc2f900",
+      "purpose": "embed",
+      "dimension": 384,
+      "pooling": "attention_mask_mean_l2",
+      "query_prefix": "",
+      "passage_prefix": "",
+      "pad_token": "<pad>",
+      "provenance": "Xenova ONNX conversion of sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2; generic multilingual similarity comparator, not E5-equivalent training.",
+      "files": [
+        {"path": "onnx/model.onnx", "local_path": "onnx/model.onnx", "url": "https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2/resolve/2c4055b12046f11709e9df2c122e59ffbdc2f900/onnx/model.onnx", "sha256": "185ae63f47e17a7e8d30d0e6a3cde6a6e4b79bc5b81666ecffc279a6856ca113", "size": 470268510},
+        {"path": "tokenizer.json", "local_path": "tokenizer.json", "url": "https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2/resolve/2c4055b12046f11709e9df2c122e59ffbdc2f900/tokenizer.json", "sha256": "b60b6b43406a48bf3638526314f3d232d97058bc93472ff2de930d43686fa441", "size": 17082913}
+      ]
+    },
+    {
+      "id": "reranker_multilingual",
+      "repo": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+      "revision": "1427fd652930e4ba29e8149678df786c240d8825",
+      "purpose": "rerank",
+      "pooling": "single_raw_logit",
+      "query_prefix": "",
+      "passage_prefix": "",
+      "pad_token": "<pad>",
+      "provenance": "Original Sentence Transformers Cross-Encoders repository ONNX export; multilingual mMARCO model.",
+      "files": [
+        {"path": "onnx/model.onnx", "local_path": "onnx/model.onnx", "url": "https://huggingface.co/cross-encoder/mmarco-mMiniLMv2-L12-H384-v1/resolve/1427fd652930e4ba29e8149678df786c240d8825/onnx/model.onnx", "sha256": "3e9a03ed1e966f7c5288dd4230e3d6a9bf5e3a170a06f1f4241c5bca12c6487c", "size": 470883696},
+        {"path": "tokenizer.json", "local_path": "tokenizer.json", "url": "https://huggingface.co/cross-encoder/mmarco-mMiniLMv2-L12-H384-v1/resolve/1427fd652930e4ba29e8149678df786c240d8825/tokenizer.json", "sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626", "size": 17082660}
+      ]
+    },
+    {
+      "id": "e5_base",
+      "optional": true,
+      "repo": "intfloat/multilingual-e5-base",
+      "revision": "d128750597153bb5987e10b1c3493a34e5a4502a",
+      "purpose": "embed",
+      "dimension": 768,
+      "pooling": "attention_mask_mean_l2",
+      "query_prefix": "query: ",
+      "passage_prefix": "passage: ",
+      "pad_token": "<pad>",
+      "provenance": "Author repository ONNX export; optional same-family model-size comparison after primary experiments.",
+      "files": [
+        {"path": "onnx/model.onnx", "local_path": "onnx/model.onnx", "url": "https://huggingface.co/intfloat/multilingual-e5-base/resolve/d128750597153bb5987e10b1c3493a34e5a4502a/onnx/model.onnx", "sha256": "84a4d426f7e87a6bf5bf195f0bae2c4a7d15f675b23ca96f42fab8326d7a77aa", "size": 1110059084},
+        {"path": "tokenizer.json", "local_path": "tokenizer.json", "url": "https://huggingface.co/intfloat/multilingual-e5-base/resolve/d128750597153bb5987e10b1c3493a34e5a4502a/tokenizer.json", "sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626", "size": 17082660}
+      ]
+    }
+  ]
+}

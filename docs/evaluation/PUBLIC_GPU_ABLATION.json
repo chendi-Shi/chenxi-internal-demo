@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "analysis_date": "2026-10-15",
+  "analysis_timezone": "Asia/Shanghai",
+  "publication_status": "no_completed_results",
+  "source_run_status": "running",
+  "campaign_complete_verified": false,
+  "run_state_reconciliation": {
+    "run_fingerprints_match": true,
+    "completed_job_ids_match": true,
+    "planned_query_counts_match": true
+  },
+  "exporter_sha256": "c82a979bc70d3ae232f8d8e73354c41b88bf143e3b45bf9b1cbd588e5f9069da",
+  "planned": {
+    "jobs": 12,
+    "configuration_cells": 216,
+    "independent_queries_across_datasets": 1948,
+    "query_configuration_observations": 140256,
+    "queries_by_dataset": {
+      "scifact": 300,
+      "fiqa": 648,
+      "t2retrieval": 1000
+    },
+    "basis": "configured_primary_campaign_not_measured_results"
+  },
+  "observed": {
+    "completed_verified_jobs": 0,
+    "rejected_job_reports": 0,
+    "configuration_cells": 0,
+    "query_configuration_observations": 0,
+    "unique_queries_by_dataset": {}
+  },
+  "jobs": [],
+  "rejected_jobs": [],
+  "cross_job_comparisons": [],
+  "cross_job_comparisons_skipped": [],
+  "cross_job_scope": {
+    "configurations": [
+      "dense",
+      "rrf",
+      "rrf_rerank",
+      "rrf_rewrite_rerank"
+    ],
+    "model_reference": "first_model_in_fixed_matrix",
+    "length_reference": "shorter_input",
+    "status": "awaiting_compatible_completed_job_pairs"
+  },
+  "inference_telemetry": {
+    "source": "unavailable",
+    "aggregation": "single_cumulative_snapshot_not_sum_of_jobs",
+    "rows": []
+  },
+  "uncertainty": {
+    "method": "paired_query_or_cluster_percentile_bootstrap",
+    "cross_job_samples": 2000,
+    "percentile_convention": "nearest_rank_matches_direct_contrasts",
+    "seed": 20261015,
+    "repeats_averaged_before_pairing": true,
+    "multiple_comparison_correction": "none; exploratory_no_significance_claim"
+  },
+  "limitations": [
+    "Only completed jobs with full matching query observations and actual GPU proof are quality results.",
+    "Missing/incomplete results remain absent, never zero-valued model results.",
+    "Quality measures retrieval, not generated-answer correctness, faithfulness or semantic abstention.",
+    "T2 uses official dev; English and Chinese datasets differ in topics and corpus, so language effects are not controlled.",
+    "Embedding model comparison changes training/model specification, not only parameter count.",
+    "Input lengths change embedding/query encoder truncation only; reranker stays at 512. This is not passage chunking; dense ranking is exact CPU scan, not GPU ANN.",
+    "Pipeline timing mixes uncached calls and cached-score replay; no end-to-end online latency or causal speedup claim.",
+    "Real inference telemetry is cumulative and not summed across job snapshots; initialization is excluded.",
+    "Largest wins/losses are diagnostic examples, not a representative sample or causal explanation.",
+    "Positive rank details come only from saved qrel-derived diagnostics; missing evidence stays null."
+  ]
+}

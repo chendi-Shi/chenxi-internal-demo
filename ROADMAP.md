@@ -130,6 +130,13 @@ PostgreSQL + pgvector、快照迁移、统一 HTTP/MCP adapter 和 lexical/dense
 
 ## 阶段推进规则
 
+### 2026-10-15：RAG 组件归因与公开 GPU 评估
+
+- 已完成：17 组 SQLite 实际检索消融，1,700 次正式调用；历史报告重新分析；指标、配对置信区间、零/负收益和逐题证据分开记录。
+- 已实现：独立 PostgreSQL 消融入口；固定公开中英文基准和模型的可恢复 GPU runner、实际 GPU 执行证明、预算/检查点/失败记录。最长 48 小时正式结果按完成状态补录，未完成配置不填分数。
+- 交付文档：[消融方法](docs/RAG_ABLATION.md)、[公开 GPU 协议](docs/PUBLIC_GPU_ABLATION.md)、[实习面试与证据缺口](docs/RAG_INTERVIEW_PREP.md)。
+- 后续独立验收：生成答案与引用质量、长文 chunking、HNSW 对 exact 的速度/质量、真实服务并发和多租户权限。输入截断不等于 chunking；缓存回放耗时不等于在线 SLO。
+
 - 开始下一阶段前确认上一阶段退出条件。
 - 接口字段或语义变化先更新契约并记录影响，再改客户端。
 - 需要公网、真实凭据、付费 API 或真实数据时单独确认。

@@ -1,0 +1,870 @@
+{
+  "schema_version": 1,
+  "status": "all_models_and_joint_memory_preflight_passed",
+  "formal_quality_results": false,
+  "hardware": {
+    "status": "available",
+    "adapters": [
+      {
+        "index": "0",
+        "name": "NVIDIA GeForce RTX 3060 Ti",
+        "driver_version": "472.80",
+        "memory_total_mib": "8192",
+        "memory_used_mib": "8151",
+        "utilization_percent": "13"
+      }
+    ]
+  },
+  "runtime_check": {
+    "dataset_kind": "synthetic_runtime_smoke_only",
+    "measured_at_utc": "2026-10-15T07:56:31.424658+00:00",
+    "graph": "Y = Relu(MatMul(A, B)); float32 [512,512]",
+    "dml_device_id": 0,
+    "limitations": [
+      "This validates the runtime on a synthetic graph, not embedding/reranker graph compatibility or retrieval quality; each real model requires separate GPU proof.",
+      "NVIDIA inventory is not an explicit DXGI adapter mapping. Confirm device_id if the machine has multiple display adapters.",
+      "A brief test may finish between utilization samples; executed DML nodes provide the dispatch evidence."
+    ],
+    "nvidia_before": {
+      "status": "available",
+      "adapters": [
+        {
+          "index": "0",
+          "name": "NVIDIA GeForce RTX 3060 Ti",
+          "driver_version": "472.80",
+          "memory_total_mib": "8192",
+          "memory_used_mib": "8140",
+          "utilization_percent": "24"
+        }
+      ]
+    },
+    "runtime_version": "1.24.4",
+    "available_providers": [
+      "DmlExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "numpy_version": "2.5.4",
+    "graph_sha256": "5511536613fce29720c7a2a09e10f9c001c6473cb771a4e4e8f16953f9f561e8",
+    "status": "passed",
+    "numerical_match": true,
+    "max_absolute_error": 5.662441253662109e-07,
+    "rms_error": 5.497733823744966e-08,
+    "tolerances": {
+      "rtol": 0.002,
+      "atol": 0.0001
+    },
+    "first_call_ms": 6.938199978321791,
+    "subsequent_call_ms": [
+      1.380200032144785,
+      1.2526996433734894
+    ],
+    "session_providers": [
+      "DmlExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "gpu_proof": {
+      "provider": "DmlExecutionProvider",
+      "dml_kernel_events": 3,
+      "dml_compute_events": 3,
+      "cpu_kernel_events": 0,
+      "other_provider_kernel_events": 0,
+      "cpu_ops": {},
+      "dml_ops": {
+        "DmlFusedNode_0_0": 3
+      },
+      "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+      "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+      "profile_sha256": "d0943035a369339264b21940a79484a25c1933c9cdf923e699d4dfa80fba6a60"
+    },
+    "nvidia_after": {
+      "status": "available",
+      "adapters": [
+        {
+          "index": "0",
+          "name": "NVIDIA GeForce RTX 3060 Ti",
+          "driver_version": "472.80",
+          "memory_total_mib": "8192",
+          "memory_used_mib": "8151",
+          "utilization_percent": "13"
+        }
+      ]
+    }
+  },
+  "model_observations": [
+    {
+      "model": "e5_small",
+      "kind": "embed",
+      "max_length": 256,
+      "items": 16,
+      "wall_ms": 523.3892998658121,
+      "items_per_second": 30.569979180128676,
+      "gpu_proof": {
+        "provider": "DmlExecutionProvider",
+        "dml_kernel_events": 698,
+        "dml_compute_events": 588,
+        "cpu_kernel_events": 4,
+        "other_provider_kernel_events": 0,
+        "cpu_ops": {
+          "Gather": 2,
+          "Unsqueeze": 2
+        },
+        "dml_ops": {
+          "Shape": 2,
+          "Slice": 2,
+          "Gather": 6,
+          "Add": 196,
+          "LayerNormalization": 50,
+          "MatMul": 168,
+          "Reshape": 96,
+          "Transpose": 96,
+          "FusedMatMul": 24,
+          "Unsqueeze": 4,
+          "Cast": 2,
+          "Sub": 2,
+          "Mul": 2,
+          "Softmax": 24,
+          "BiasGelu": 24
+        },
+        "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+        "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+        "profile_sha256": "4dd41ad389f5d93e8eacd77c1f8600e134014fa5435fc9550c8e156a166cb510",
+        "inference_calls_before_profile_end": 2,
+        "model_id": "e5_small",
+        "device_id": 0
+      },
+      "token_telemetry": {
+        "items": 16,
+        "truncated_items": 11,
+        "retained_tokens": 3750,
+        "padded_tokens": 346,
+        "max_length": 256,
+        "padding_mode": "fixed_max_length",
+        "truncation_strategy": "longest_first",
+        "measurement": "Tokenizer overflow metadata; retained tokens include special and prefix tokens."
+      },
+      "fingerprint": {
+        "model_id": "e5_small",
+        "repo": "intfloat/multilingual-e5-small",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "files": {
+          "onnx/model.onnx": {
+            "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665",
+            "size": 470268510
+          },
+          "tokenizer.json": {
+            "sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+            "size": 17082730
+          }
+        },
+        "runtime": "onnxruntime-directml",
+        "runtime_version": "1.24.4",
+        "provider": "DmlExecutionProvider",
+        "device_id": 0,
+        "mem_pattern": false,
+        "execution_mode": "sequential",
+        "padding_mode": "fixed_max_length",
+        "spec_sha256": "54069129687694e99d1088fbdab0d93cc1e1a3061a22d499edb8d011943a5c91"
+      }
+    },
+    {
+      "model": "e5_small",
+      "kind": "embed",
+      "max_length": 512,
+      "items": 16,
+      "wall_ms": 1956.8079998716712,
+      "items_per_second": 8.176581453596516,
+      "gpu_proof": {
+        "provider": "DmlExecutionProvider",
+        "dml_kernel_events": 698,
+        "dml_compute_events": 588,
+        "cpu_kernel_events": 4,
+        "other_provider_kernel_events": 0,
+        "cpu_ops": {
+          "Gather": 2,
+          "Unsqueeze": 2
+        },
+        "dml_ops": {
+          "Shape": 2,
+          "Slice": 2,
+          "Gather": 6,
+          "Add": 196,
+          "LayerNormalization": 50,
+          "MatMul": 168,
+          "Reshape": 96,
+          "Transpose": 96,
+          "FusedMatMul": 24,
+          "Unsqueeze": 4,
+          "Cast": 2,
+          "Sub": 2,
+          "Mul": 2,
+          "Softmax": 24,
+          "BiasGelu": 24
+        },
+        "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+        "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+        "profile_sha256": "4dd41ad389f5d93e8eacd77c1f8600e134014fa5435fc9550c8e156a166cb510",
+        "inference_calls_before_profile_end": 2,
+        "model_id": "e5_small",
+        "device_id": 0
+      },
+      "token_telemetry": {
+        "items": 16,
+        "truncated_items": 3,
+        "retained_tokens": 5690,
+        "padded_tokens": 2502,
+        "max_length": 512,
+        "padding_mode": "fixed_max_length",
+        "truncation_strategy": "longest_first",
+        "measurement": "Tokenizer overflow metadata; retained tokens include special and prefix tokens."
+      },
+      "fingerprint": {
+        "model_id": "e5_small",
+        "repo": "intfloat/multilingual-e5-small",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "files": {
+          "onnx/model.onnx": {
+            "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665",
+            "size": 470268510
+          },
+          "tokenizer.json": {
+            "sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+            "size": 17082730
+          }
+        },
+        "runtime": "onnxruntime-directml",
+        "runtime_version": "1.24.4",
+        "provider": "DmlExecutionProvider",
+        "device_id": 0,
+        "mem_pattern": false,
+        "execution_mode": "sequential",
+        "padding_mode": "fixed_max_length",
+        "spec_sha256": "54069129687694e99d1088fbdab0d93cc1e1a3061a22d499edb8d011943a5c91"
+      }
+    },
+    {
+      "model": "minilm_multilingual",
+      "kind": "embed",
+      "max_length": 256,
+      "items": 16,
+      "wall_ms": 421.39440029859543,
+      "items_per_second": 37.969180389351585,
+      "gpu_proof": {
+        "provider": "DmlExecutionProvider",
+        "dml_kernel_events": 698,
+        "dml_compute_events": 588,
+        "cpu_kernel_events": 4,
+        "other_provider_kernel_events": 0,
+        "cpu_ops": {
+          "Gather": 2,
+          "Unsqueeze": 2
+        },
+        "dml_ops": {
+          "Shape": 2,
+          "Slice": 2,
+          "Gather": 6,
+          "Add": 196,
+          "LayerNormalization": 50,
+          "MatMul": 168,
+          "Reshape": 96,
+          "Transpose": 96,
+          "FusedMatMul": 24,
+          "Unsqueeze": 4,
+          "Cast": 2,
+          "Sub": 2,
+          "Mul": 2,
+          "Softmax": 24,
+          "BiasGelu": 24
+        },
+        "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+        "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+        "profile_sha256": "390ae7ecd00e7016d2df355bcce354945d30297b316fb710d90be0d74a7b704b",
+        "inference_calls_before_profile_end": 2,
+        "model_id": "minilm_multilingual",
+        "device_id": 0
+      },
+      "token_telemetry": {
+        "items": 16,
+        "truncated_items": 11,
+        "retained_tokens": 3740,
+        "padded_tokens": 356,
+        "max_length": 256,
+        "padding_mode": "fixed_max_length",
+        "truncation_strategy": "longest_first",
+        "measurement": "Tokenizer overflow metadata; retained tokens include special and prefix tokens."
+      },
+      "fingerprint": {
+        "model_id": "minilm_multilingual",
+        "repo": "Xenova/paraphrase-multilingual-MiniLM-L12-v2",
+        "revision": "2c4055b12046f11709e9df2c122e59ffbdc2f900",
+        "files": {
+          "onnx/model.onnx": {
+            "sha256": "185ae63f47e17a7e8d30d0e6a3cde6a6e4b79bc5b81666ecffc279a6856ca113",
+            "size": 470268510
+          },
+          "tokenizer.json": {
+            "sha256": "b60b6b43406a48bf3638526314f3d232d97058bc93472ff2de930d43686fa441",
+            "size": 17082913
+          }
+        },
+        "runtime": "onnxruntime-directml",
+        "runtime_version": "1.24.4",
+        "provider": "DmlExecutionProvider",
+        "device_id": 0,
+        "mem_pattern": false,
+        "execution_mode": "sequential",
+        "padding_mode": "fixed_max_length",
+        "spec_sha256": "b2047ed774ef3be4ef2d2ebfcee1fa1c9b92d752ca464d6cc6b79293a9fc5eaa"
+      }
+    },
+    {
+      "model": "minilm_multilingual",
+      "kind": "embed",
+      "max_length": 512,
+      "items": 16,
+      "wall_ms": 1866.747499909252,
+      "items_per_second": 8.571057414448289,
+      "gpu_proof": {
+        "provider": "DmlExecutionProvider",
+        "dml_kernel_events": 698,
+        "dml_compute_events": 588,
+        "cpu_kernel_events": 4,
+        "other_provider_kernel_events": 0,
+        "cpu_ops": {
+          "Gather": 2,
+          "Unsqueeze": 2
+        },
+        "dml_ops": {
+          "Shape": 2,
+          "Slice": 2,
+          "Gather": 6,
+          "Add": 196,
+          "LayerNormalization": 50,
+          "MatMul": 168,
+          "Reshape": 96,
+          "Transpose": 96,
+          "FusedMatMul": 24,
+          "Unsqueeze": 4,
+          "Cast": 2,
+          "Sub": 2,
+          "Mul": 2,
+          "Softmax": 24,
+          "BiasGelu": 24
+        },
+        "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+        "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+        "profile_sha256": "390ae7ecd00e7016d2df355bcce354945d30297b316fb710d90be0d74a7b704b",
+        "inference_calls_before_profile_end": 2,
+        "model_id": "minilm_multilingual",
+        "device_id": 0
+      },
+      "token_telemetry": {
+        "items": 16,
+        "truncated_items": 3,
+        "retained_tokens": 5664,
+        "padded_tokens": 2528,
+        "max_length": 512,
+        "padding_mode": "fixed_max_length",
+        "truncation_strategy": "longest_first",
+        "measurement": "Tokenizer overflow metadata; retained tokens include special and prefix tokens."
+      },
+      "fingerprint": {
+        "model_id": "minilm_multilingual",
+        "repo": "Xenova/paraphrase-multilingual-MiniLM-L12-v2",
+        "revision": "2c4055b12046f11709e9df2c122e59ffbdc2f900",
+        "files": {
+          "onnx/model.onnx": {
+            "sha256": "185ae63f47e17a7e8d30d0e6a3cde6a6e4b79bc5b81666ecffc279a6856ca113",
+            "size": 470268510
+          },
+          "tokenizer.json": {
+            "sha256": "b60b6b43406a48bf3638526314f3d232d97058bc93472ff2de930d43686fa441",
+            "size": 17082913
+          }
+        },
+        "runtime": "onnxruntime-directml",
+        "runtime_version": "1.24.4",
+        "provider": "DmlExecutionProvider",
+        "device_id": 0,
+        "mem_pattern": false,
+        "execution_mode": "sequential",
+        "padding_mode": "fixed_max_length",
+        "spec_sha256": "b2047ed774ef3be4ef2d2ebfcee1fa1c9b92d752ca464d6cc6b79293a9fc5eaa"
+      }
+    },
+    {
+      "model": "e5_small+reranker_multilingual",
+      "kind": "joint_embedding_rerank_memory_smoke",
+      "max_length": 512,
+      "batch_size": 8,
+      "items": 8,
+      "embedding_shape": [
+        8,
+        384
+      ],
+      "wall_ms": 1187.6537995412946,
+      "embedding_wall_ms": 873.786199837923,
+      "rerank_wall_ms": 313.8675997033715,
+      "items_per_second": 6.735969693432401,
+      "simultaneous_sessions": [
+        "e5_small",
+        "reranker_multilingual"
+      ],
+      "encoder_preallocated_before_reranker_load": true,
+      "gpu_proof": {
+        "e5_small": {
+          "provider": "DmlExecutionProvider",
+          "dml_kernel_events": 698,
+          "dml_compute_events": 588,
+          "cpu_kernel_events": 4,
+          "other_provider_kernel_events": 0,
+          "cpu_ops": {
+            "Gather": 2,
+            "Unsqueeze": 2
+          },
+          "dml_ops": {
+            "Shape": 2,
+            "Slice": 2,
+            "Gather": 6,
+            "Add": 196,
+            "LayerNormalization": 50,
+            "MatMul": 168,
+            "Reshape": 96,
+            "Transpose": 96,
+            "FusedMatMul": 24,
+            "Unsqueeze": 4,
+            "Cast": 2,
+            "Sub": 2,
+            "Mul": 2,
+            "Softmax": 24,
+            "BiasGelu": 24
+          },
+          "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+          "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+          "profile_sha256": "54ac13b651705a82f10806db9c07b43c10973337150b3feca39183b8e0622039",
+          "inference_calls_before_profile_end": 2,
+          "model_id": "e5_small",
+          "device_id": 0
+        },
+        "reranker_multilingual": {
+          "provider": "DmlExecutionProvider",
+          "dml_kernel_events": 423,
+          "dml_compute_events": 339,
+          "cpu_kernel_events": 148,
+          "other_provider_kernel_events": 0,
+          "cpu_ops": {
+            "Gather": 40,
+            "Unsqueeze": 28,
+            "Concat": 14,
+            "Reshape": 2,
+            "Equal": 2,
+            "Where": 2,
+            "Slice": 12,
+            "Cast": 12,
+            "Sqrt": 24,
+            "Div": 12
+          },
+          "dml_ops": {
+            "Equal": 1,
+            "Not": 1,
+            "Cast": 4,
+            "CumSum": 1,
+            "Mul": 25,
+            "Add": 99,
+            "Gather": 4,
+            "Shape": 26,
+            "Slice": 1,
+            "Expand": 2,
+            "LayerNormalization": 25,
+            "MatMul": 96,
+            "Reshape": 48,
+            "MemcpyFromHost": 12,
+            "Transpose": 48,
+            "Unsqueeze": 2,
+            "Sub": 1,
+            "Where": 1,
+            "Softmax": 12,
+            "BiasGelu": 12,
+            "DmlFusedGemm": 1,
+            "Gemm": 1
+          },
+          "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+          "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+          "profile_sha256": "38dd0f944a082ba3407d57ca4d924d0e4d6fbc2ece9de30c66e0cecc207ae9fa",
+          "inference_calls_before_profile_end": 1,
+          "model_id": "reranker_multilingual",
+          "device_id": 0
+        }
+      },
+      "fingerprint": {
+        "e5_small": {
+          "model_id": "e5_small",
+          "repo": "intfloat/multilingual-e5-small",
+          "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+          "files": {
+            "onnx/model.onnx": {
+              "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665",
+              "size": 470268510
+            },
+            "tokenizer.json": {
+              "sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+              "size": 17082730
+            }
+          },
+          "runtime": "onnxruntime-directml",
+          "runtime_version": "1.24.4",
+          "provider": "DmlExecutionProvider",
+          "device_id": 0,
+          "mem_pattern": false,
+          "execution_mode": "sequential",
+          "padding_mode": "fixed_max_length",
+          "spec_sha256": "54069129687694e99d1088fbdab0d93cc1e1a3061a22d499edb8d011943a5c91"
+        },
+        "reranker_multilingual": {
+          "model_id": "reranker_multilingual",
+          "repo": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+          "revision": "1427fd652930e4ba29e8149678df786c240d8825",
+          "files": {
+            "onnx/model.onnx": {
+              "sha256": "3e9a03ed1e966f7c5288dd4230e3d6a9bf5e3a170a06f1f4241c5bca12c6487c",
+              "size": 470883696
+            },
+            "tokenizer.json": {
+              "sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+              "size": 17082660
+            }
+          },
+          "runtime": "onnxruntime-directml",
+          "runtime_version": "1.24.4",
+          "provider": "DmlExecutionProvider",
+          "device_id": 0,
+          "mem_pattern": false,
+          "execution_mode": "sequential",
+          "padding_mode": "fixed_max_length",
+          "spec_sha256": "0cf9a968ec87c293ee2cef873fe9745f80655a1c60bc8af352eadff165623195"
+        }
+      },
+      "token_telemetry": {
+        "e5_small": {
+          "items": 8,
+          "truncated_items": 2,
+          "retained_tokens": 3180,
+          "padded_tokens": 916,
+          "max_length": 512,
+          "padding_mode": "fixed_max_length",
+          "truncation_strategy": "longest_first",
+          "measurement": "Tokenizer overflow metadata; retained tokens include special and prefix tokens."
+        },
+        "reranker_multilingual": {
+          "items": 8,
+          "truncated_items": 2,
+          "retained_tokens": 3246,
+          "padded_tokens": 850,
+          "max_length": 512,
+          "padding_mode": "fixed_max_length",
+          "truncation_strategy": "only_second",
+          "measurement": "Tokenizer overflow metadata; retained tokens include special and prefix tokens."
+        }
+      },
+      "limitation": "Successful joint inference proves this batch fits at pilot time, not a VRAM peak or stress-test guarantee."
+    },
+    {
+      "model": "reranker_multilingual",
+      "kind": "rerank",
+      "max_length": 512,
+      "items": 8,
+      "wall_ms": 187.495700083673,
+      "items_per_second": 42.667645158954954,
+      "gpu_proof": {
+        "provider": "DmlExecutionProvider",
+        "dml_kernel_events": 423,
+        "dml_compute_events": 339,
+        "cpu_kernel_events": 148,
+        "other_provider_kernel_events": 0,
+        "cpu_ops": {
+          "Gather": 40,
+          "Unsqueeze": 28,
+          "Concat": 14,
+          "Reshape": 2,
+          "Equal": 2,
+          "Where": 2,
+          "Slice": 12,
+          "Cast": 12,
+          "Sqrt": 24,
+          "Div": 12
+        },
+        "dml_ops": {
+          "Equal": 1,
+          "Not": 1,
+          "Cast": 4,
+          "CumSum": 1,
+          "Mul": 25,
+          "Add": 99,
+          "Gather": 4,
+          "Shape": 26,
+          "Slice": 1,
+          "Expand": 2,
+          "LayerNormalization": 25,
+          "MatMul": 96,
+          "Reshape": 48,
+          "MemcpyFromHost": 12,
+          "Transpose": 48,
+          "Unsqueeze": 2,
+          "Sub": 1,
+          "Where": 1,
+          "Softmax": 12,
+          "BiasGelu": 12,
+          "DmlFusedGemm": 1,
+          "Gemm": 1
+        },
+        "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+        "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+        "profile_sha256": "ae9fec130ad9b26aad50813591be6a8e72fbfb2110551bde6621b3bc27b272a4",
+        "inference_calls_before_profile_end": 1,
+        "model_id": "reranker_multilingual",
+        "device_id": 0
+      },
+      "fingerprint": {
+        "model_id": "reranker_multilingual",
+        "repo": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+        "revision": "1427fd652930e4ba29e8149678df786c240d8825",
+        "files": {
+          "onnx/model.onnx": {
+            "sha256": "3e9a03ed1e966f7c5288dd4230e3d6a9bf5e3a170a06f1f4241c5bca12c6487c",
+            "size": 470883696
+          },
+          "tokenizer.json": {
+            "sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+            "size": 17082660
+          }
+        },
+        "runtime": "onnxruntime-directml",
+        "runtime_version": "1.24.4",
+        "provider": "DmlExecutionProvider",
+        "device_id": 0,
+        "mem_pattern": false,
+        "execution_mode": "sequential",
+        "padding_mode": "fixed_max_length",
+        "spec_sha256": "0cf9a968ec87c293ee2cef873fe9745f80655a1c60bc8af352eadff165623195"
+      },
+      "token_telemetry": {
+        "items": 8,
+        "truncated_items": 2,
+        "retained_tokens": 3246,
+        "padded_tokens": 850,
+        "max_length": 512,
+        "padding_mode": "fixed_max_length",
+        "truncation_strategy": "only_second",
+        "measurement": "Tokenizer overflow metadata; retained tokens include special and prefix tokens."
+      }
+    },
+    {
+      "model": "reranker_en",
+      "kind": "rerank",
+      "max_length": 512,
+      "items": 8,
+      "wall_ms": 101.66510008275509,
+      "items_per_second": 78.6897371220608,
+      "gpu_proof": {
+        "provider": "DmlExecutionProvider",
+        "dml_kernel_events": 184,
+        "dml_compute_events": 152,
+        "cpu_kernel_events": 2,
+        "other_provider_kernel_events": 0,
+        "cpu_ops": {
+          "Gather": 1,
+          "Unsqueeze": 1
+        },
+        "dml_ops": {
+          "Shape": 1,
+          "Slice": 1,
+          "Gather": 4,
+          "Add": 50,
+          "LayerNormalization": 13,
+          "MatMul": 42,
+          "Reshape": 24,
+          "Transpose": 24,
+          "FusedMatMul": 6,
+          "Unsqueeze": 2,
+          "Cast": 1,
+          "Sub": 1,
+          "Mul": 1,
+          "Softmax": 6,
+          "BiasGelu": 6,
+          "DmlFusedGemm": 1,
+          "Gemm": 1
+        },
+        "evidence": "ONNX Runtime executed Node kernel events with DmlExecutionProvider",
+        "limitation": "Profile events prove DML dispatch; their host durations are not GPU-only kernel timings. Verify the adapter identity and GPU telemetry separately.",
+        "profile_sha256": "546dc2db5f19f057704f5bdbedd95e372dcbbde270d3f9fa24d11f845a7368bc",
+        "inference_calls_before_profile_end": 1,
+        "model_id": "reranker_en",
+        "device_id": 0
+      },
+      "fingerprint": {
+        "model_id": "reranker_en",
+        "repo": "Xenova/ms-marco-MiniLM-L-6-v2",
+        "revision": "a09144355adeed5f58c8ed011d209bf8ee5a1fec",
+        "files": {
+          "onnx/model.onnx": {
+            "sha256": "c623d0bcb99f4622beb413eaef00cfbe5db20df9f1dd982da4b4f26022881870",
+            "size": 90992115
+          },
+          "tokenizer.json": {
+            "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+            "size": 711396
+          }
+        },
+        "runtime": "onnxruntime-directml",
+        "runtime_version": "1.24.4",
+        "provider": "DmlExecutionProvider",
+        "device_id": 0,
+        "mem_pattern": false,
+        "execution_mode": "sequential",
+        "padding_mode": "fixed_max_length",
+        "spec_sha256": "071a92edc5247faaea18f666e07ceb1bf885e8fb9810c006c8ed8d8b129f1e23"
+      },
+      "token_telemetry": {
+        "items": 8,
+        "truncated_items": 2,
+        "retained_tokens": 3008,
+        "padded_tokens": 1088,
+        "max_length": 512,
+        "padding_mode": "fixed_max_length",
+        "truncation_strategy": "only_second",
+        "measurement": "Tokenizer overflow metadata; retained tokens include special and prefix tokens."
+      }
+    }
+  ],
+  "query_tokenizer_preflight": {
+    "checked_at_utc": "2026-10-15T07:57:17.199228+00:00",
+    "status": "passed",
+    "scope": "public_query_tokenizer_preflight_only_no_GPU_inference",
+    "rows": [
+      {
+        "dataset": "fiqa",
+        "tokenizer": "e5_small",
+        "tokenizer_sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+        "queries_sha256": "69d0e632cfb8c98d18a74b2704529f75feeae09e009f41242f6181940c12ffd4",
+        "queries": 648,
+        "max_query_tokens": 34,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "fiqa",
+        "tokenizer": "minilm_multilingual",
+        "tokenizer_sha256": "b60b6b43406a48bf3638526314f3d232d97058bc93472ff2de930d43686fa441",
+        "queries_sha256": "69d0e632cfb8c98d18a74b2704529f75feeae09e009f41242f6181940c12ffd4",
+        "queries": 648,
+        "max_query_tokens": 34,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "fiqa",
+        "tokenizer": "reranker_en",
+        "tokenizer_sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+        "queries_sha256": "69d0e632cfb8c98d18a74b2704529f75feeae09e009f41242f6181940c12ffd4",
+        "queries": 648,
+        "max_query_tokens": 33,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "fiqa",
+        "tokenizer": "reranker_multilingual",
+        "tokenizer_sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+        "queries_sha256": "69d0e632cfb8c98d18a74b2704529f75feeae09e009f41242f6181940c12ffd4",
+        "queries": 648,
+        "max_query_tokens": 34,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "scifact",
+        "tokenizer": "e5_small",
+        "tokenizer_sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+        "queries_sha256": "11f22622cf0f269262a741f23e6f7fd1fcfe616044c3200f65428c60c7eab8f4",
+        "queries": 300,
+        "max_query_tokens": 64,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "scifact",
+        "tokenizer": "minilm_multilingual",
+        "tokenizer_sha256": "b60b6b43406a48bf3638526314f3d232d97058bc93472ff2de930d43686fa441",
+        "queries_sha256": "11f22622cf0f269262a741f23e6f7fd1fcfe616044c3200f65428c60c7eab8f4",
+        "queries": 300,
+        "max_query_tokens": 64,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "scifact",
+        "tokenizer": "reranker_en",
+        "tokenizer_sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+        "queries_sha256": "11f22622cf0f269262a741f23e6f7fd1fcfe616044c3200f65428c60c7eab8f4",
+        "queries": 300,
+        "max_query_tokens": 62,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "scifact",
+        "tokenizer": "reranker_multilingual",
+        "tokenizer_sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+        "queries_sha256": "11f22622cf0f269262a741f23e6f7fd1fcfe616044c3200f65428c60c7eab8f4",
+        "queries": 300,
+        "max_query_tokens": 64,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "t2retrieval",
+        "tokenizer": "e5_small",
+        "tokenizer_sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+        "queries_sha256": "69bae1239c8f37919ba11ab864d777c585bcb3b83bcc45b7956b24dc12a66f6c",
+        "queries": 1000,
+        "max_query_tokens": 21,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "t2retrieval",
+        "tokenizer": "minilm_multilingual",
+        "tokenizer_sha256": "b60b6b43406a48bf3638526314f3d232d97058bc93472ff2de930d43686fa441",
+        "queries_sha256": "69bae1239c8f37919ba11ab864d777c585bcb3b83bcc45b7956b24dc12a66f6c",
+        "queries": 1000,
+        "max_query_tokens": 21,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "t2retrieval",
+        "tokenizer": "reranker_en",
+        "tokenizer_sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+        "queries_sha256": "69bae1239c8f37919ba11ab864d777c585bcb3b83bcc45b7956b24dc12a66f6c",
+        "queries": 1000,
+        "max_query_tokens": 25,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      },
+      {
+        "dataset": "t2retrieval",
+        "tokenizer": "reranker_multilingual",
+        "tokenizer_sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+        "queries_sha256": "69bae1239c8f37919ba11ab864d777c585bcb3b83bcc45b7956b24dc12a66f6c",
+        "queries": 1000,
+        "max_query_tokens": 21,
+        "over_500_tokens": 0,
+        "only_second_pair_encoding_passed": true
+      }
+    ]
+  },
+  "limitations": [
+    "Cold tiny public-data pilots prove all four graphs ran on DirectML, including one encoder and multilingual reranker simultaneously resident at batch8 and512tokens. They do not estimate retrieval quality or full-corpus throughput.",
+    "Encoder length variants reuse one session; cached profile proof must not be counted twice. CPU shape operators are listed explicitly.",
+    "Passing joint execution proves these batches fit during this smoke; it is not a measured peak allocation or concurrent service load benchmark."
+  ]
+}
