@@ -473,6 +473,31 @@ def planned_counts(matrix, datasets):
             "queries_by_dataset": per_dataset, "basis": "configured_primary_campaign_not_measured_results"}
 
 
+def reconcile_run_status(state, campaign):
+    """A native worker exit can leave its last saved state running indefinitely."""
+    worker_status = safe_id(state["status"]) if state.get("status") is not None else None
+    supervisor_phase = safe_id(campaign["phase"]) if campaign.get("phase") is not None else None
+    returncode = campaign.get("returncode")
+    if returncode is not None and type(returncode) is not int:
+        raise ValueError("invalid_supervisor_returncode")
+    supervisor = {
+        "available": bool(campaign), "phase": supervisor_phase, "returncode": returncode,
+        "failed_step": safe_id(campaign["failed_step"]) if campaign.get("failed_step") else None,
+        "incomplete_step": safe_id(campaign["incomplete_step"]) if campaign.get("incomplete_step") else None,
+    }
+    terminal_incomplete = {"failed", "budget_exhausted", "incomplete_stopped", "incomplete_deadline"}
+    if supervisor_phase in terminal_incomplete:
+        effective, basis = supervisor_phase, "supervisor_terminal_status"
+    elif worker_status is not None:
+        effective, basis = worker_status, "worker_saved_status"
+    elif supervisor_phase is not None:
+        effective, basis = supervisor_phase, "supervisor_phase"
+    else:
+        effective, basis = "not_started", "no_status_available"
+    return {"source_run_status": effective, "source_run_status_basis": basis,
+            "worker_run_status": worker_status, "supervisor_status": supervisor}
+
+
 def build_report(run_dir, *, matrix=None, datasets=None, analysis_date=None, samples=2000, seed=20261015, case_count=2):
     run_dir = Path(run_dir)
     matrix = read_json(MATRIX_PATH) if matrix is None else matrix
@@ -493,8 +518,8 @@ def build_report(run_dir, *, matrix=None, datasets=None, analysis_date=None, sam
     state = read_json(state_path) if state_path.exists() else {}
     campaign_path = run_dir.parent / "campaign-status.local.json"
     campaign = read_json(campaign_path) if campaign_path.exists() else {}
-    source_status = state.get("status", campaign.get("phase", "not_started"))
-    source_status = safe_id(source_status)
+    status = reconcile_run_status(state, campaign)
+    source_status = status["source_run_status"]
     state_checks = {
         "run_fingerprints_match": bool(state) and all(job["run_fingerprint"] == state.get("fingerprint") for job in jobs),
         "completed_job_ids_match": bool(state) and set(state.get("completed_jobs", [])) ==
@@ -526,7 +551,7 @@ def build_report(run_dir, *, matrix=None, datasets=None, analysis_date=None, sam
     return {
         "schema_version": 1, "analysis_date": analysis_date or datetime.now(timezone(timedelta(hours=8))).date().isoformat(),
         "analysis_timezone": "Asia/Shanghai", "publication_status": publication_status,
-        "source_run_status": source_status, "campaign_complete_verified": complete,
+        **status, "campaign_complete_verified": complete,
         "run_state_reconciliation": state_checks,
         "exporter_sha256": sha256(Path(__file__)),
         "planned": plan,
@@ -562,7 +587,11 @@ def build_report(run_dir, *, matrix=None, datasets=None, analysis_date=None, sam
 def render_markdown(report):
     status = report["publication_status"]
     lines = ["# 公开数据 GPU 检索消融：增益与证据", "",
-             f"分析日期：{report['analysis_date']}（Asia/Shanghai）。发布状态：**{status}**；运行器状态：`{report['source_run_status']}`。", "",
+             f"分析日期：{report['analysis_date']}（Asia/Shanghai）。发布状态：**{status}**；有效运行状态：`{report['source_run_status']}`。", "",
+             f"Worker 保存状态：`{report.get('worker_run_status') or 'unavailable'}`；"
+             f"supervisor 状态：`{report.get('supervisor_status', {}).get('phase') or 'unavailable'}`；"
+             f"supervisor 退出码：`{report.get('supervisor_status', {}).get('returncode')}`。"
+             "监督器的明确失败或停止优先于 worker 留存状态；这些是状态文件快照，不是存活探测。", "",
              "只有完整 query/配置记录、聚合复核及实际 GPU 执行证据通过验证的 job 进入质量表。原始文本、模型文件和本机路径不在本报告内。", "",
              "| 项目 | 计划 | 已核验完成 |", "|---|---:|---:|",
              f"| dataset × model × length jobs | {report['planned']['jobs']} | {report['observed']['completed_verified_jobs']} |",

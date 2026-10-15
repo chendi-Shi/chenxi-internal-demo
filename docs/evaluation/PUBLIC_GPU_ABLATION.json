@@ -2,15 +2,24 @@
   "schema_version": 1,
   "analysis_date": "2026-10-15",
   "analysis_timezone": "Asia/Shanghai",
-  "publication_status": "no_completed_results",
-  "source_run_status": "running",
+  "publication_status": "partial_results",
+  "source_run_status": "failed",
+  "source_run_status_basis": "supervisor_terminal_status",
+  "worker_run_status": "running",
+  "supervisor_status": {
+    "available": true,
+    "phase": "failed",
+    "returncode": 3221225477,
+    "failed_step": "gpu_experiments",
+    "incomplete_step": null
+  },
   "campaign_complete_verified": false,
   "run_state_reconciliation": {
     "run_fingerprints_match": true,
     "completed_job_ids_match": true,
     "planned_query_counts_match": true
   },
-  "exporter_sha256": "c82a979bc70d3ae232f8d8e73354c41b88bf143e3b45bf9b1cbd588e5f9069da",
+  "exporter_sha256": "05331bb45571392e5e0afbd5adb09f9efd061037d51fac7745627c52f1461702",
   "planned": {
     "jobs": 12,
     "configuration_cells": 216,
@@ -24,13 +33,4825 @@
     "basis": "configured_primary_campaign_not_measured_results"
   },
   "observed": {
-    "completed_verified_jobs": 0,
+    "completed_verified_jobs": 1,
     "rejected_job_reports": 0,
-    "configuration_cells": 0,
-    "query_configuration_observations": 0,
-    "unique_queries_by_dataset": {}
+    "configuration_cells": 18,
+    "query_configuration_observations": 5400,
+    "unique_queries_by_dataset": {
+      "scifact": 300
+    }
   },
-  "jobs": [],
+  "jobs": [
+    {
+      "job_fingerprint": "8cd2db0523461e7d49c866b47efc894422a57880c2c966592ea0d83f0ce00540",
+      "dataset": "scifact",
+      "embedding_model": "e5_small",
+      "max_length": 256,
+      "status": "completed_verified",
+      "corpus_sha256": "7e064e9cbe193b3b3a803fdae3f42d23cd4f60d0ae9bc37e0ba28f752ac9b6ba",
+      "query_sha256": "ab4d1c417c9f152c9b12eea84c9fc176dd93f7eb780c718873e501c7ea810c73",
+      "run_fingerprint": "a940c84254064464db9089fbcc69c25a5b4a906566eb9cdbc23685b6733bb94e",
+      "corpus_count": 5183,
+      "query_count": 300,
+      "evaluation_split": "test",
+      "observation_count": 5400,
+      "completed_at": "2026-10-15T08:38:09.784724+00:00",
+      "corpus_diagnostics": {
+        "empty_document_count": 0,
+        "selected_positive_qrel_pairs_to_empty_documents": 0,
+        "selected_queries_with_positive_empty_documents": 0,
+        "empty_document_ids": []
+      },
+      "rewrite_diagnostics": {
+        "lexical": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "dense": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "normalized": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf_rerank": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf_rewrite": {
+          "rewrite_enabled": true,
+          "queries": 300,
+          "queries_with_additional_variants": 36,
+          "additional_variant_fraction": 0.12,
+          "mean_variants": 1.12
+        },
+        "rrf_rewrite_rerank": {
+          "rewrite_enabled": true,
+          "queries": 300,
+          "queries_with_additional_variants": 36,
+          "additional_variant_fraction": 0.12,
+          "mean_variants": 1.12
+        },
+        "rrf_k10": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf_k100": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf_candidates25": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf_candidates50": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf_candidates200": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf_rerank20": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "rrf_rerank100": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "lexical_rerank": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "dense_rerank": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        },
+        "lexical_rewrite": {
+          "rewrite_enabled": true,
+          "queries": 300,
+          "queries_with_additional_variants": 36,
+          "additional_variant_fraction": 0.12,
+          "mean_variants": 1.12
+        },
+        "rrf_rerank_english": {
+          "rewrite_enabled": false,
+          "queries": 300,
+          "queries_with_additional_variants": 0,
+          "additional_variant_fraction": 0.0,
+          "mean_variants": 1.0
+        }
+      },
+      "retrieval_backends": {
+        "lexical": "SQLite_FTS5_BM25_with_production_tokens",
+        "dense": "CPU_exact_scan_of_GPU_encoded_vectors",
+        "rerank": "GPU_cross_encoder_cached_raw_logits"
+      },
+      "aggregates": {
+        "dense": {
+          "configuration": {
+            "id": "dense",
+            "lexical": false,
+            "dense": true,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5098333333333332,
+              "mrr_at_k": 0.5366666666666666,
+              "ndcg_at_k": 0.5366666666666666
+            },
+            "3": {
+              "recall_at_k": 0.6501111111111111,
+              "mrr_at_k": 0.595,
+              "ndcg_at_k": 0.6026987098368193
+            },
+            "5": {
+              "recall_at_k": 0.7086666666666667,
+              "mrr_at_k": 0.6078333333333333,
+              "ndcg_at_k": 0.6257538426978532
+            },
+            "10": {
+              "recall_at_k": 0.7927777777777778,
+              "mrr_at_k": 0.618797619047619,
+              "ndcg_at_k": 0.6549527876692794
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.917,
+          "rerank_pool_recall": null,
+          "p50_ms": 0.6114999999999999,
+          "p95_ms": 53.811
+        },
+        "dense_rerank": {
+          "configuration": {
+            "id": "dense_rerank",
+            "lexical": false,
+            "dense": true,
+            "rerank": true,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5567777777777778,
+              "mrr_at_k": 0.58,
+              "ndcg_at_k": 0.58
+            },
+            "3": {
+              "recall_at_k": 0.666611111111111,
+              "mrr_at_k": 0.6283333333333333,
+              "ndcg_at_k": 0.6308379430574643
+            },
+            "5": {
+              "recall_at_k": 0.6907222222222222,
+              "mrr_at_k": 0.6331666666666667,
+              "ndcg_at_k": 0.6404491757727402
+            },
+            "10": {
+              "recall_at_k": 0.7534444444444445,
+              "mrr_at_k": 0.6403134920634921,
+              "ndcg_at_k": 0.6616849879562029
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.917,
+          "rerank_pool_recall": 0.8936666666666667,
+          "p50_ms": 5.420999999999999,
+          "p95_ms": 1035.136
+        },
+        "lexical": {
+          "configuration": {
+            "id": "lexical",
+            "lexical": true,
+            "dense": false,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5281666666666667,
+              "mrr_at_k": 0.5466666666666666,
+              "ndcg_at_k": 0.5466666666666666
+            },
+            "3": {
+              "recall_at_k": 0.6773333333333333,
+              "mrr_at_k": 0.615,
+              "ndcg_at_k": 0.6241291987313308
+            },
+            "5": {
+              "recall_at_k": 0.7242777777777778,
+              "mrr_at_k": 0.6263333333333333,
+              "ndcg_at_k": 0.643917042867887
+            },
+            "10": {
+              "recall_at_k": 0.8006111111111112,
+              "mrr_at_k": 0.6354748677248677,
+              "ndcg_at_k": 0.6700276898728806
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.8858888888888888,
+          "rerank_pool_recall": null,
+          "p50_ms": 0.6585000000000001,
+          "p95_ms": 3.288
+        },
+        "lexical_rerank": {
+          "configuration": {
+            "id": "lexical_rerank",
+            "lexical": true,
+            "dense": false,
+            "rerank": true,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5494444444444445,
+              "mrr_at_k": 0.57,
+              "ndcg_at_k": 0.57
+            },
+            "3": {
+              "recall_at_k": 0.6727777777777778,
+              "mrr_at_k": 0.6233333333333333,
+              "ndcg_at_k": 0.6300406277409696
+            },
+            "5": {
+              "recall_at_k": 0.6978888888888889,
+              "mrr_at_k": 0.6288333333333334,
+              "ndcg_at_k": 0.6402102594666436
+            },
+            "10": {
+              "recall_at_k": 0.7528333333333334,
+              "mrr_at_k": 0.6361044973544974,
+              "ndcg_at_k": 0.6595730048428524
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.8858888888888888,
+          "rerank_pool_recall": 0.8760555555555556,
+          "p50_ms": 245.705,
+          "p95_ms": 996.357
+        },
+        "lexical_rewrite": {
+          "configuration": {
+            "id": "lexical_rewrite",
+            "lexical": true,
+            "dense": false,
+            "rerank": false,
+            "rewrite": true,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5281666666666667,
+              "mrr_at_k": 0.5466666666666666,
+              "ndcg_at_k": 0.5466666666666666
+            },
+            "3": {
+              "recall_at_k": 0.6773333333333333,
+              "mrr_at_k": 0.615,
+              "ndcg_at_k": 0.6241291987313308
+            },
+            "5": {
+              "recall_at_k": 0.7242777777777778,
+              "mrr_at_k": 0.6263333333333333,
+              "ndcg_at_k": 0.643917042867887
+            },
+            "10": {
+              "recall_at_k": 0.8006111111111112,
+              "mrr_at_k": 0.6354378306878307,
+              "ndcg_at_k": 0.6699878059750604
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.8858888888888888,
+          "rerank_pool_recall": null,
+          "p50_ms": 1.204,
+          "p95_ms": 6.266
+        },
+        "normalized": {
+          "configuration": {
+            "id": "normalized",
+            "lexical": true,
+            "dense": true,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "normalized"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5415,
+              "mrr_at_k": 0.5633333333333334,
+              "ndcg_at_k": 0.5633333333333334
+            },
+            "3": {
+              "recall_at_k": 0.6801111111111111,
+              "mrr_at_k": 0.6266666666666667,
+              "ndcg_at_k": 0.6324077716016752
+            },
+            "5": {
+              "recall_at_k": 0.7382777777777777,
+              "mrr_at_k": 0.6406666666666666,
+              "ndcg_at_k": 0.6567231402829266
+            },
+            "10": {
+              "recall_at_k": 0.8047777777777778,
+              "mrr_at_k": 0.6488809523809523,
+              "ndcg_at_k": 0.6804668378845161
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": null,
+          "p50_ms": 1.618,
+          "p95_ms": 59.752
+        },
+        "rrf": {
+          "configuration": {
+            "id": "rrf",
+            "lexical": true,
+            "dense": true,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5313333333333333,
+              "mrr_at_k": 0.5566666666666666,
+              "ndcg_at_k": 0.5566666666666666
+            },
+            "3": {
+              "recall_at_k": 0.6914444444444444,
+              "mrr_at_k": 0.6277777777777778,
+              "ndcg_at_k": 0.6361075928774677
+            },
+            "5": {
+              "recall_at_k": 0.7425555555555556,
+              "mrr_at_k": 0.6389444444444444,
+              "ndcg_at_k": 0.6564698980300764
+            },
+            "10": {
+              "recall_at_k": 0.8213888888888888,
+              "mrr_at_k": 0.6487142857142858,
+              "ndcg_at_k": 0.6842269641598296
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": null,
+          "p50_ms": 1.5875,
+          "p95_ms": 58.776
+        },
+        "rrf_candidates200": {
+          "configuration": {
+            "id": "rrf_candidates200",
+            "lexical": true,
+            "dense": true,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 200,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5313333333333333,
+              "mrr_at_k": 0.5566666666666666,
+              "ndcg_at_k": 0.5566666666666666
+            },
+            "3": {
+              "recall_at_k": 0.6914444444444444,
+              "mrr_at_k": 0.6277777777777778,
+              "ndcg_at_k": 0.6361075928774677
+            },
+            "5": {
+              "recall_at_k": 0.7425555555555556,
+              "mrr_at_k": 0.6389444444444444,
+              "ndcg_at_k": 0.6564698980300764
+            },
+            "10": {
+              "recall_at_k": 0.8347222222222221,
+              "mrr_at_k": 0.6503015873015873,
+              "ndcg_at_k": 0.6883569163377237
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.98,
+          "rerank_pool_recall": null,
+          "p50_ms": 2.3315,
+          "p95_ms": 59.958
+        },
+        "rrf_candidates25": {
+          "configuration": {
+            "id": "rrf_candidates25",
+            "lexical": true,
+            "dense": true,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 25,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5313333333333333,
+              "mrr_at_k": 0.5566666666666666,
+              "ndcg_at_k": 0.5566666666666666
+            },
+            "3": {
+              "recall_at_k": 0.6997777777777778,
+              "mrr_at_k": 0.6316666666666667,
+              "ndcg_at_k": 0.6408992707106482
+            },
+            "5": {
+              "recall_at_k": 0.7558888888888889,
+              "mrr_at_k": 0.6436666666666666,
+              "ndcg_at_k": 0.6631960147050524
+            },
+            "10": {
+              "recall_at_k": 0.8340555555555556,
+              "mrr_at_k": 0.653265873015873,
+              "ndcg_at_k": 0.6905115366107726
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.938,
+          "rerank_pool_recall": null,
+          "p50_ms": 1.036,
+          "p95_ms": 58.038
+        },
+        "rrf_candidates50": {
+          "configuration": {
+            "id": "rrf_candidates50",
+            "lexical": true,
+            "dense": true,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 50,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5313333333333333,
+              "mrr_at_k": 0.5566666666666666,
+              "ndcg_at_k": 0.5566666666666666
+            },
+            "3": {
+              "recall_at_k": 0.6914444444444444,
+              "mrr_at_k": 0.6277777777777778,
+              "ndcg_at_k": 0.6361075928774677
+            },
+            "5": {
+              "recall_at_k": 0.7475555555555556,
+              "mrr_at_k": 0.6396111111111111,
+              "ndcg_at_k": 0.658258257702409
+            },
+            "10": {
+              "recall_at_k": 0.8263888888888888,
+              "mrr_at_k": 0.6499140211640212,
+              "ndcg_at_k": 0.6861882290932264
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9510000000000001,
+          "rerank_pool_recall": null,
+          "p50_ms": 1.2000000000000002,
+          "p95_ms": 56.66
+        },
+        "rrf_k10": {
+          "configuration": {
+            "id": "rrf_k10",
+            "lexical": true,
+            "dense": true,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 10,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.538,
+              "mrr_at_k": 0.5633333333333334,
+              "ndcg_at_k": 0.5633333333333334
+            },
+            "3": {
+              "recall_at_k": 0.709111111111111,
+              "mrr_at_k": 0.6405555555555555,
+              "ndcg_at_k": 0.6497004951669716
+            },
+            "5": {
+              "recall_at_k": 0.7692222222222223,
+              "mrr_at_k": 0.6525555555555556,
+              "ndcg_at_k": 0.6740470183563336
+            },
+            "10": {
+              "recall_at_k": 0.8522222222222222,
+              "mrr_at_k": 0.6626468253968254,
+              "ndcg_at_k": 0.7026518321307744
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": null,
+          "p50_ms": 1.618,
+          "p95_ms": 59.046
+        },
+        "rrf_k100": {
+          "configuration": {
+            "id": "rrf_k100",
+            "lexical": true,
+            "dense": true,
+            "rerank": false,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 100,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5313333333333333,
+              "mrr_at_k": 0.5566666666666666,
+              "ndcg_at_k": 0.5566666666666666
+            },
+            "3": {
+              "recall_at_k": 0.6914444444444444,
+              "mrr_at_k": 0.6277777777777778,
+              "ndcg_at_k": 0.6361075928774677
+            },
+            "5": {
+              "recall_at_k": 0.7492222222222222,
+              "mrr_at_k": 0.6402777777777778,
+              "ndcg_at_k": 0.6590489167449733
+            },
+            "10": {
+              "recall_at_k": 0.8097222222222222,
+              "mrr_at_k": 0.6479193121693121,
+              "ndcg_at_k": 0.680900763498012
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": null,
+          "p50_ms": 1.598,
+          "p95_ms": 58.733
+        },
+        "rrf_rerank": {
+          "configuration": {
+            "id": "rrf_rerank",
+            "lexical": true,
+            "dense": true,
+            "rerank": true,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5527777777777778,
+              "mrr_at_k": 0.5733333333333334,
+              "ndcg_at_k": 0.5733333333333334
+            },
+            "3": {
+              "recall_at_k": 0.6802777777777778,
+              "mrr_at_k": 0.6277777777777778,
+              "ndcg_at_k": 0.6358227589510076
+            },
+            "5": {
+              "recall_at_k": 0.7093888888888888,
+              "mrr_at_k": 0.6347777777777778,
+              "ndcg_at_k": 0.6477338316685829
+            },
+            "10": {
+              "recall_at_k": 0.7644444444444445,
+              "mrr_at_k": 0.6410119047619047,
+              "ndcg_at_k": 0.666722854833267
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": 0.9463333333333332,
+          "p50_ms": 3.912,
+          "p95_ms": 891.854
+        },
+        "rrf_rerank100": {
+          "configuration": {
+            "id": "rrf_rerank100",
+            "lexical": true,
+            "dense": true,
+            "rerank": true,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 100,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5527777777777778,
+              "mrr_at_k": 0.5733333333333334,
+              "ndcg_at_k": 0.5733333333333334
+            },
+            "3": {
+              "recall_at_k": 0.6702777777777779,
+              "mrr_at_k": 0.6238888888888888,
+              "ndcg_at_k": 0.6303863264391026
+            },
+            "5": {
+              "recall_at_k": 0.6987222222222222,
+              "mrr_at_k": 0.6303888888888889,
+              "ndcg_at_k": 0.6420061280677665
+            },
+            "10": {
+              "recall_at_k": 0.7454444444444445,
+              "mrr_at_k": 0.6355767195767196,
+              "ndcg_at_k": 0.6579898127750639
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": 0.9510000000000001,
+          "p50_ms": 883.819,
+          "p95_ms": 2030.695
+        },
+        "rrf_rerank20": {
+          "configuration": {
+            "id": "rrf_rerank20",
+            "lexical": true,
+            "dense": true,
+            "rerank": true,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 20,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5561111111111111,
+              "mrr_at_k": 0.5766666666666667,
+              "ndcg_at_k": 0.5766666666666667
+            },
+            "3": {
+              "recall_at_k": 0.6706111111111112,
+              "mrr_at_k": 0.6305555555555555,
+              "ndcg_at_k": 0.6350371140673319
+            },
+            "5": {
+              "recall_at_k": 0.7117222222222223,
+              "mrr_at_k": 0.6388888888888888,
+              "ndcg_at_k": 0.6505638901168563
+            },
+            "10": {
+              "recall_at_k": 0.7877777777777778,
+              "mrr_at_k": 0.6482791005291005,
+              "ndcg_at_k": 0.6767355823747042
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": 0.882888888888889,
+          "p50_ms": 2.602,
+          "p95_ms": 508.494
+        },
+        "rrf_rerank_english": {
+          "configuration": {
+            "id": "rrf_rerank_english",
+            "lexical": true,
+            "dense": true,
+            "rerank": true,
+            "rewrite": false,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5602777777777778,
+              "mrr_at_k": 0.5866666666666667,
+              "ndcg_at_k": 0.5866666666666667
+            },
+            "3": {
+              "recall_at_k": 0.6949444444444444,
+              "mrr_at_k": 0.6461111111111112,
+              "ndcg_at_k": 0.6484996671727976
+            },
+            "5": {
+              "recall_at_k": 0.7482222222222222,
+              "mrr_at_k": 0.6571111111111111,
+              "ndcg_at_k": 0.6711021504045172
+            },
+            "10": {
+              "recall_at_k": 0.8428888888888889,
+              "mrr_at_k": 0.667755291005291,
+              "ndcg_at_k": 0.7024705940153495
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": 0.9463333333333332,
+          "p50_ms": 2815.0150000000003,
+          "p95_ms": 4395.128
+        },
+        "rrf_rewrite": {
+          "configuration": {
+            "id": "rrf_rewrite",
+            "lexical": true,
+            "dense": true,
+            "rerank": false,
+            "rewrite": true,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5396666666666667,
+              "mrr_at_k": 0.5666666666666667,
+              "ndcg_at_k": 0.5666666666666667
+            },
+            "3": {
+              "recall_at_k": 0.6964444444444444,
+              "mrr_at_k": 0.6344444444444445,
+              "ndcg_at_k": 0.6428245442811599
+            },
+            "5": {
+              "recall_at_k": 0.7425555555555556,
+              "mrr_at_k": 0.6446111111111111,
+              "ndcg_at_k": 0.6604000890385797
+            },
+            "10": {
+              "recall_at_k": 0.8213888888888888,
+              "mrr_at_k": 0.6543809523809524,
+              "ndcg_at_k": 0.6881571551683331
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": null,
+          "p50_ms": 1.9895,
+          "p95_ms": 65.251
+        },
+        "rrf_rewrite_rerank": {
+          "configuration": {
+            "id": "rrf_rewrite_rerank",
+            "lexical": true,
+            "dense": true,
+            "rerank": true,
+            "rewrite": true,
+            "candidate_limit": 100,
+            "rrf_k": 60,
+            "rerank_limit": 50,
+            "max_variants": 3,
+            "result_limit": 10,
+            "fusion": "rrf"
+          },
+          "metrics": {
+            "1": {
+              "recall_at_k": 0.5527777777777778,
+              "mrr_at_k": 0.5733333333333334,
+              "ndcg_at_k": 0.5733333333333334
+            },
+            "3": {
+              "recall_at_k": 0.6802777777777778,
+              "mrr_at_k": 0.6277777777777778,
+              "ndcg_at_k": 0.6358227589510076
+            },
+            "5": {
+              "recall_at_k": 0.7093888888888888,
+              "mrr_at_k": 0.6347777777777778,
+              "ndcg_at_k": 0.6477338316685829
+            },
+            "10": {
+              "recall_at_k": 0.7644444444444445,
+              "mrr_at_k": 0.6409920634920635,
+              "ndcg_at_k": 0.6667356662243268
+            }
+          },
+          "questions": 300,
+          "observations": 300,
+          "candidate_recall": 0.9543333333333334,
+          "rerank_pool_recall": 0.9463333333333332,
+          "p50_ms": 5.082,
+          "p95_ms": 913.129
+        }
+      },
+      "comparisons": [
+        {
+          "experiment": "dense",
+          "reference": "lexical",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5098333333333332,
+                "reference": 0.5281666666666667,
+                "delta": -0.018333333333333424,
+                "delta_pp": -1.8333333333333424,
+                "relative_percent": -3.4711265383401875
+              },
+              "mrr_at_k": {
+                "candidate": 0.5366666666666666,
+                "reference": 0.5466666666666666,
+                "delta": -0.010000000000000009,
+                "delta_pp": -1.0000000000000009,
+                "relative_percent": -1.8292682926829285
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5366666666666666,
+                "reference": 0.5466666666666666,
+                "delta": -0.010000000000000009,
+                "delta_pp": -1.0000000000000009,
+                "relative_percent": -1.8292682926829285
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6501111111111111,
+                "reference": 0.6773333333333333,
+                "delta": -0.02722222222222226,
+                "delta_pp": -2.722222222222226,
+                "relative_percent": -4.019028871391082
+              },
+              "mrr_at_k": {
+                "candidate": 0.595,
+                "reference": 0.615,
+                "delta": -0.020000000000000018,
+                "delta_pp": -2.0000000000000018,
+                "relative_percent": -3.2520325203252063
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6026987098368193,
+                "reference": 0.6241291987313308,
+                "delta": -0.02143048889451149,
+                "delta_pp": -2.143048889451149,
+                "relative_percent": -3.433662283077495
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7086666666666667,
+                "reference": 0.7242777777777778,
+                "delta": -0.015611111111111131,
+                "delta_pp": -1.5611111111111131,
+                "relative_percent": -2.1554038505791238
+              },
+              "mrr_at_k": {
+                "candidate": 0.6078333333333333,
+                "reference": 0.6263333333333333,
+                "delta": -0.01849999999999996,
+                "delta_pp": -1.849999999999996,
+                "relative_percent": -2.953698775944645
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6257538426978532,
+                "reference": 0.643917042867887,
+                "delta": -0.01816320017003381,
+                "delta_pp": -1.816320017003381,
+                "relative_percent": -2.820736051516557
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.7927777777777778,
+                "reference": 0.8006111111111112,
+                "delta": -0.007833333333333359,
+                "delta_pp": -0.7833333333333359,
+                "relative_percent": -0.9784192630629411
+              },
+              "mrr_at_k": {
+                "candidate": 0.618797619047619,
+                "reference": 0.6354748677248677,
+                "delta": -0.016677248677248735,
+                "delta_pp": -1.6677248677248735,
+                "relative_percent": -2.624375805286644
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6549527876692794,
+                "reference": 0.6700276898728806,
+                "delta": -0.015074902203601193,
+                "delta_pp": -1.5074902203601193,
+                "relative_percent": -2.2498924195895906
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": -0.015074902203601238,
+            "wins": 71,
+            "ties": 153,
+            "losses": 76,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.05368471433751121,
+              0.02283336728254775
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1221",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 1.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "19736671": 1
+                },
+                "before_candidate_recall": 0.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 0.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选正例覆盖增加；最终排序变化仍需结合正例名次，不能据此断定语义原因。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1241",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 1.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "4427392": 1
+                },
+                "before_candidate_recall": 0.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 0.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选正例覆盖增加；最终排序变化仍需结合正例名次，不能据此断定语义原因。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1363",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": -1.0,
+                "before_positive_ranks": {
+                  "8290953": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 0.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 0.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选正例覆盖下降；这是已观察到的覆盖变化，不单独证明总体退化原因。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "198",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "2177022": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "normalized",
+          "reference": "lexical",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5415,
+                "reference": 0.5281666666666667,
+                "delta": 0.013333333333333308,
+                "delta_pp": 1.3333333333333308,
+                "relative_percent": 2.524455664247392
+              },
+              "mrr_at_k": {
+                "candidate": 0.5633333333333334,
+                "reference": 0.5466666666666666,
+                "delta": 0.01666666666666672,
+                "delta_pp": 1.6666666666666718,
+                "relative_percent": 3.048780487804888
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5633333333333334,
+                "reference": 0.5466666666666666,
+                "delta": 0.01666666666666672,
+                "delta_pp": 1.6666666666666718,
+                "relative_percent": 3.048780487804888
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6801111111111111,
+                "reference": 0.6773333333333333,
+                "delta": 0.002777777777777768,
+                "delta_pp": 0.2777777777777768,
+                "relative_percent": 0.41010498687663893
+              },
+              "mrr_at_k": {
+                "candidate": 0.6266666666666667,
+                "reference": 0.615,
+                "delta": 0.011666666666666714,
+                "delta_pp": 1.1666666666666714,
+                "relative_percent": 1.8970189701897096
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6324077716016752,
+                "reference": 0.6241291987313308,
+                "delta": 0.008278572870344392,
+                "delta_pp": 0.8278572870344392,
+                "relative_percent": 1.3264197360373895
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7382777777777777,
+                "reference": 0.7242777777777778,
+                "delta": 0.013999999999999901,
+                "delta_pp": 1.3999999999999901,
+                "relative_percent": 1.9329600368182727
+              },
+              "mrr_at_k": {
+                "candidate": 0.6406666666666666,
+                "reference": 0.6263333333333333,
+                "delta": 0.014333333333333309,
+                "delta_pp": 1.433333333333331,
+                "relative_percent": 2.2884513038850414
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6567231402829266,
+                "reference": 0.643917042867887,
+                "delta": 0.012806097415039575,
+                "delta_pp": 1.2806097415039575,
+                "relative_percent": 1.9887806289461751
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8047777777777778,
+                "reference": 0.8006111111111112,
+                "delta": 0.004166666666666652,
+                "delta_pp": 0.4166666666666652,
+                "relative_percent": 0.5204357782249651
+              },
+              "mrr_at_k": {
+                "candidate": 0.6488809523809523,
+                "reference": 0.6354748677248677,
+                "delta": 0.013406084656084616,
+                "delta_pp": 1.3406084656084616,
+                "relative_percent": 2.109616813656406
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6804668378845161,
+                "reference": 0.6700276898728806,
+                "delta": 0.01043914801163548,
+                "delta_pp": 1.043914801163548,
+                "relative_percent": 1.5580174027757003
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.01043914801163548,
+            "wins": 50,
+            "ties": 240,
+            "losses": 10,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.004798880002096216,
+              0.02441491878998971
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1395",
+                "language": "en",
+                "ndcg10_delta_pp": 50.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.5,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "17717391": 3
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "831",
+                "language": "en",
+                "ndcg10_delta_pp": 38.68528072345416,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.38685280723454163,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "1897324": 5
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1363",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "8290953": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "303",
+                "language": "en",
+                "ndcg10_delta_pp": -63.092975357145754,
+                "before_ndcg10": 0.6309297535714575,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "4388470": 2
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf",
+          "reference": "normalized",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5313333333333333,
+                "reference": 0.5415,
+                "delta": -0.010166666666666657,
+                "delta_pp": -1.0166666666666657,
+                "relative_percent": -1.8775007694675268
+              },
+              "mrr_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5633333333333334,
+                "delta": -0.00666666666666671,
+                "delta_pp": -0.666666666666671,
+                "relative_percent": -1.1834319526627295
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5633333333333334,
+                "delta": -0.00666666666666671,
+                "delta_pp": -0.666666666666671,
+                "relative_percent": -1.1834319526627295
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6914444444444444,
+                "reference": 0.6801111111111111,
+                "delta": 0.011333333333333306,
+                "delta_pp": 1.1333333333333306,
+                "relative_percent": 1.6663943800032635
+              },
+              "mrr_at_k": {
+                "candidate": 0.6277777777777778,
+                "reference": 0.6266666666666667,
+                "delta": 0.0011111111111110628,
+                "delta_pp": 0.11111111111110628,
+                "relative_percent": 0.17730496453899935
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6361075928774677,
+                "reference": 0.6324077716016752,
+                "delta": 0.003699821275792492,
+                "delta_pp": 0.3699821275792492,
+                "relative_percent": 0.585037287954589
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7425555555555556,
+                "reference": 0.7382777777777777,
+                "delta": 0.004277777777777936,
+                "delta_pp": 0.4277777777777936,
+                "relative_percent": 0.5794265934231534
+              },
+              "mrr_at_k": {
+                "candidate": 0.6389444444444444,
+                "reference": 0.6406666666666666,
+                "delta": -0.0017222222222221806,
+                "delta_pp": -0.17222222222221806,
+                "relative_percent": -0.2688172043010688
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6564698980300764,
+                "reference": 0.6567231402829266,
+                "delta": -0.0002532422528501721,
+                "delta_pp": -0.02532422528501721,
+                "relative_percent": -0.03856149377362756
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8213888888888888,
+                "reference": 0.8047777777777778,
+                "delta": 0.01661111111111102,
+                "delta_pp": 1.661111111111102,
+                "relative_percent": 2.0640618528234045
+              },
+              "mrr_at_k": {
+                "candidate": 0.6487142857142858,
+                "reference": 0.6488809523809523,
+                "delta": -0.0001666666666665373,
+                "delta_pp": -0.01666666666665373,
+                "relative_percent": -0.025685245661008205
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6842269641598296,
+                "reference": 0.6804668378845161,
+                "delta": 0.0037601262753135245,
+                "delta_pp": 0.37601262753135245,
+                "relative_percent": 0.5525803854017741
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.0037601262753135046,
+            "wins": 53,
+            "ties": 209,
+            "losses": 38,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.014591707693436998,
+              0.021704636565555685
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "830",
+                "language": "en",
+                "ndcg10_delta_pp": 56.932344192660686,
+                "before_ndcg10": 0.43067655807339306,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "1897324": 4
+                },
+                "after_positive_ranks": {
+                  "1897324": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "514",
+                "language": "en",
+                "ndcg10_delta_pp": 50.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.5,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "16256507": 3
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "743",
+                "language": "en",
+                "ndcg10_delta_pp": -69.89700043360187,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.3010299956639812,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "32159283": 1
+                },
+                "after_positive_ranks": {
+                  "32159283": 9
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "294",
+                "language": "en",
+                "ndcg10_delta_pp": -64.37928128919779,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.3562071871080222,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "10874408": 1
+                },
+                "after_positive_ranks": {
+                  "10874408": 6
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf",
+          "reference": "lexical",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5313333333333333,
+                "reference": 0.5281666666666667,
+                "delta": 0.003166666666666651,
+                "delta_pp": 0.3166666666666651,
+                "relative_percent": 0.5995582202587537
+              },
+              "mrr_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5466666666666666,
+                "delta": 0.010000000000000009,
+                "delta_pp": 1.0000000000000009,
+                "relative_percent": 1.8292682926829285
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5466666666666666,
+                "delta": 0.010000000000000009,
+                "delta_pp": 1.0000000000000009,
+                "relative_percent": 1.8292682926829285
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6914444444444444,
+                "reference": 0.6773333333333333,
+                "delta": 0.014111111111111074,
+                "delta_pp": 1.4111111111111074,
+                "relative_percent": 2.0833333333333277
+              },
+              "mrr_at_k": {
+                "candidate": 0.6277777777777778,
+                "reference": 0.615,
+                "delta": 0.012777777777777777,
+                "delta_pp": 1.2777777777777777,
+                "relative_percent": 2.077687443541102
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6361075928774677,
+                "reference": 0.6241291987313308,
+                "delta": 0.011978394146136884,
+                "delta_pp": 1.1978394146136884,
+                "relative_percent": 1.919217074042586
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7425555555555556,
+                "reference": 0.7242777777777778,
+                "delta": 0.018277777777777837,
+                "delta_pp": 1.8277777777777837,
+                "relative_percent": 2.5235867147349933
+              },
+              "mrr_at_k": {
+                "candidate": 0.6389444444444444,
+                "reference": 0.6263333333333333,
+                "delta": 0.012611111111111128,
+                "delta_pp": 1.2611111111111128,
+                "relative_percent": 2.0134823487670777
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6564698980300764,
+                "reference": 0.643917042867887,
+                "delta": 0.012552855162189402,
+                "delta_pp": 1.2552855162189402,
+                "relative_percent": 1.9494522316541454
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8213888888888888,
+                "reference": 0.8006111111111112,
+                "delta": 0.020777777777777673,
+                "delta_pp": 2.0777777777777673,
+                "relative_percent": 2.595239747415156
+              },
+              "mrr_at_k": {
+                "candidate": 0.6487142857142858,
+                "reference": 0.6354748677248677,
+                "delta": 0.013239417989418079,
+                "delta_pp": 1.3239417989418079,
+                "relative_percent": 2.0833897077343044
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6842269641598296,
+                "reference": 0.6700276898728806,
+                "delta": 0.014199274286949004,
+                "delta_pp": 1.4199274286949004,
+                "relative_percent": 2.1192070867463593
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.014199274286948983,
+            "wins": 64,
+            "ties": 197,
+            "losses": 39,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.009675967962122585,
+              0.03671964059207728
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "830",
+                "language": "en",
+                "ndcg10_delta_pp": 61.31471927654584,
+                "before_ndcg10": 0.38685280723454163,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "1897324": 5
+                },
+                "after_positive_ranks": {
+                  "1897324": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "514",
+                "language": "en",
+                "ndcg10_delta_pp": 50.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.5,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "16256507": 3
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1363",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "8290953": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "743",
+                "language": "en",
+                "ndcg10_delta_pp": -69.89700043360187,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.3010299956639812,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "32159283": 1
+                },
+                "after_positive_ranks": {
+                  "32159283": 9
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_rerank",
+          "reference": "rrf",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5527777777777778,
+                "reference": 0.5313333333333333,
+                "delta": 0.021444444444444488,
+                "delta_pp": 2.144444444444449,
+                "relative_percent": 4.035968214136353
+              },
+              "mrr_at_k": {
+                "candidate": 0.5733333333333334,
+                "reference": 0.5566666666666666,
+                "delta": 0.01666666666666672,
+                "delta_pp": 1.6666666666666718,
+                "relative_percent": 2.9940119760479136
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5733333333333334,
+                "reference": 0.5566666666666666,
+                "delta": 0.01666666666666672,
+                "delta_pp": 1.6666666666666718,
+                "relative_percent": 2.9940119760479136
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6802777777777778,
+                "reference": 0.6914444444444444,
+                "delta": -0.011166666666666658,
+                "delta_pp": -1.1166666666666658,
+                "relative_percent": -1.6149766993411525
+              },
+              "mrr_at_k": {
+                "candidate": 0.6277777777777778,
+                "reference": 0.6277777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6358227589510076,
+                "reference": 0.6361075928774677,
+                "delta": -0.00028483392646005967,
+                "delta_pp": -0.028483392646005967,
+                "relative_percent": -0.04477763347731753
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7093888888888888,
+                "reference": 0.7425555555555556,
+                "delta": -0.03316666666666679,
+                "delta_pp": -3.316666666666679,
+                "relative_percent": -4.466556935508021
+              },
+              "mrr_at_k": {
+                "candidate": 0.6347777777777778,
+                "reference": 0.6389444444444444,
+                "delta": -0.004166666666666652,
+                "delta_pp": -0.4166666666666652,
+                "relative_percent": -0.6521172071993717
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6477338316685829,
+                "reference": 0.6564698980300764,
+                "delta": -0.008736066361493489,
+                "delta_pp": -0.8736066361493489,
+                "relative_percent": -1.3307641961510386
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.7644444444444445,
+                "reference": 0.8213888888888888,
+                "delta": -0.05694444444444435,
+                "delta_pp": -5.694444444444436,
+                "relative_percent": -6.932702062901579
+              },
+              "mrr_at_k": {
+                "candidate": 0.6410119047619047,
+                "reference": 0.6487142857142858,
+                "delta": -0.0077023809523810716,
+                "delta_pp": -0.7702380952381072,
+                "relative_percent": -1.1873302503119907
+              },
+              "ndcg_at_k": {
+                "candidate": 0.666722854833267,
+                "reference": 0.6842269641598296,
+                "delta": -0.017504109326562656,
+                "delta_pp": -1.7504109326562656,
+                "relative_percent": -2.558231441237654
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": -0.017504109326562708,
+            "wins": 48,
+            "ties": 188,
+            "losses": 64,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.05114732185005201,
+              0.015920163901352292
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1088",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "37549932": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1241",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "4427392": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1303",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "12631697": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "659",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "1215116": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_rewrite",
+          "reference": "rrf",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5396666666666667,
+                "reference": 0.5313333333333333,
+                "delta": 0.008333333333333415,
+                "delta_pp": 0.8333333333333415,
+                "relative_percent": 1.56838143036388
+              },
+              "mrr_at_k": {
+                "candidate": 0.5666666666666667,
+                "reference": 0.5566666666666666,
+                "delta": 0.010000000000000009,
+                "delta_pp": 1.0000000000000009,
+                "relative_percent": 1.7964071856287442
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5666666666666667,
+                "reference": 0.5566666666666666,
+                "delta": 0.010000000000000009,
+                "delta_pp": 1.0000000000000009,
+                "relative_percent": 1.7964071856287442
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6964444444444444,
+                "reference": 0.6914444444444444,
+                "delta": 0.0050000000000000044,
+                "delta_pp": 0.5000000000000004,
+                "relative_percent": 0.723123895227383
+              },
+              "mrr_at_k": {
+                "candidate": 0.6344444444444445,
+                "reference": 0.6277777777777778,
+                "delta": 0.00666666666666671,
+                "delta_pp": 0.666666666666671,
+                "relative_percent": 1.061946902654874
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6428245442811599,
+                "reference": 0.6361075928774677,
+                "delta": 0.006716951403692217,
+                "delta_pp": 0.6716951403692217,
+                "relative_percent": 1.0559457989343781
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7425555555555556,
+                "reference": 0.7425555555555556,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6446111111111111,
+                "reference": 0.6389444444444444,
+                "delta": 0.005666666666666709,
+                "delta_pp": 0.5666666666666709,
+                "relative_percent": 0.8868794017911552
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6604000890385797,
+                "reference": 0.6564698980300764,
+                "delta": 0.0039301910085033365,
+                "delta_pp": 0.39301910085033365,
+                "relative_percent": 0.598685639706708
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8213888888888888,
+                "reference": 0.8213888888888888,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6543809523809524,
+                "reference": 0.6487142857142858,
+                "delta": 0.005666666666666598,
+                "delta_pp": 0.5666666666666598,
+                "relative_percent": 0.8735227189312085
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6881571551683331,
+                "reference": 0.6842269641598296,
+                "delta": 0.0039301910085034475,
+                "delta_pp": 0.39301910085034475,
+                "relative_percent": 0.5743987323459805
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.0039301910085034085,
+            "wins": 7,
+            "ties": 290,
+            "losses": 3,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              0.00044018499569882703,
+              0.00852128726068806
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1020",
+                "language": "en",
+                "ndcg10_delta_pp": 36.907024642854246,
+                "before_ndcg10": 0.6309297535714575,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "9433958": 2
+                },
+                "after_positive_ranks": {
+                  "9433958": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "268",
+                "language": "en",
+                "ndcg10_delta_pp": 36.907024642854246,
+                "before_ndcg10": 0.6309297535714575,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "970012": 2
+                },
+                "after_positive_ranks": {
+                  "970012": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1100",
+                "language": "en",
+                "ndcg10_delta_pp": -6.932344192660694,
+                "before_ndcg10": 0.5,
+                "after_ndcg10": 0.43067655807339306,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "7662206": 3
+                },
+                "after_positive_ranks": {
+                  "7662206": 4
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "54",
+                "language": "en",
+                "ndcg10_delta_pp": -4.382375083885143,
+                "before_ndcg10": 0.43067655807339306,
+                "after_ndcg10": 0.38685280723454163,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "49556906": 4
+                },
+                "after_positive_ranks": {
+                  "49556906": 5
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_rewrite_rerank",
+          "reference": "rrf_rewrite",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5527777777777778,
+                "reference": 0.5396666666666667,
+                "delta": 0.013111111111111073,
+                "delta_pp": 1.3111111111111073,
+                "relative_percent": 2.4294832200947014
+              },
+              "mrr_at_k": {
+                "candidate": 0.5733333333333334,
+                "reference": 0.5666666666666667,
+                "delta": 0.00666666666666671,
+                "delta_pp": 0.666666666666671,
+                "relative_percent": 1.1764705882353017
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5733333333333334,
+                "reference": 0.5666666666666667,
+                "delta": 0.00666666666666671,
+                "delta_pp": 0.666666666666671,
+                "relative_percent": 1.1764705882353017
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6802777777777778,
+                "reference": 0.6964444444444444,
+                "delta": -0.016166666666666663,
+                "delta_pp": -1.6166666666666663,
+                "relative_percent": -2.321314613911933
+              },
+              "mrr_at_k": {
+                "candidate": 0.6277777777777778,
+                "reference": 0.6344444444444445,
+                "delta": -0.00666666666666671,
+                "delta_pp": -0.666666666666671,
+                "relative_percent": -1.0507880910683078
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6358227589510076,
+                "reference": 0.6428245442811599,
+                "delta": -0.007001785330152277,
+                "delta_pp": -0.7001785330152277,
+                "relative_percent": -1.0892218401495606
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7093888888888888,
+                "reference": 0.7425555555555556,
+                "delta": -0.03316666666666679,
+                "delta_pp": -3.316666666666679,
+                "relative_percent": -4.466556935508021
+              },
+              "mrr_at_k": {
+                "candidate": 0.6347777777777778,
+                "reference": 0.6446111111111111,
+                "delta": -0.00983333333333336,
+                "delta_pp": -0.9833333333333361,
+                "relative_percent": -1.525467551495307
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6477338316685829,
+                "reference": 0.6604000890385797,
+                "delta": -0.012666257369996825,
+                "delta_pp": -1.2666257369996825,
+                "relative_percent": -1.917967241409151
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.7644444444444445,
+                "reference": 0.8213888888888888,
+                "delta": -0.05694444444444435,
+                "delta_pp": -5.694444444444436,
+                "relative_percent": -6.932702062901579
+              },
+              "mrr_at_k": {
+                "candidate": 0.6409920634920635,
+                "reference": 0.6543809523809524,
+                "delta": -0.013388888888888895,
+                "delta_pp": -1.3388888888888895,
+                "relative_percent": -2.0460389074855683
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6667356662243268,
+                "reference": 0.6881571551683331,
+                "delta": -0.021421488944006306,
+                "delta_pp": -2.1421488944006306,
+                "relative_percent": -3.1128774558431065
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": -0.02142148894400636,
+            "wins": 47,
+            "ties": 188,
+            "losses": 65,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.054967164891471326,
+              0.01191500100575149
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1088",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "37549932": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1241",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "4427392": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1303",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "12631697": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "659",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "1215116": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_rewrite_rerank",
+          "reference": "rrf_rerank",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5527777777777778,
+                "reference": 0.5527777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.5733333333333334,
+                "reference": 0.5733333333333334,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5733333333333334,
+                "reference": 0.5733333333333334,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6802777777777778,
+                "reference": 0.6802777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6277777777777778,
+                "reference": 0.6277777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6358227589510076,
+                "reference": 0.6358227589510076,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7093888888888888,
+                "reference": 0.7093888888888888,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6347777777777778,
+                "reference": 0.6347777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6477338316685829,
+                "reference": 0.6477338316685829,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.7644444444444445,
+                "reference": 0.7644444444444445,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6409920634920635,
+                "reference": 0.6410119047619047,
+                "delta": -1.9841269841225362e-05,
+                "delta_pp": -0.001984126984122536,
+                "relative_percent": -0.003095304423183082
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6667356662243268,
+                "reference": 0.666722854833267,
+                "delta": 1.2811391059797117e-05,
+                "delta_pp": 0.0012811391059797117,
+                "relative_percent": 0.001921546706689839
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 1.2811391059754928e-05,
+            "wins": 1,
+            "ties": 298,
+            "losses": 1,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.00014025039229678072,
+              0.0001786845654760455
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1245",
+                "language": "en",
+                "ndcg10_delta_pp": 1.786845654760455,
+                "before_ndcg10": 0.31546487678572877,
+                "after_ndcg10": 0.3333333333333333,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "7662395": 8
+                },
+                "after_positive_ranks": {
+                  "7662395": 7
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "619",
+                "language": "en",
+                "ndcg10_delta_pp": -1.4025039229678071,
+                "before_ndcg10": 0.21840743681816419,
+                "after_ndcg10": 0.20438239758848611,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "20888849": 6
+                },
+                "after_positive_ranks": {
+                  "20888849": 7
+                },
+                "before_candidate_recall": 0.5,
+                "before_rerank_pool_recall": 0.5,
+                "before_candidate_oracle_ndcg@10": 0.6131471927654584,
+                "before_rerank_pool_oracle_ndcg@10": 0.6131471927654584,
+                "after_candidate_recall": 0.5,
+                "after_rerank_pool_recall": 0.5,
+                "after_candidate_oracle_ndcg@10": 0.6131471927654584,
+                "after_rerank_pool_oracle_ndcg@10": 0.6131471927654584,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_k10",
+          "reference": "rrf",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.538,
+                "reference": 0.5313333333333333,
+                "delta": 0.00666666666666671,
+                "delta_pp": 0.666666666666671,
+                "relative_percent": 1.2547051442910997
+              },
+              "mrr_at_k": {
+                "candidate": 0.5633333333333334,
+                "reference": 0.5566666666666666,
+                "delta": 0.00666666666666671,
+                "delta_pp": 0.666666666666671,
+                "relative_percent": 1.1976047904191693
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5633333333333334,
+                "reference": 0.5566666666666666,
+                "delta": 0.00666666666666671,
+                "delta_pp": 0.666666666666671,
+                "relative_percent": 1.1976047904191693
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.709111111111111,
+                "reference": 0.6914444444444444,
+                "delta": 0.01766666666666661,
+                "delta_pp": 1.7666666666666608,
+                "relative_percent": 2.5550377631367422
+              },
+              "mrr_at_k": {
+                "candidate": 0.6405555555555555,
+                "reference": 0.6277777777777778,
+                "delta": 0.012777777777777777,
+                "delta_pp": 1.2777777777777777,
+                "relative_percent": 2.0353982300884956
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6497004951669716,
+                "reference": 0.6361075928774677,
+                "delta": 0.013592902289503939,
+                "delta_pp": 1.3592902289503939,
+                "relative_percent": 2.136887287890355
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7692222222222223,
+                "reference": 0.7425555555555556,
+                "delta": 0.026666666666666616,
+                "delta_pp": 2.6666666666666616,
+                "relative_percent": 3.591201556187334
+              },
+              "mrr_at_k": {
+                "candidate": 0.6525555555555556,
+                "reference": 0.6389444444444444,
+                "delta": 0.01361111111111113,
+                "delta_pp": 1.361111111111113,
+                "relative_percent": 2.130249543517958
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6740470183563336,
+                "reference": 0.6564698980300764,
+                "delta": 0.017577120326257245,
+                "delta_pp": 1.7577120326257245,
+                "relative_percent": 2.677521144381847
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8522222222222222,
+                "reference": 0.8213888888888888,
+                "delta": 0.03083333333333338,
+                "delta_pp": 3.083333333333338,
+                "relative_percent": 3.753804531619891
+              },
+              "mrr_at_k": {
+                "candidate": 0.6626468253968254,
+                "reference": 0.6487142857142858,
+                "delta": 0.013932539682539602,
+                "delta_pp": 1.3932539682539602,
+                "relative_percent": 2.1477158726663115
+              },
+              "ndcg_at_k": {
+                "candidate": 0.7026518321307744,
+                "reference": 0.6842269641598296,
+                "delta": 0.01842486797094478,
+                "delta_pp": 1.842486797094478,
+                "relative_percent": 2.6928006255305785
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.01842486797094473,
+            "wins": 39,
+            "ties": 243,
+            "losses": 18,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              0.007014507327992826,
+              0.029764930988025396
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "3",
+                "language": "en",
+                "ndcg10_delta_pp": 50.0,
+                "before_ndcg10": 0.5,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "14717500": 3
+                },
+                "after_positive_ranks": {
+                  "14717500": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "48",
+                "language": "en",
+                "ndcg10_delta_pp": 50.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.5,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "13734012": 3
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "820",
+                "language": "en",
+                "ndcg10_delta_pp": -38.68528072345416,
+                "before_ndcg10": 0.38685280723454163,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "8646760": 5
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1395",
+                "language": "en",
+                "ndcg10_delta_pp": -35.620718710802215,
+                "before_ndcg10": 0.3562071871080222,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "17717391": 6
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_k100",
+          "reference": "rrf",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5313333333333333,
+                "reference": 0.5313333333333333,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5566666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5566666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6914444444444444,
+                "reference": 0.6914444444444444,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6277777777777778,
+                "reference": 0.6277777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6361075928774677,
+                "reference": 0.6361075928774677,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7492222222222222,
+                "reference": 0.7425555555555556,
+                "delta": 0.006666666666666599,
+                "delta_pp": 0.6666666666666599,
+                "relative_percent": 0.897800389046826
+              },
+              "mrr_at_k": {
+                "candidate": 0.6402777777777778,
+                "reference": 0.6389444444444444,
+                "delta": 0.0013333333333334085,
+                "delta_pp": 0.13333333333334085,
+                "relative_percent": 0.20867750630381143
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6590489167449733,
+                "reference": 0.6564698980300764,
+                "delta": 0.0025790187148969634,
+                "delta_pp": 0.25790187148969634,
+                "relative_percent": 0.39286168682464173
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8097222222222222,
+                "reference": 0.8213888888888888,
+                "delta": -0.011666666666666603,
+                "delta_pp": -1.1666666666666603,
+                "relative_percent": -1.4203584714237327
+              },
+              "mrr_at_k": {
+                "candidate": 0.6479193121693121,
+                "reference": 0.6487142857142858,
+                "delta": -0.0007949735449737094,
+                "delta_pp": -0.07949735449737094,
+                "relative_percent": -0.12254602102655726
+              },
+              "ndcg_at_k": {
+                "candidate": 0.680900763498012,
+                "reference": 0.6842269641598296,
+                "delta": -0.0033262006618176576,
+                "delta_pp": -0.33262006618176576,
+                "relative_percent": -0.4861253408657957
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": -0.003326200661817679,
+            "wins": 4,
+            "ties": 288,
+            "losses": 8,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.007001315222560649,
+              -0.00020593689726768635
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "715",
+                "language": "en",
+                "ndcg10_delta_pp": 5.351947390120832,
+                "before_ndcg10": 0.3333333333333333,
+                "after_ndcg10": 0.38685280723454163,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "18421962": 7
+                },
+                "after_positive_ranks": {
+                  "18421962": 5
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "820",
+                "language": "en",
+                "ndcg10_delta_pp": 4.382375083885143,
+                "before_ndcg10": 0.38685280723454163,
+                "after_ndcg10": 0.43067655807339306,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "8646760": 5
+                },
+                "after_positive_ranks": {
+                  "8646760": 4
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1197",
+                "language": "en",
+                "ndcg10_delta_pp": -28.906482631788787,
+                "before_ndcg10": 0.2890648263178879,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "25649714": 10
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1362",
+                "language": "en",
+                "ndcg10_delta_pp": -28.906482631788787,
+                "before_ndcg10": 0.2890648263178879,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "8290953": 10
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_candidates25",
+          "reference": "rrf",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5313333333333333,
+                "reference": 0.5313333333333333,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5566666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5566666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6997777777777778,
+                "reference": 0.6914444444444444,
+                "delta": 0.008333333333333415,
+                "delta_pp": 0.8333333333333415,
+                "relative_percent": 1.205206492045649
+              },
+              "mrr_at_k": {
+                "candidate": 0.6316666666666667,
+                "reference": 0.6277777777777778,
+                "delta": 0.0038888888888889417,
+                "delta_pp": 0.38888888888889417,
+                "relative_percent": 0.619469026548681
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6408992707106482,
+                "reference": 0.6361075928774677,
+                "delta": 0.004791677833180574,
+                "delta_pp": 0.4791677833180574,
+                "relative_percent": 0.7532810308874253
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7558888888888889,
+                "reference": 0.7425555555555556,
+                "delta": 0.013333333333333308,
+                "delta_pp": 1.3333333333333308,
+                "relative_percent": 1.795600778093667
+              },
+              "mrr_at_k": {
+                "candidate": 0.6436666666666666,
+                "reference": 0.6389444444444444,
+                "delta": 0.004722222222222183,
+                "delta_pp": 0.4722222222222183,
+                "relative_percent": 0.7390661681592844
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6631960147050524,
+                "reference": 0.6564698980300764,
+                "delta": 0.006726116674976024,
+                "delta_pp": 0.6726116674976024,
+                "relative_percent": 1.0245887427831253
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8340555555555556,
+                "reference": 0.8213888888888888,
+                "delta": 0.012666666666666715,
+                "delta_pp": 1.2666666666666715,
+                "relative_percent": 1.5421034832600669
+              },
+              "mrr_at_k": {
+                "candidate": 0.653265873015873,
+                "reference": 0.6487142857142858,
+                "delta": 0.004551587301587223,
+                "delta_pp": 0.4551587301587223,
+                "relative_percent": 0.7016320438474027
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6905115366107726,
+                "reference": 0.6842269641598296,
+                "delta": 0.006284572450942938,
+                "delta_pp": 0.6284572450942938,
+                "relative_percent": 0.9184923687799762
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.00628457245094294,
+            "wins": 17,
+            "ties": 272,
+            "losses": 11,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.003545584544107595,
+              0.016203375703373952
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "48",
+                "language": "en",
+                "ndcg10_delta_pp": 50.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.5,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "13734012": 3
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1363",
+                "language": "en",
+                "ndcg10_delta_pp": 38.68528072345416,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.38685280723454163,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "8290953": 5
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1395",
+                "language": "en",
+                "ndcg10_delta_pp": -35.620718710802215,
+                "before_ndcg10": 0.3562071871080222,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": -1.0,
+                "before_positive_ranks": {
+                  "17717391": 6
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 0.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 0.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选正例覆盖下降；这是已观察到的覆盖变化，不单独证明总体退化原因。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1226",
+                "language": "en",
+                "ndcg10_delta_pp": -33.33333333333333,
+                "before_ndcg10": 0.3333333333333333,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "13777138": 7
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_candidates50",
+          "reference": "rrf",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5313333333333333,
+                "reference": 0.5313333333333333,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5566666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5566666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6914444444444444,
+                "reference": 0.6914444444444444,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6277777777777778,
+                "reference": 0.6277777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6361075928774677,
+                "reference": 0.6361075928774677,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7475555555555556,
+                "reference": 0.7425555555555556,
+                "delta": 0.0050000000000000044,
+                "delta_pp": 0.5000000000000004,
+                "relative_percent": 0.673350291785127
+              },
+              "mrr_at_k": {
+                "candidate": 0.6396111111111111,
+                "reference": 0.6389444444444444,
+                "delta": 0.0006666666666667043,
+                "delta_pp": 0.06666666666667043,
+                "relative_percent": 0.10433875315190572
+              },
+              "ndcg_at_k": {
+                "candidate": 0.658258257702409,
+                "reference": 0.6564698980300764,
+                "delta": 0.0017883596723325956,
+                "delta_pp": 0.17883596723325956,
+                "relative_percent": 0.2724206666138196
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8263888888888888,
+                "reference": 0.8213888888888888,
+                "delta": 0.0050000000000000044,
+                "delta_pp": 0.5000000000000004,
+                "relative_percent": 0.6087250591816036
+              },
+              "mrr_at_k": {
+                "candidate": 0.6499140211640212,
+                "reference": 0.6487142857142858,
+                "delta": 0.0011997354497353951,
+                "delta_pp": 0.11997354497353951,
+                "relative_percent": 0.184940500950182
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6861882290932264,
+                "reference": 0.6842269641598296,
+                "delta": 0.001961264933396767,
+                "delta_pp": 0.1961264933396767,
+                "relative_percent": 0.28663952695945377
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.0019612649333967504,
+            "wins": 11,
+            "ties": 284,
+            "losses": 5,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.0036863482675584167,
+              0.0076909013603597065
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "48",
+                "language": "en",
+                "ndcg10_delta_pp": 33.33333333333333,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.3333333333333333,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "13734012": 7
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1200",
+                "language": "en",
+                "ndcg10_delta_pp": 31.546487678572877,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.31546487678572877,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "3441524": 8
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1395",
+                "language": "en",
+                "ndcg10_delta_pp": -35.620718710802215,
+                "before_ndcg10": 0.3562071871080222,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "17717391": 6
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1362",
+                "language": "en",
+                "ndcg10_delta_pp": -28.906482631788787,
+                "before_ndcg10": 0.2890648263178879,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "8290953": 10
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_candidates200",
+          "reference": "rrf",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5313333333333333,
+                "reference": 0.5313333333333333,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5566666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5566666666666666,
+                "reference": 0.5566666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6914444444444444,
+                "reference": 0.6914444444444444,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6277777777777778,
+                "reference": 0.6277777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6361075928774677,
+                "reference": 0.6361075928774677,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7425555555555556,
+                "reference": 0.7425555555555556,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6389444444444444,
+                "reference": 0.6389444444444444,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6564698980300764,
+                "reference": 0.6564698980300764,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8347222222222221,
+                "reference": 0.8213888888888888,
+                "delta": 0.013333333333333308,
+                "delta_pp": 1.3333333333333308,
+                "relative_percent": 1.6232668244842716
+              },
+              "mrr_at_k": {
+                "candidate": 0.6503015873015873,
+                "reference": 0.6487142857142858,
+                "delta": 0.0015873015873014706,
+                "delta_pp": 0.15873015873014706,
+                "relative_percent": 0.24468423499472128
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6883569163377237,
+                "reference": 0.6842269641598296,
+                "delta": 0.004129952177894025,
+                "delta_pp": 0.4129952177894025,
+                "relative_percent": 0.6035938941642328
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.004129952177894088,
+            "wins": 6,
+            "ties": 292,
+            "losses": 2,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.0009829183075070135,
+              0.009435507657171075
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1049",
+                "language": "en",
+                "ndcg10_delta_pp": 33.33333333333333,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.3333333333333333,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "12486491": 7
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1196",
+                "language": "en",
+                "ndcg10_delta_pp": 31.546487678572877,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.31546487678572877,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "25649714": 8
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "785",
+                "language": "en",
+                "ndcg10_delta_pp": -33.33333333333333,
+                "before_ndcg10": 0.3333333333333333,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "12471115": 7
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1395",
+                "language": "en",
+                "ndcg10_delta_pp": -2.287385377468887,
+                "before_ndcg10": 0.3562071871080222,
+                "after_ndcg10": 0.3333333333333333,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "17717391": 6
+                },
+                "after_positive_ranks": {
+                  "17717391": 7
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_rerank20",
+          "reference": "rrf_rerank",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5561111111111111,
+                "reference": 0.5527777777777778,
+                "delta": 0.0033333333333332993,
+                "delta_pp": 0.33333333333332993,
+                "relative_percent": 0.6030150753768783
+              },
+              "mrr_at_k": {
+                "candidate": 0.5766666666666667,
+                "reference": 0.5733333333333334,
+                "delta": 0.0033333333333332993,
+                "delta_pp": 0.33333333333332993,
+                "relative_percent": 0.5813953488372033
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5766666666666667,
+                "reference": 0.5733333333333334,
+                "delta": 0.0033333333333332993,
+                "delta_pp": 0.33333333333332993,
+                "relative_percent": 0.5813953488372033
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6706111111111112,
+                "reference": 0.6802777777777778,
+                "delta": -0.009666666666666601,
+                "delta_pp": -0.9666666666666601,
+                "relative_percent": -1.4209881584320034
+              },
+              "mrr_at_k": {
+                "candidate": 0.6305555555555555,
+                "reference": 0.6277777777777778,
+                "delta": 0.002777777777777768,
+                "delta_pp": 0.2777777777777768,
+                "relative_percent": 0.4424778761061931
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6350371140673319,
+                "reference": 0.6358227589510076,
+                "delta": -0.0007856448836757179,
+                "delta_pp": -0.0785644883675718,
+                "relative_percent": -0.12356350454832565
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7117222222222223,
+                "reference": 0.7093888888888888,
+                "delta": 0.0023333333333334094,
+                "delta_pp": 0.23333333333334094,
+                "relative_percent": 0.328921607017005
+              },
+              "mrr_at_k": {
+                "candidate": 0.6388888888888888,
+                "reference": 0.6347777777777778,
+                "delta": 0.004111111111111065,
+                "delta_pp": 0.41111111111110654,
+                "relative_percent": 0.6476457202870574
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6505638901168563,
+                "reference": 0.6477338316685829,
+                "delta": 0.0028300584482734426,
+                "delta_pp": 0.28300584482734426,
+                "relative_percent": 0.4369168800374565
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.7877777777777778,
+                "reference": 0.7644444444444445,
+                "delta": 0.023333333333333317,
+                "delta_pp": 2.3333333333333317,
+                "relative_percent": 3.0523255813953467
+              },
+              "mrr_at_k": {
+                "candidate": 0.6482791005291005,
+                "reference": 0.6410119047619047,
+                "delta": 0.007267195767195811,
+                "delta_pp": 0.7267195767195811,
+                "relative_percent": 1.1337068334004052
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6767355823747042,
+                "reference": 0.666722854833267,
+                "delta": 0.010012727541437227,
+                "delta_pp": 1.0012727541437227,
+                "relative_percent": 1.5017825576027681
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.010012727541437196,
+            "wins": 39,
+            "ties": 253,
+            "losses": 8,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.006668070741133276,
+              0.02432438684479611
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "637",
+                "language": "en",
+                "ndcg10_delta_pp": 38.68528072345416,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 0.38685280723454163,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "25649714": 5
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1187",
+                "language": "en",
+                "ndcg10_delta_pp": 36.907024642854246,
+                "before_ndcg10": 0.6309297535714575,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "52873726": 2
+                },
+                "after_positive_ranks": {
+                  "52873726": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1088",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "37549932": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 0.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 0.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1241",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "4427392": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 0.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 0.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_rerank100",
+          "reference": "rrf_rerank",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5527777777777778,
+                "reference": 0.5527777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.5733333333333334,
+                "reference": 0.5733333333333334,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5733333333333334,
+                "reference": 0.5733333333333334,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6702777777777779,
+                "reference": 0.6802777777777778,
+                "delta": -0.009999999999999898,
+                "delta_pp": -0.9999999999999898,
+                "relative_percent": -1.4699877501020675
+              },
+              "mrr_at_k": {
+                "candidate": 0.6238888888888888,
+                "reference": 0.6277777777777778,
+                "delta": -0.0038888888888889417,
+                "delta_pp": -0.38888888888889417,
+                "relative_percent": -0.619469026548681
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6303863264391026,
+                "reference": 0.6358227589510076,
+                "delta": -0.005436432511904954,
+                "delta_pp": -0.5436432511904954,
+                "relative_percent": -0.8550232647969511
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.6987222222222222,
+                "reference": 0.7093888888888888,
+                "delta": -0.010666666666666602,
+                "delta_pp": -1.0666666666666602,
+                "relative_percent": -1.503641632077679
+              },
+              "mrr_at_k": {
+                "candidate": 0.6303888888888889,
+                "reference": 0.6347777777777778,
+                "delta": -0.004388888888888887,
+                "delta_pp": -0.43888888888888866,
+                "relative_percent": -0.6914055662524065
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6420061280677665,
+                "reference": 0.6477338316685829,
+                "delta": -0.005727703600816425,
+                "delta_pp": -0.5727703600816425,
+                "relative_percent": -0.8842680929698667
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.7454444444444445,
+                "reference": 0.7644444444444445,
+                "delta": -0.019000000000000017,
+                "delta_pp": -1.9000000000000017,
+                "relative_percent": -2.4854651162790717
+              },
+              "mrr_at_k": {
+                "candidate": 0.6355767195767196,
+                "reference": 0.6410119047619047,
+                "delta": -0.005435185185185154,
+                "delta_pp": -0.5435185185185154,
+                "relative_percent": -0.8479070583258482
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6579898127750639,
+                "reference": 0.666722854833267,
+                "delta": -0.008733042058203133,
+                "delta_pp": -0.8733042058203133,
+                "relative_percent": -1.3098459119699861
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": -0.008733042058203102,
+            "wins": 0,
+            "ties": 282,
+            "losses": 18,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.01448935034890653,
+              -0.003908109715570316
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [],
+            "losses": [
+              {
+                "query_id": "1197",
+                "language": "en",
+                "ndcg10_delta_pp": -35.620718710802215,
+                "before_ndcg10": 0.3562071871080222,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "25649714": 6
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1200",
+                "language": "en",
+                "ndcg10_delta_pp": -31.546487678572877,
+                "before_ndcg10": 0.31546487678572877,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "3441524": 8
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "lexical_rerank",
+          "reference": "lexical",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5494444444444445,
+                "reference": 0.5281666666666667,
+                "delta": 0.02127777777777784,
+                "delta_pp": 2.127777777777784,
+                "relative_percent": 4.028610497528149
+              },
+              "mrr_at_k": {
+                "candidate": 0.57,
+                "reference": 0.5466666666666666,
+                "delta": 0.023333333333333317,
+                "delta_pp": 2.3333333333333317,
+                "relative_percent": 4.268292682926827
+              },
+              "ndcg_at_k": {
+                "candidate": 0.57,
+                "reference": 0.5466666666666666,
+                "delta": 0.023333333333333317,
+                "delta_pp": 2.3333333333333317,
+                "relative_percent": 4.268292682926827
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6727777777777778,
+                "reference": 0.6773333333333333,
+                "delta": -0.004555555555555535,
+                "delta_pp": -0.4555555555555535,
+                "relative_percent": -0.6725721784776872
+              },
+              "mrr_at_k": {
+                "candidate": 0.6233333333333333,
+                "reference": 0.615,
+                "delta": 0.008333333333333304,
+                "delta_pp": 0.8333333333333304,
+                "relative_percent": 1.3550135501354965
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6300406277409696,
+                "reference": 0.6241291987313308,
+                "delta": 0.005911429009638813,
+                "delta_pp": 0.5911429009638813,
+                "relative_percent": 0.9471482862290359
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.6978888888888889,
+                "reference": 0.7242777777777778,
+                "delta": -0.026388888888888906,
+                "delta_pp": -2.6388888888888906,
+                "relative_percent": -3.6434762598757406
+              },
+              "mrr_at_k": {
+                "candidate": 0.6288333333333334,
+                "reference": 0.6263333333333333,
+                "delta": 0.0025000000000000577,
+                "delta_pp": 0.2500000000000058,
+                "relative_percent": 0.39914848323577296
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6402102594666436,
+                "reference": 0.643917042867887,
+                "delta": -0.0037067834012434187,
+                "delta_pp": -0.37067834012434187,
+                "relative_percent": -0.5756616387623619
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.7528333333333334,
+                "reference": 0.8006111111111112,
+                "delta": -0.04777777777777781,
+                "delta_pp": -4.77777777777778,
+                "relative_percent": -5.9676635903129585
+              },
+              "mrr_at_k": {
+                "candidate": 0.6361044973544974,
+                "reference": 0.6354748677248677,
+                "delta": 0.0006296296296296466,
+                "delta_pp": 0.06296296296296466,
+                "relative_percent": 0.09908017792801968
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6595730048428524,
+                "reference": 0.6700276898728806,
+                "delta": -0.010454685030028221,
+                "delta_pp": -1.0454685030028221,
+                "relative_percent": -1.5603362649104413
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": -0.010454685030028252,
+            "wins": 52,
+            "ties": 192,
+            "losses": 56,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.04357896301492964,
+              0.02290829412324226
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1368",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "2425364": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1382",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "17755060": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1344",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "9559146": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "1363",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "8290953": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "dense_rerank",
+          "reference": "dense",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5567777777777778,
+                "reference": 0.5098333333333332,
+                "delta": 0.046944444444444566,
+                "delta_pp": 4.694444444444457,
+                "relative_percent": 9.20780211398063
+              },
+              "mrr_at_k": {
+                "candidate": 0.58,
+                "reference": 0.5366666666666666,
+                "delta": 0.043333333333333335,
+                "delta_pp": 4.333333333333334,
+                "relative_percent": 8.074534161490686
+              },
+              "ndcg_at_k": {
+                "candidate": 0.58,
+                "reference": 0.5366666666666666,
+                "delta": 0.043333333333333335,
+                "delta_pp": 4.333333333333334,
+                "relative_percent": 8.074534161490686
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.666611111111111,
+                "reference": 0.6501111111111111,
+                "delta": 0.01649999999999996,
+                "delta_pp": 1.649999999999996,
+                "relative_percent": 2.5380276875747674
+              },
+              "mrr_at_k": {
+                "candidate": 0.6283333333333333,
+                "reference": 0.595,
+                "delta": 0.033333333333333326,
+                "delta_pp": 3.3333333333333326,
+                "relative_percent": 5.602240896358542
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6308379430574643,
+                "reference": 0.6026987098368193,
+                "delta": 0.028139233220645044,
+                "delta_pp": 2.8139233220645044,
+                "relative_percent": 4.668872317357995
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.6907222222222222,
+                "reference": 0.7086666666666667,
+                "delta": -0.01794444444444443,
+                "delta_pp": -1.794444444444443,
+                "relative_percent": -2.5321417372216977
+              },
+              "mrr_at_k": {
+                "candidate": 0.6331666666666667,
+                "reference": 0.6078333333333333,
+                "delta": 0.02533333333333332,
+                "delta_pp": 2.533333333333332,
+                "relative_percent": 4.1678091582122265
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6404491757727402,
+                "reference": 0.6257538426978532,
+                "delta": 0.014695333074887018,
+                "delta_pp": 1.4695333074887018,
+                "relative_percent": 2.348420748249835
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.7534444444444445,
+                "reference": 0.7927777777777778,
+                "delta": -0.03933333333333333,
+                "delta_pp": -3.933333333333333,
+                "relative_percent": -4.9614576033637
+              },
+              "mrr_at_k": {
+                "candidate": 0.6403134920634921,
+                "reference": 0.618797619047619,
+                "delta": 0.0215158730158731,
+                "delta_pp": 2.15158730158731,
+                "relative_percent": 3.4770452169786656
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6616849879562029,
+                "reference": 0.6549527876692794,
+                "delta": 0.006732200286923451,
+                "delta_pp": 0.6732200286923451,
+                "relative_percent": 1.0278909279676045
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.006732200286923423,
+            "wins": 58,
+            "ties": 182,
+            "losses": 60,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.025904697066550717,
+              0.038174473466663285
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1088",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "37549932": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "72",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "6076903": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "1221",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "19736671": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "384",
+                "language": "en",
+                "ndcg10_delta_pp": -100.0,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "13770184": 1
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "lexical_rewrite",
+          "reference": "lexical",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5281666666666667,
+                "reference": 0.5281666666666667,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.5466666666666666,
+                "reference": 0.5466666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5466666666666666,
+                "reference": 0.5466666666666666,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6773333333333333,
+                "reference": 0.6773333333333333,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.615,
+                "reference": 0.615,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6241291987313308,
+                "reference": 0.6241291987313308,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7242777777777778,
+                "reference": 0.7242777777777778,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6263333333333333,
+                "reference": 0.6263333333333333,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "ndcg_at_k": {
+                "candidate": 0.643917042867887,
+                "reference": 0.643917042867887,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8006111111111112,
+                "reference": 0.8006111111111112,
+                "delta": 0.0,
+                "delta_pp": 0.0,
+                "relative_percent": 0.0
+              },
+              "mrr_at_k": {
+                "candidate": 0.6354378306878307,
+                "reference": 0.6354748677248677,
+                "delta": -3.703703703705763e-05,
+                "delta_pp": -0.003703703703705763,
+                "relative_percent": -0.005828245760474829
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6699878059750604,
+                "reference": 0.6700276898728806,
+                "delta": -3.98838978202809e-05,
+                "delta_pp": -0.00398838978202809,
+                "relative_percent": -0.0059525745611868335
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": -3.988389782031106e-05,
+            "wins": 0,
+            "ties": 299,
+            "losses": 1,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.00011965169346093318,
+              0.0
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [],
+            "losses": [
+              {
+                "query_id": "54",
+                "language": "en",
+                "ndcg10_delta_pp": -1.1965169346093318,
+                "before_ndcg10": 0.3010299956639812,
+                "after_ndcg10": 0.2890648263178879,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "49556906": 9
+                },
+                "after_positive_ranks": {
+                  "49556906": 10
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": null,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": null,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": null,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": null,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        },
+        {
+          "experiment": "rrf_rerank_english",
+          "reference": "rrf_rerank",
+          "metrics": {
+            "1": {
+              "recall_at_k": {
+                "candidate": 0.5602777777777778,
+                "reference": 0.5527777777777778,
+                "delta": 0.007499999999999951,
+                "delta_pp": 0.7499999999999951,
+                "relative_percent": 1.356783919597981
+              },
+              "mrr_at_k": {
+                "candidate": 0.5866666666666667,
+                "reference": 0.5733333333333334,
+                "delta": 0.013333333333333308,
+                "delta_pp": 1.3333333333333308,
+                "relative_percent": 2.325581395348833
+              },
+              "ndcg_at_k": {
+                "candidate": 0.5866666666666667,
+                "reference": 0.5733333333333334,
+                "delta": 0.013333333333333308,
+                "delta_pp": 1.3333333333333308,
+                "relative_percent": 2.325581395348833
+              }
+            },
+            "3": {
+              "recall_at_k": {
+                "candidate": 0.6949444444444444,
+                "reference": 0.6802777777777778,
+                "delta": 0.014666666666666606,
+                "delta_pp": 1.4666666666666606,
+                "relative_percent": 2.1559820334830455
+              },
+              "mrr_at_k": {
+                "candidate": 0.6461111111111112,
+                "reference": 0.6277777777777778,
+                "delta": 0.018333333333333424,
+                "delta_pp": 1.8333333333333424,
+                "relative_percent": 2.9203539823008993
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6484996671727976,
+                "reference": 0.6358227589510076,
+                "delta": 0.012676908221790018,
+                "delta_pp": 1.2676908221790018,
+                "relative_percent": 1.9937801916220521
+              }
+            },
+            "5": {
+              "recall_at_k": {
+                "candidate": 0.7482222222222222,
+                "reference": 0.7093888888888888,
+                "delta": 0.038833333333333386,
+                "delta_pp": 3.8833333333333386,
+                "relative_percent": 5.474195316782842
+              },
+              "mrr_at_k": {
+                "candidate": 0.6571111111111111,
+                "reference": 0.6347777777777778,
+                "delta": 0.022333333333333316,
+                "delta_pp": 2.2333333333333316,
+                "relative_percent": 3.5182916156135104
+              },
+              "ndcg_at_k": {
+                "candidate": 0.6711021504045172,
+                "reference": 0.6477338316685829,
+                "delta": 0.023368318735934257,
+                "delta_pp": 2.3368318735934257,
+                "relative_percent": 3.6077039045091603
+              }
+            },
+            "10": {
+              "recall_at_k": {
+                "candidate": 0.8428888888888889,
+                "reference": 0.7644444444444445,
+                "delta": 0.07844444444444443,
+                "delta_pp": 7.844444444444443,
+                "relative_percent": 10.261627906976742
+              },
+              "mrr_at_k": {
+                "candidate": 0.667755291005291,
+                "reference": 0.6410119047619047,
+                "delta": 0.026743386243386236,
+                "delta_pp": 2.6743386243386236,
+                "relative_percent": 4.172057655203722
+              },
+              "ndcg_at_k": {
+                "candidate": 0.7024705940153495,
+                "reference": 0.666722854833267,
+                "delta": 0.035747739182082516,
+                "delta_pp": 3.5747739182082516,
+                "relative_percent": 5.361708980416196
+              }
+            }
+          },
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": 0.035747739182082454,
+            "wins": 64,
+            "ties": 195,
+            "losses": 41,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              0.010397751531618475,
+              0.061173887924729685
+            ]
+          },
+          "cases": {
+            "selection": "largest_positive_and_negative_ndcg10_deltas; diagnostic_not_prevalence",
+            "wins": [
+              {
+                "query_id": "1303",
+                "language": "en",
+                "ndcg10_delta_pp": 100.0,
+                "before_ndcg10": 0.0,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {},
+                "after_positive_ranks": {
+                  "12631697": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "75",
+                "language": "en",
+                "ndcg10_delta_pp": 66.66666666666667,
+                "before_ndcg10": 0.3333333333333333,
+                "after_ndcg10": 1.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "4387784": 7
+                },
+                "after_positive_ranks": {
+                  "4387784": 1
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ],
+            "losses": [
+              {
+                "query_id": "70",
+                "language": "en",
+                "ndcg10_delta_pp": -91.97207891481875,
+                "before_ndcg10": 0.9197207891481876,
+                "after_ndcg10": 0.0,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "5956380": 1,
+                  "4414547": 3
+                },
+                "after_positive_ranks": {},
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              },
+              {
+                "query_id": "185",
+                "language": "en",
+                "ndcg10_delta_pp": -56.932344192660686,
+                "before_ndcg10": 1.0,
+                "after_ndcg10": 0.43067655807339306,
+                "candidate_recall_delta": 0.0,
+                "before_positive_ranks": {
+                  "18340282": 1
+                },
+                "after_positive_ranks": {
+                  "18340282": 4
+                },
+                "before_candidate_recall": 1.0,
+                "before_rerank_pool_recall": 1.0,
+                "before_candidate_oracle_ndcg@10": 1.0,
+                "before_rerank_pool_oracle_ndcg@10": 1.0,
+                "after_candidate_recall": 1.0,
+                "after_rerank_pool_recall": 1.0,
+                "after_candidate_oracle_ndcg@10": 1.0,
+                "after_rerank_pool_oracle_ndcg@10": 1.0,
+                "observable_explanation": "候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。",
+                "semantic_cause": "not_identified"
+              }
+            ]
+          }
+        }
+      ],
+      "interactions": [
+        {
+          "factors": [
+            "rule_rewrite",
+            "rerank"
+          ],
+          "formula": "both - rewrite_only - rerank_only + rrf",
+          "paired_ndcg10": {
+            "paired_questions": 300,
+            "independent_clusters": 300,
+            "mean_delta": -0.003917379617443654,
+            "wins": 4,
+            "ties": 289,
+            "losses": 7,
+            "metric": "ndcg_at_10",
+            "bootstrap_95_percentile_interval": [
+              -0.00851698233603733,
+              -0.00040078885805430785
+            ]
+          }
+        }
+      ],
+      "uncertainty": {
+        "samples": 2000,
+        "seed": 20261015
+      },
+      "gpu_proofs": {
+        "e5_small": {
+          "dml_kernel_events": 349,
+          "dml_compute_events": 294,
+          "cpu_kernel_events": 2,
+          "other_provider_kernel_events": 0,
+          "inference_calls_before_profile_end": 1,
+          "device_id": 0,
+          "provider": "DmlExecutionProvider",
+          "profile_sha256": "685acf6181d2cc4d82d983e2c40b6fb424321de615efcda482bbd31b25095bbb",
+          "coverage_fraction": 1.0,
+          "indexed_documents": 5183,
+          "total_documents": 5183,
+          "passage_token_telemetry": {
+            "items": 5183,
+            "truncated_items": 4240,
+            "truncated_fraction": 0.8180590391665059,
+            "retained_tokens": 1277258,
+            "padded_tokens": 49590,
+            "max_length": 256,
+            "padding_mode": "fixed_max_length",
+            "truncation_strategy": "longest_first",
+            "status": "measured"
+          }
+        },
+        "reranker_multilingual": {
+          "dml_kernel_events": 423,
+          "dml_compute_events": 339,
+          "cpu_kernel_events": 148,
+          "other_provider_kernel_events": 0,
+          "inference_calls_before_profile_end": 1,
+          "device_id": 0,
+          "provider": "DmlExecutionProvider",
+          "profile_sha256": "befbf706978194df5f950c4ced9336797cca5ceb8d3e2885e2f136c2f673faaf",
+          "passage_token_telemetry": null
+        },
+        "reranker_en": {
+          "dml_kernel_events": 184,
+          "dml_compute_events": 152,
+          "cpu_kernel_events": 2,
+          "other_provider_kernel_events": 0,
+          "inference_calls_before_profile_end": 1,
+          "device_id": 0,
+          "provider": "DmlExecutionProvider",
+          "profile_sha256": "5845f7b58a558cc6785903bcb503f10798e3d1b75244e8cd94a08706e49dbf11",
+          "passage_token_telemetry": null
+        }
+      },
+      "failed_attempts_before_completion": 0,
+      "source_artifacts": {
+        "summary_sha256": "2ab056434c090b1c7e75fbdba131005830fef8b08fe1ddcacba6e5a8d43a9c46",
+        "query_results_sha256": "20d571584ef8700718f1cdf8b677672a6f3a0300ce74b395cf6e0478115d1bd4",
+        "query_deltas_sha256": "df97076cc08cf2989dc9dcc4541fbac2e5d3ce04d2745451fff3b21d3cb95c45"
+      }
+    }
+  ],
   "rejected_jobs": [],
   "cross_job_comparisons": [],
   "cross_job_comparisons_skipped": [],
@@ -46,9 +4867,110 @@
     "status": "awaiting_compatible_completed_job_pairs"
   },
   "inference_telemetry": {
-    "source": "unavailable",
+    "source": "latest_completed_job_cumulative_snapshot",
     "aggregation": "single_cumulative_snapshot_not_sum_of_jobs",
-    "rows": []
+    "rows": [
+      {
+        "kind": "dense_cpu_exact_scan",
+        "provider_fingerprint": "8e605c4ceb465c7120d38f76a876e5cba1a5a07eb173ec8b16c86a037c8f7efc",
+        "token_telemetry": null,
+        "max_length": 256,
+        "batches": 336,
+        "items": 336,
+        "wall_ms": 265.599999576807,
+        "items_per_second": 1265.0602429795354
+      },
+      {
+        "kind": "lexical_uncached",
+        "provider_fingerprint": "7e064e9cbe193b3b3a803fdae3f42d23cd4f60d0ae9bc37e0ba28f752ac9b6ba",
+        "token_telemetry": null,
+        "max_length": 0,
+        "batches": 336,
+        "items": 336,
+        "wall_ms": 918.9148992300034,
+        "items_per_second": 365.6486583050816
+      },
+      {
+        "kind": "pair_gpu_rerank",
+        "provider_fingerprint": "35fc7d71b61e72ba39ae33ef5a3879b53600b2c2fce1e7cda4b216c43f54c710",
+        "token_telemetry": {
+          "items": 15000,
+          "truncated_items": 2052,
+          "truncated_fraction": 0.1368,
+          "retained_tokens": 5451880,
+          "padded_tokens": 2228120,
+          "max_length": 512,
+          "padding_mode": "fixed_max_length",
+          "truncation_strategy": "only_second",
+          "status": "measured"
+        },
+        "max_length": 512,
+        "batches": 2100,
+        "items": 15000,
+        "wall_ms": 890999.2417944595,
+        "items_per_second": 16.835031160958362
+      },
+      {
+        "kind": "pair_gpu_rerank",
+        "provider_fingerprint": "67543136c61ecf2aab1362a5abc8b691164d49a7a0515efd4a52d5d432312ae7",
+        "token_telemetry": {
+          "items": 30033,
+          "truncated_items": 6369,
+          "truncated_fraction": 0.2120667266007392,
+          "retained_tokens": 11911660,
+          "padded_tokens": 3465236,
+          "max_length": 512,
+          "padding_mode": "fixed_max_length",
+          "truncation_strategy": "only_second",
+          "status": "measured"
+        },
+        "max_length": 512,
+        "batches": 4230,
+        "items": 30033,
+        "wall_ms": 657157.7787129208,
+        "items_per_second": 45.70135357572919
+      },
+      {
+        "kind": "passage_gpu_encode",
+        "provider_fingerprint": "645a6bc3263bfdfb8769d78325510f4af066446bab266acfba78ef76cb74ac3d",
+        "token_telemetry": {
+          "items": 5183,
+          "truncated_items": 4240,
+          "truncated_fraction": 0.8180590391665059,
+          "retained_tokens": 1277258,
+          "padded_tokens": 49590,
+          "max_length": 256,
+          "padding_mode": "fixed_max_length",
+          "truncation_strategy": "longest_first",
+          "status": "measured"
+        },
+        "max_length": 256,
+        "batches": 648,
+        "items": 5183,
+        "wall_ms": 30859.89590268582,
+        "items_per_second": 167.95260801734943
+      },
+      {
+        "kind": "query_gpu_encode",
+        "provider_fingerprint": "645a6bc3263bfdfb8769d78325510f4af066446bab266acfba78ef76cb74ac3d",
+        "token_telemetry": {
+          "items": 336,
+          "truncated_items": 0,
+          "truncated_fraction": 0.0,
+          "retained_tokens": 9676,
+          "padded_tokens": 76340,
+          "max_length": 256,
+          "padding_mode": "fixed_max_length",
+          "truncation_strategy": "longest_first",
+          "status": "measured"
+        },
+        "max_length": 256,
+        "batches": 336,
+        "items": 336,
+        "wall_ms": 17035.85450258106,
+        "items_per_second": 19.723108104092663
+      }
+    ]
   },
   "uncertainty": {
     "method": "paired_query_or_cluster_percentile_bootstrap",

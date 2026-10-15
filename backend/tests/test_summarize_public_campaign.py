@@ -205,6 +205,52 @@ class PublicCampaignExportTests(unittest.TestCase):
         self.assertEqual(report["publication_status"], "partial_results")
         self.assertEqual(report["source_run_status"], "budget_exhausted")
 
+    def test_supervisor_native_failure_overrides_stale_worker_running(self):
+        self.job()
+        save_json(self.run / "run_state.json", {"status": "running", "fingerprint": "run1"})
+        save_json(self.root / "campaign-status.local.json", {
+            "phase": "failed", "returncode": 3221225477, "failed_step": "gpu_experiments",
+            "reason": "SECRET path C:/private/native-error", "pid": 1234,
+        })
+        report = self.report()
+        self.assertEqual(report["publication_status"], "partial_results")
+        self.assertEqual(report["source_run_status"], "failed")
+        self.assertEqual(report["source_run_status_basis"], "supervisor_terminal_status")
+        self.assertEqual(report["worker_run_status"], "running")
+        self.assertEqual(report["supervisor_status"]["phase"], "failed")
+        self.assertEqual(report["supervisor_status"]["returncode"], 3221225477)
+        self.assertEqual(report["supervisor_status"]["failed_step"], "gpu_experiments")
+        self.assertFalse(report["campaign_complete_verified"])
+        self.assertNotIn("SECRET", json.dumps(report))
+        markdown = exporter.render_markdown(report)
+        self.assertIn("有效运行状态：`failed`", markdown)
+        self.assertIn("Worker 保存状态：`running`", markdown)
+        self.assertIn("supervisor 退出码：`3221225477`", markdown)
+
+    def test_worker_status_remains_compatible_without_supervisor(self):
+        save_json(self.run / "run_state.json", {"status": "running", "fingerprint": "run1"})
+        report = self.report()
+        self.assertEqual(report["source_run_status"], "running")
+        self.assertEqual(report["source_run_status_basis"], "worker_saved_status")
+        self.assertEqual(report["worker_run_status"], "running")
+        self.assertFalse(report["supervisor_status"]["available"])
+        self.assertIsNone(report["supervisor_status"]["phase"])
+        self.assertIsNone(report["supervisor_status"]["returncode"])
+        self.assertFalse(report["campaign_complete_verified"])
+
+    def test_supervisor_failure_blocks_campaign_completion_with_all_jobs_saved(self):
+        paths = [self.job(model=model, length=length)[0] for model in self.matrix["embedding_models"]
+                 for length in self.matrix["max_lengths"]]
+        save_json(self.run / "run_state.json", {
+            "status": "completed", "fingerprint": "run1", "completed_jobs": [path.parent.name for path in paths]})
+        save_json(self.root / "campaign-status.local.json", {"phase": "failed", "returncode": 1,
+                                                              "failed_step": "publish_results"})
+        report = self.report()
+        self.assertEqual(report["source_run_status"], "failed")
+        self.assertEqual(report["worker_run_status"], "completed")
+        self.assertEqual(report["publication_status"], "partial_results")
+        self.assertFalse(report["campaign_complete_verified"])
+
     def test_gpu_provider_request_without_compute_evidence_or_coverage_is_rejected(self):
         for missing in ("kernel", "coverage"):
             path, summary = self.job()
