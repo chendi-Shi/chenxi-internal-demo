@@ -67,7 +67,12 @@ def create_app(
         version="1.2.0",
         lifespan=lifespan,
         description="Dashboard API. Shared workspace; read/admin Bearer tokens. No end-user ACLs.",
-        responses={code: {"model": ErrorResponse} for code in (401, 403, 404, 409, 413, 422, 503)},
+        # Keep the published contract stable across Python HTTPStatus phrase changes.
+        responses={code: {"model": ErrorResponse, "description": description} for code, description in (
+            (401, "Unauthorized"), (403, "Forbidden"), (404, "Not Found"),
+            (409, "Conflict"), (413, "Content Too Large"),
+            (422, "Unprocessable Content"), (503, "Service Unavailable"),
+        )},
     )
     security = HTTPBearer(auto_error=False)
     credential_dependency = Depends(security)

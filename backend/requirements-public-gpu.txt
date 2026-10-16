@@ -1,0 +1,7 @@
+# Windows GPU experiments only; do not install the CPU onnxruntime wheel alongside this.
+# The completed run also saves exact installed versions in its provenance.
+onnxruntime-directml==1.24.4
+tokenizers>=0.23,<0.24
+numpy>=2.1,<3
+pyarrow>=20,<24
+onnx>=1.18,<1.21

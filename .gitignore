@@ -16,6 +16,8 @@ artifacts/live/
 /backend/.env
 /backend/.env.*
 /backend/**/*.local.json
+/backend/**/*.local.jsonl
+/backend/**/ablation.lock
 /backend/**/*.sqlite3*
 /backend/**/*.db
 /backend/**/*.pdf

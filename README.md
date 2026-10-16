@@ -30,6 +30,8 @@ The [2026-10-13 real-library diagnostic](docs/evaluation/POSTGRES_REAL_REPORT.md
 
 ## Run locally on Windows
 
+For component-level experimental evidence, see [RAG ablation methods](docs/RAG_ABLATION.md), the [17-configuration SQLite run](docs/evaluation/RAG_SQLITE_ABLATION.md), and [historical reanalysis](docs/evaluation/RAG_HISTORICAL_ANALYSIS.md). The [public bilingual GPU protocol](docs/PUBLIC_GPU_ABLATION.md) registers a resumable 48-hour maximum campaign on a local RTX 3060 Ti 8GB; planned configurations are not completed measurements. The [internship interview guide](docs/RAG_INTERVIEW_PREP.md) connects measured gains, failure cases, engineering decisions and remaining evidence gaps.
+
 Requirements: Python 3.11 or newer and Node.js 22.18 or newer.
 
 In a PowerShell window, start the backend:
