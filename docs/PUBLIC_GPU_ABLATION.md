@@ -78,10 +78,11 @@ python backend/benchmarks/run_public_gpu_ablation.py --models-dir backend/data/p
 
 停止时在 supervisor 输出目录创建 `STOP` 文件；正式 worker 会在批次/查询边界保存并退出。重启前先核对 PID，确认没有活动进程，再移除 STOP 或陈旧锁；不得同时启动两个写同一输出目录的进程。
 
-SciFact 四组完成后，可以只读原缓存复算输入长度诊断。脚本校验数据、模型、query IDs 和完整缓存后在 CPU 上比较向量，不执行新的 GPU 推理：
+某数据集的四组完成后，可以只读原缓存复算输入长度诊断。脚本校验数据、模型、query IDs 和完整缓存后在 CPU 上比较向量，不执行新的 GPU 推理。不同数据集使用独立输出文件，以便保留各自证据：
 
 ```powershell
 python backend/benchmarks/analyze_public_length_effects.py --run-dir backend/artifacts/public-gpu/run --dataset scifact --output docs/evaluation/PUBLIC_GPU_LENGTH_DIAGNOSTIC.json
+python backend/benchmarks/analyze_public_length_effects.py --run-dir backend/artifacts/public-gpu/run --dataset fiqa --output docs/evaluation/PUBLIC_GPU_FIQA_LENGTH_DIAGNOSTIC.json
 ```
 
 ## 尚不覆盖的能力
