@@ -210,6 +210,20 @@ def clean_telemetry(rows):
                 if row.get(key) is not None}} for row in rows if row.get("kind") in allowed]
 
 
+def telemetry_snapshot_metadata(raw):
+    """Preserve a declared scope and the snapshot's recorded time, never the export time."""
+    scope = raw.get("real_inference_telemetry_scope")
+    time_field = ("real_inference_telemetry_created_at" if raw.get("real_inference_telemetry_created_at")
+                  else "completed_at")
+    value = raw.get(time_field)
+    timestamp = datetime.fromisoformat(value) if value else None
+    # A legacy naive timestamp does not identify an instant; do not assume a timezone.
+    valid_time = timestamp is not None and timestamp.tzinfo is not None
+    return {"original_scope": safe_id(scope) if scope is not None else None,
+            "snapshot_created_at": timestamp.isoformat() if valid_time else None,
+            "snapshot_time_basis": time_field if valid_time else "unavailable"}
+
+
 def read_positive_ranks(path):
     result = {}
     if not path.exists():
@@ -374,6 +388,7 @@ def load_completed_job(path, matrix):
         "uncertainty": {key: numeric(raw["uncertainty"][key]) for key in ("samples", "seed")
                         if key in raw.get("uncertainty", {})},
         "gpu_proofs": proof, "telemetry_snapshot": clean_telemetry(raw.get("real_inference_telemetry", [])),
+        "telemetry_snapshot_metadata": telemetry_snapshot_metadata(raw),
         "failed_attempts_before_completion": numeric(raw.get("reliability", {}).get("failed_attempts_before_completion", 0)),
         "source_artifacts": source_hashes,
         "_records": records, "_positive_ranks": positive_ranks,
@@ -538,11 +553,17 @@ def build_report(run_dir, *, matrix=None, datasets=None, analysis_date=None, sam
     if state.get("real_inference_telemetry"):
         telemetry = clean_telemetry(state["real_inference_telemetry"])
         telemetry_source = "run_state_cumulative_snapshot"
+        telemetry_metadata = telemetry_snapshot_metadata(state)
+        telemetry_job = None
     elif jobs:
         latest = max(jobs, key=lambda job: job.get("completed_at") or "")
         telemetry, telemetry_source = latest["telemetry_snapshot"], "latest_completed_job_cumulative_snapshot"
+        telemetry_metadata = latest["telemetry_snapshot_metadata"]
+        telemetry_job = latest["job_fingerprint"]
     else:
         telemetry, telemetry_source = [], "unavailable"
+        telemetry_metadata = telemetry_snapshot_metadata({})
+        telemetry_job = None
     independent = defaultdict(set)
     for job in jobs:
         independent[job["dataset"]].update(next(iter(job["_records"].values())))
@@ -564,7 +585,24 @@ def build_report(run_dir, *, matrix=None, datasets=None, analysis_date=None, sam
         "cross_job_scope": {"configurations": list(CROSS_CONFIGS),
                             "model_reference": "first_model_in_fixed_matrix", "length_reference": "shorter_input",
                             "status": "available" if cross else "awaiting_compatible_completed_job_pairs"},
-        "inference_telemetry": {"source": telemetry_source, "aggregation": "single_cumulative_snapshot_not_sum_of_jobs", "rows": telemetry},
+        "inference_telemetry": {
+            "source": telemetry_source, "source_job_fingerprint": telemetry_job,
+            **telemetry_metadata,
+            "effective_scope": "current_checkpoint_persisted_successful_uncached_calls_through_snapshot"
+                if telemetry_source != "unavailable" else "unavailable",
+            "aggregation": "single_cumulative_snapshot_not_sum_of_jobs",
+            "is_entire_campaign_total_cost": False,
+            "excluded_costs": [
+                "archived_or_separate_run_checkpoints",
+                "failed_or_native_crash_calls_without_persisted_telemetry",
+                "pilot_and_joint_memory_smoke_calls",
+                "model_session_initialization_and_reload",
+                "work_after_snapshot_including_current_incomplete_work",
+                "downloads_data_preparation_report_export_network_and_generation",
+                "end_to_end_campaign_wall_time_energy_or_billing",
+            ],
+            "rows": telemetry,
+        },
         "uncertainty": {"method": "paired_query_or_cluster_percentile_bootstrap", "cross_job_samples": samples,
                         "percentile_convention": "nearest_rank_matches_direct_contrasts",
                         "seed": seed, "repeats_averaged_before_pairing": True,
@@ -577,7 +615,8 @@ def build_report(run_dir, *, matrix=None, datasets=None, analysis_date=None, sam
             "Embedding model comparison changes training/model specification, not only parameter count.",
             "Input lengths change embedding/query encoder truncation only; reranker stays at 512. This is not passage chunking; dense ranking is exact CPU scan, not GPU ANN.",
             "Pipeline timing mixes uncached calls and cached-score replay; no end-to-end online latency or causal speedup claim.",
-            "Real inference telemetry is cumulative and not summed across job snapshots; initialization is excluded.",
+            "Real inference telemetry covers persisted successful uncached calls in the current checkpoint through the selected snapshot; same-checkpoint process resumes can accumulate, but this is not entire-campaign total cost or wall time.",
+            "Separate archived runs, calls failing before telemetry persistence, pilot runs, model initialization/reload and work after the snapshot are excluded; missing scope/time remains null.",
             "Largest wins/losses are diagnostic examples, not a representative sample or causal explanation.",
             "Positive rank details come only from saved qrel-derived diagnostics; missing evidence stays null.",
         ],
@@ -586,6 +625,11 @@ def build_report(run_dir, *, matrix=None, datasets=None, analysis_date=None, sam
 
 def render_markdown(report):
     status = report["publication_status"]
+    telemetry = report["inference_telemetry"]
+    snapshot_at = telemetry.get("snapshot_created_at")
+    snapshot_label = (datetime.fromisoformat(snapshot_at).astimezone(timezone(timedelta(hours=8)))
+                      .strftime("%Y-%m-%d %H:%M:%S（Asia/Shanghai）")
+                      if snapshot_at else "未知（原始记录没有有效带时区时间）")
     lines = ["# 公开数据 GPU 检索消融：增益与证据", "",
              f"分析日期：{report['analysis_date']}（Asia/Shanghai）。发布状态：**{status}**；有效运行状态：`{report['source_run_status']}`。", "",
              f"Worker 保存状态：`{report.get('worker_run_status') or 'unavailable'}`；"
@@ -655,7 +699,13 @@ def render_markdown(report):
         lines.append("尚无兼容的已完成 job 配对；跨模型/长度结果保持待测。")
     lines += ["", "## GPU 证据、成本与限制", "",
               "各 job 的 DML compute kernel 事件及覆盖信息保存在 JSON 的 gpu_proofs；请求 GPU provider 本身不算执行证据。CPU 算子仍单独记录。", "",
-              f"实际推理 telemetry 来源：`{report['inference_telemetry']['source']}`。只取一个累计快照，绝不把每个 job 的累计值相加。详情见 JSON。",
+              f"实际推理 telemetry 来源：`{telemetry['source']}`；原始 scope：`{telemetry.get('original_scope') or 'unavailable'}`。"
+              f"快照创建时间：**{snapshot_label}**（依据 `{telemetry.get('snapshot_time_basis', 'unavailable')}`，不是报告导出时间）。"
+              "只取一个累计快照，绝不把每个 job 的累计值相加。",
+              "其有效范围仅为当前 checkpoint 截至该快照已落盘的成功未缓存调用；同一 checkpoint 跨进程恢复可以继续累计。"
+              "**这不是整个 campaign 的总成本，也不是运行墙钟时长。**",
+              "不覆盖单独归档或其他 checkpoint 的运行、未写入 telemetry 的失败/native 崩溃调用、pilot 与联合显存测试、"
+              "模型初始化及重载、快照之后的进行中工作。下载、数据准备、报告导出、网络、生成、能源及账单也不在此统计内。",
               "Pipeline p50/p95 混合首次推理和缓存回放，只保留在 JSON 作运行诊断，不能写成在线延迟。密集排序是 CPU exact scan；256/512 是 embedding 编码器输入截断，不是 chunking，reranker 均固定 512。初始化、生成、网络和生产并发不在该推理统计内。", "",
               "T2 使用官方 dev；中英数据集主题和语料不同，不构成受控语言对照。所有 CI 都是探索性配对 query/cluster bootstrap，没有多重比较校正；只评估检索，没有生成正确率、忠实度或语义拒答结论。", "",
               f"未通过导出验证的 job 数：{len(report['rejected_jobs'])}；跳过的不兼容跨 job 对照：{len(report['cross_job_comparisons_skipped'])}。原因代码见 JSON，未通过项不进入质量均值。", "",

@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "status": "completed_cache_diagnostic",
+  "generated_at_utc": "2026-10-16T13:23:51.384271+00:00",
+  "dataset": "scifact",
+  "run_fingerprint": "a940c84254064464db9089fbcc69c25a5b4a906566eb9cdbc23685b6733bb94e",
+  "corpus_sha256": "7e064e9cbe193b3b3a803fdae3f42d23cd4f60d0ae9bc37e0ba28f752ac9b6ba",
+  "query_sha256": "ab4d1c417c9f152c9b12eea84c9fc176dd93f7eb780c718873e501c7ea810c73",
+  "corpus_count": 5183,
+  "new_quality_observations": 0,
+  "diagnostic_script_sha256": "2f49fc8ecd90b5e35d0bc58a8a8372080f7e2adc023c377c7b8af578a0ca34c9",
+  "runtime": {
+    "numpy": "2.5.4",
+    "tokenizers": "0.23.3"
+  },
+  "method": "Read only completed cached normalized vectors and actual saved query variants; compare cosine and coordinate differences in float64. Count input tokens using pinned tokenizer JSON, without truncation/padding. No inference or live SQLite writes.",
+  "length_definition": "Encoder input tokens include special tokens and model-specific prefixes; reranker length is unchanged at 512.",
+  "models": [
+    {
+      "model_id": "e5_small",
+      "repo": "intfloat/multilingual-e5-small",
+      "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+      "model_files": {
+        "onnx/model.onnx": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665",
+        "tokenizer.json": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39"
+      },
+      "provider_fingerprint": "645a6bc3263bfdfb8769d78325510f4af066446bab266acfba78ef76cb74ac3d",
+      "independent_original_queries": 300,
+      "cached_query_texts_including_rule_variants": 336,
+      "max_query_tokens_including_prefix_and_special_tokens": 69,
+      "saved_tokenizer_default_truncation": null,
+      "cached_query_padding_invariance": {
+        "pairs": 336,
+        "cosine_min": 0.9999999999999183,
+        "cosine_mean": 0.9999999999999523,
+        "cosine_p05": 0.9999999999999364,
+        "max_abs_coordinate_difference": 8.940696716308594e-08,
+        "cosine_below_0_9999": 0
+      },
+      "query_vector_value_fingerprints": {
+        "256": "032bbb7822e76b02d0f4c82e1e5734e1146a6dafa1a7a77c249bd6d26be3db1b",
+        "512": "6dfa0e2244670c8155b3b9dba583bef2d452766f0ba14bf9f970be452bb1f72d"
+      },
+      "document_vector_comparison": {
+        "untruncated_at_256": {
+          "pairs": 943,
+          "cosine_min": 0.9999999999999474,
+          "cosine_mean": 1.0,
+          "cosine_p05": 0.9999999999999998,
+          "max_abs_coordinate_difference": 8.195638656616211e-08,
+          "cosine_below_0_9999": 0
+        },
+        "257_to_512_tokens": {
+          "pairs": 3509,
+          "cosine_min": 0.9490290315586206,
+          "cosine_mean": 0.9888392597659288,
+          "cosine_p05": 0.9767466380114966,
+          "max_abs_coordinate_difference": 0.059921856969594955,
+          "cosine_below_0_9999": 3509
+        },
+        "over_512_tokens": {
+          "pairs": 731,
+          "cosine_min": 0.9441281031738269,
+          "cosine_mean": 0.9792950464673665,
+          "cosine_p05": 0.9690183777154306,
+          "max_abs_coordinate_difference": 0.053661685436964035,
+          "cosine_below_0_9999": 731
+        }
+      },
+      "source_artifacts": {
+        "256": {
+          "job_fingerprint": "8cd2db0523461e7d49c866b47efc894422a57880c2c966592ea0d83f0ce00540",
+          "summary_sha256": "2ab056434c090b1c7e75fbdba131005830fef8b08fe1ddcacba6e5a8d43a9c46",
+          "query_results_sha256": "20d571584ef8700718f1cdf8b677672a6f3a0300ce74b395cf6e0478115d1bd4",
+          "vector_cache_fingerprint": "8e605c4ceb465c7120d38f76a876e5cba1a5a07eb173ec8b16c86a037c8f7efc",
+          "vectors_sha256": "dc205810e9d7b7b99b01a2e8c08055566b81111000b786f1785a0aadef16afd4"
+        },
+        "512": {
+          "job_fingerprint": "02e77a83b26a7aa6c82b3d6e3dfe79551f98cd8ffb03e6ecb2b04c81fcbe98bb",
+          "summary_sha256": "0d028201287e13edd989ecaeda86d0b52880eaff5efde57ab5f496a041cbd975",
+          "query_results_sha256": "8baac8d1318e0b10057e3f1099f39da3ce3fffb1b541587211c042dc6ad8645d",
+          "vector_cache_fingerprint": "967c3df6d632eb0c989a4bc792f9f5aa99fabd0cac6e96072e208d491d55351b",
+          "vectors_sha256": "99436fb90a1a7ecbf104ef0b7476f47081f1582add3c0b2d0c019639adc4c15a"
+        }
+      }
+    },
+    {
+      "model_id": "minilm_multilingual",
+      "repo": "Xenova/paraphrase-multilingual-MiniLM-L12-v2",
+      "revision": "2c4055b12046f11709e9df2c122e59ffbdc2f900",
+      "model_files": {
+        "onnx/model.onnx": "185ae63f47e17a7e8d30d0e6a3cde6a6e4b79bc5b81666ecffc279a6856ca113",
+        "tokenizer.json": "b60b6b43406a48bf3638526314f3d232d97058bc93472ff2de930d43686fa441"
+      },
+      "provider_fingerprint": "2693df77c5b4af5293665d83f22dc46f221e2d5a79170012a16684eb02780c3d",
+      "independent_original_queries": 300,
+      "cached_query_texts_including_rule_variants": 336,
+      "max_query_tokens_including_prefix_and_special_tokens": 66,
+      "saved_tokenizer_default_truncation": {
+        "direction": "Right",
+        "max_length": 128,
+        "strategy": "LongestFirst",
+        "stride": 0
+      },
+      "cached_query_padding_invariance": {
+        "pairs": 336,
+        "cosine_min": 0.9999999999998102,
+        "cosine_mean": 0.9999999999999327,
+        "cosine_p05": 0.9999999999998914,
+        "max_abs_coordinate_difference": 1.0151416063308716e-07,
+        "cosine_below_0_9999": 0
+      },
+      "query_vector_value_fingerprints": {
+        "256": "2649063a985f9f5b8b8406ba95db39d4f08cdf9df90b15026a1326c5abf64301",
+        "512": "0e98a6ee6bb5cf85c0c2f06dc82ef89781bc3391bd3222922933b2632b84685a"
+      },
+      "document_vector_comparison": {
+        "untruncated_at_256": {
+          "pairs": 971,
+          "cosine_min": 0.9999999999999252,
+          "cosine_mean": 1.0,
+          "cosine_p05": 0.9999999999999998,
+          "max_abs_coordinate_difference": 5.960464477539063e-08,
+          "cosine_below_0_9999": 0
+        },
+        "257_to_512_tokens": {
+          "pairs": 3500,
+          "cosine_min": 0.6040334917994433,
+          "cosine_mean": 0.887179811516488,
+          "cosine_p05": 0.740478226495305,
+          "max_abs_coordinate_difference": 0.17859743535518646,
+          "cosine_below_0_9999": 3500
+        },
+        "over_512_tokens": {
+          "pairs": 712,
+          "cosine_min": 0.505716099673595,
+          "cosine_mean": 0.7595296847920063,
+          "cosine_p05": 0.6657504106729533,
+          "max_abs_coordinate_difference": 0.17594712227582932,
+          "cosine_below_0_9999": 712
+        }
+      },
+      "source_artifacts": {
+        "256": {
+          "job_fingerprint": "25b89228a5aa35612bf98f8f25f76b88022204d283ec8b10390b53000a9858da",
+          "summary_sha256": "c0b2863f61aa99f0cbe6d0b3b5792c7574c1b6e578a83fc44c2c540ec0d44602",
+          "query_results_sha256": "eaea7d2cf1e8eee4abea76f7f1274369098c6c75f0507ec3cb76824ff1c1a4ab",
+          "vector_cache_fingerprint": "28dafadf4d0dac00c667cb222e7b8830e8d0b9a31f53699325bfbe438ad5a7e7",
+          "vectors_sha256": "944662ce540d21d06261d03c038e42e8a36b6afc20104b7cc509fa93ce535cac"
+        },
+        "512": {
+          "job_fingerprint": "c70e4882f19e12b32a7445b24687b5e17ebc30000ee290459910ffd870c57c08",
+          "summary_sha256": "cf739314847fb8756e6580bf609b629325422ff891e7a3a4dd1f360e8c88c7b0",
+          "query_results_sha256": "a6aa8be25425b4aa6c31b465e11c9bcf5584e072b8422c59861b370aa9172690",
+          "vector_cache_fingerprint": "5cfef4972938aa7eb855879c579184a50efae4361454d6b129009dce4dafae7b",
+          "vectors_sha256": "18d79eea0b38828e0bf8474385354c449e91ecd750918a32ce61bf0df579dbf6"
+        }
+      }
+    }
+  ],
+  "sources": {
+    "original_model_card": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "original_sentence_config": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/blob/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/sentence_bert_config.json",
+    "original_pooling_config": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/raw/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/1_Pooling/config.json",
+    "original_model_config": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/raw/main/config.json",
+    "converted_model_config": "https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2/resolve/2c4055b12046f11709e9df2c122e59ffbdc2f900/config.json",
+    "converted_tokenizer_config": "https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2/resolve/2c4055b12046f11709e9df2c122e59ffbdc2f900/tokenizer_config.json",
+    "normalized_dot_equals_cosine": "https://sbert.net/docs/sentence_transformer/usage/semantic_textual_similarity.html"
+  },
+  "interpretation_boundaries": [
+    "MiniLM original SentenceTransformer pipeline default max_seq_length is 128; the pinned tokenizer JSON also stores truncation length 128. This experiment deliberately overrides it with 256/512.",
+    "Original and Xenova model/tokenizer configurations permit 512 positions/tokens. Structural support is not a quality guarantee or proof of training sequence length.",
+    "The inspected official sources do not establish this checkpoint's training length. Default 128 must not be described as a proven training length or proven cause of degradation.",
+    "Near-identical untruncated queries and short documents argue against a simple padding/mask implementation error on these cached outputs; this is not full PyTorch/ONNX/DirectML numerical parity validation.",
+    "Larger representation changes when additional document content is included are observed associations. Semantic dilution or a mismatch with the published default remain hypotheses, not established causes.",
+    "Query variants and reused corpus embeddings are diagnostics, not additional independent quality samples. No quality metric or confidence interval is recomputed here."
+  ]
+}

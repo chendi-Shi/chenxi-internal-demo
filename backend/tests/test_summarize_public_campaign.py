@@ -87,6 +87,7 @@ class PublicCampaignExportTests(unittest.TestCase):
                                           "max_length": length, "items": telemetry_items, "batches": 2,
                                           "wall_ms": 250, "items_per_second": 40,
                                           "token_telemetry": token_stats}],
+            "real_inference_telemetry_scope": "cumulative_campaign_through_this_job_completion",
             "completed_at": f"2026-10-15T{10 + int(length == 512):02d}:00:00+00:00",
             "rewrite_diagnostics": {"rrf": {"rewrite_enabled": False, "queries": 2,
                                              "queries_with_additional_variants": 0,
@@ -144,6 +145,56 @@ class PublicCampaignExportTests(unittest.TestCase):
             self.assertEqual(stats["wins"], 2)
             self.assertAlmostEqual(stats["mean_delta"], .1)
         self.assertEqual(report["inference_telemetry"]["rows"][0]["items"], 20)
+
+    def test_cost_snapshot_preserves_latest_scope_time_and_excludes_other_attempts(self):
+        self.job(telemetry_items=10)
+        path, latest = self.job(length=512, telemetry_items=20)
+        # A more recently exported report must still identify the source snapshot's time.
+        report = self.report()
+        telemetry = report["inference_telemetry"]
+        self.assertEqual(telemetry["original_scope"], latest["real_inference_telemetry_scope"])
+        self.assertEqual(telemetry["snapshot_created_at"], latest["completed_at"])
+        self.assertEqual(telemetry["snapshot_time_basis"], "completed_at")
+        self.assertEqual(telemetry["source_job_fingerprint"], path.parent.name)
+        self.assertEqual(telemetry["rows"][0]["items"], 20)
+        self.assertFalse(telemetry["is_entire_campaign_total_cost"])
+        for omitted in ("archived_or_separate_run_checkpoints",
+                        "failed_or_native_crash_calls_without_persisted_telemetry",
+                        "pilot_and_joint_memory_smoke_calls", "model_session_initialization_and_reload",
+                        "work_after_snapshot_including_current_incomplete_work"):
+            self.assertIn(omitted, telemetry["excluded_costs"])
+        markdown = exporter.render_markdown(report)
+        self.assertIn("2026-10-15 19:00:00（Asia/Shanghai）", markdown)
+        self.assertIn("这不是整个 campaign 的总成本", markdown)
+        self.assertIn("不是报告导出时间", markdown)
+
+    def test_cost_snapshot_missing_scope_or_time_is_not_invented(self):
+        path, summary = self.job()
+        del summary["real_inference_telemetry_scope"], summary["completed_at"]
+        save_json(path, summary)
+        report = self.report()
+        self.assertEqual(report["publication_status"], "partial_results")
+        self.assertIsNone(report["inference_telemetry"]["original_scope"])
+        self.assertIsNone(report["inference_telemetry"]["snapshot_created_at"])
+        self.assertEqual(report["inference_telemetry"]["snapshot_time_basis"], "unavailable")
+        self.assertIn("未知（原始记录没有有效带时区时间）", exporter.render_markdown(report))
+
+    def test_run_state_cost_snapshot_retains_own_scope_and_explicit_time(self):
+        _, summary = self.job()
+        save_json(self.run / "run_state.json", {
+            "status": "completed", "fingerprint": "run1", "completed_jobs": [],
+            "completed_at": "2026-10-15T12:00:01+00:00",
+            "real_inference_telemetry_created_at": "2026-10-15T12:00:00+00:00",
+            "real_inference_telemetry_scope": "current_checkpoint_at_run_completion",
+            "real_inference_telemetry": summary["real_inference_telemetry"],
+        })
+        telemetry = self.report()["inference_telemetry"]
+        self.assertEqual(telemetry["source"], "run_state_cumulative_snapshot")
+        self.assertEqual(telemetry["original_scope"], "current_checkpoint_at_run_completion")
+        self.assertEqual(telemetry["snapshot_created_at"], "2026-10-15T12:00:00+00:00")
+        self.assertEqual(telemetry["snapshot_time_basis"], "real_inference_telemetry_created_at")
+        self.assertIsNone(telemetry["source_job_fingerprint"])
+        self.assertEqual(telemetry["rows"][0]["items"], 10)
 
     def test_hash_mismatch_blocks_cross_job_comparison(self):
         self.job()

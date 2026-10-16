@@ -31,6 +31,10 @@
 
 预定为 3 数据集 × 2 embedding × 2 截断长度 × 18 配置，共 216 个结果单元、140,256 条 query/config 观测。完整语料共 181,426 篇，四种编码设置共 725,704 次文档编码。缓存只复用实际算出的向量与 query/document 分数，不能代替首次推理或伪造缺失结果。
 
+**2026-10-16 补充的模型长度边界：**原始 MiniLM SentenceTransformer 的[固定版本配置](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/blob/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/sentence_bert_config.json)默认 `max_seq_length=128`；本次固定 Xenova 版本的[模型结构](https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2/resolve/2c4055b12046f11709e9df2c122e59ffbdc2f900/config.json)和[tokenizer 配置](https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2/resolve/2c4055b12046f11709e9df2c122e59ffbdc2f900/tokenizer_config.json)允许 512 位置。本实验显式覆盖为预登记的 256/512，不能称为该模型官方默认 pipeline 的复现，也未测量 128 基线。结构支持的长度、pipeline 默认上限和实际训练长度是不同信息；现有资料不足以确认该 checkpoint 的训练长度，更不能仅据默认值证明退化原因。保留原矩阵，不在看到 test 结果后改参数替换原结论。
+
+对应的[长度缓存诊断](evaluation/PUBLIC_GPU_LENGTH_DIAGNOSTIC.json)只读已完成 SciFact 的向量、tokenizer 和查询缓存，以相同短文本检查 padding 变化，以长文本观察新增内容后的表示变化；它不启动新推理，也不产生新的独立质量样本。
+
 ## 每个组件如何报告“多少、为什么”
 
 每一比较都保留 reference、variant、绝对值、百分点差、相对变化（基线非零时）、95% 配对 bootstrap 区间、胜/平/负问题数和实际样本数。Recall、MRR、nDCG 分别在 @1/@3/@5/@10 报告；nDCG 使用 `2^grade−1`，公共数据的原始等级不压成二值。未标注文档按零相关处理，讨论 qrels 不完整的局限。
@@ -73,6 +77,12 @@ python backend/benchmarks/run_public_gpu_ablation.py --models-dir backend/data/p
 持续执行可使用 `supervise_public_campaign.py`，参数为 `--models-dir`、`--data-dir`、`--output-dir` 和 `--budget-hours 48`。它顺序执行 runtime check、准备、pilot、正式实验，在 `campaign-status.local.json` 记录状态。Windows 启动后台任务须使用隐藏窗口。任务运行期间临时请求系统保持唤醒，不改永久电源设置；退出后释放。保持电脑开机和供电。
 
 停止时在 supervisor 输出目录创建 `STOP` 文件；正式 worker 会在批次/查询边界保存并退出。重启前先核对 PID，确认没有活动进程，再移除 STOP 或陈旧锁；不得同时启动两个写同一输出目录的进程。
+
+SciFact 四组完成后，可以只读原缓存复算输入长度诊断。脚本校验数据、模型、query IDs 和完整缓存后在 CPU 上比较向量，不执行新的 GPU 推理：
+
+```powershell
+python backend/benchmarks/analyze_public_length_effects.py --run-dir backend/artifacts/public-gpu/run --dataset scifact --output docs/evaluation/PUBLIC_GPU_LENGTH_DIAGNOSTIC.json
+```
 
 ## 尚不覆盖的能力
 
