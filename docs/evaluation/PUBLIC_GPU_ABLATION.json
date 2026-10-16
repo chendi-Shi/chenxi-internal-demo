@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "analysis_date": "2026-10-15",
+  "analysis_date": "2026-10-16",
   "analysis_timezone": "Asia/Shanghai",
   "publication_status": "partial_results",
-  "source_run_status": "failed",
-  "source_run_status_basis": "supervisor_terminal_status",
+  "source_run_status": "running",
+  "source_run_status_basis": "worker_saved_status",
   "worker_run_status": "running",
   "supervisor_status": {
     "available": true,
-    "phase": "failed",
-    "returncode": 3221225477,
-    "failed_step": "gpu_experiments",
+    "phase": "gpu_experiments",
+    "returncode": null,
+    "failed_step": null,
     "incomplete_step": null
   },
   "campaign_complete_verified": false,

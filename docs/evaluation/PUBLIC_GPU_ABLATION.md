@@ -1,8 +1,8 @@
 # 公开数据 GPU 检索消融：增益与证据
 
-分析日期：2026-10-15（Asia/Shanghai）。发布状态：**partial_results**；有效运行状态：`failed`。
+分析日期：2026-10-16（Asia/Shanghai）。发布状态：**partial_results**；有效运行状态：`running`。
 
-Worker 保存状态：`running`；supervisor 状态：`failed`；supervisor 退出码：`3221225477`。监督器的明确失败或停止优先于 worker 留存状态；这些是状态文件快照，不是存活探测。
+Worker 保存状态：`running`；supervisor 状态：`gpu_experiments`；supervisor 退出码：`None`。监督器的明确失败或停止优先于 worker 留存状态；这些是状态文件快照，不是存活探测。
 
 只有完整 query/配置记录、聚合复核及实际 GPU 执行证据通过验证的 job 进入质量表。原始文本、模型文件和本机路径不在本报告内。
 
