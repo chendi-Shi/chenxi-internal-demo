@@ -179,4 +179,4 @@ MCP tool 均为只读；策略只能通过受管理权限保护的 HTTP API 修�
 
 检查点、模型、原始语料、profiling 和逐题轨迹保存在忽略目录。每次运行绑定模型/数据/源码/协议指纹，真实推理耗时和缓存回放耗时分开。GPU 模型须以实际 kernel profiling 证明执行，不能只检查 provider 名称。未完成、预算停止、失败与完成状态分开，公开报告仅导出审查后的指标与公共案例 ID。
 
-该路径评估检索证据，不生成最终回答，也不覆盖线上并发 SLA。实验设计、统计口径和范围见 [RAG_ABLATION.md](RAG_ABLATION.md) 与 [PUBLIC_GPU_ABLATION.md](PUBLIC_GPU_ABLATION.md)。
+该路径评估检索证据，不生成最终回答，也不覆盖线上并发 SLA。公开三数据集矩阵已完成 12 组、216 个配置单元、140,256 条观测；[结果报告](evaluation/PUBLIC_GPU_ABLATION.md)与[执行日志](evaluation/PUBLIC_GPU_EXECUTION_LOG.md)分别记录质量证据和六次原生故障恢复。实验设计、统计口径和范围见 [RAG_ABLATION.md](RAG_ABLATION.md) 与 [PUBLIC_GPU_ABLATION.md](PUBLIC_GPU_ABLATION.md)。

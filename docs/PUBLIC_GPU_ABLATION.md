@@ -1,6 +1,6 @@
 # 公开中英文检索消融：RTX 3060 Ti 8GB
 
-实验登记日期：2026-10-15。目标是回答各组件带来多少检索收益、哪些问题受益或退化，以及计算代价。最长 48 小时为执行预算；提前完成即停止，不重复相同质量样本来填满时间。该文档登记协议，不包含尚未完成的成绩。实际完成项见[结果报告](evaluation/PUBLIC_GPU_ABLATION.md)，中断与恢复记录见[运行事件](evaluation/PUBLIC_GPU_EXECUTION_LOG.md)。
+实验登记日期：2026-10-15。目标是回答各组件带来多少检索收益、哪些问题受益或退化，以及计算代价。最长 48 小时为执行预算；提前完成即停止，不重复相同质量样本来填满时间。本文保留预登记协议；最终结果于北京时间 2026-10-17 04:09 完成：12 组、216 个配置单元、140,256 条 query/config 观测，覆盖 1,948 个唯一问题，全部通过完成校验。完整数值、配对区间、正负案例和 48 项跨组比较见[结果报告](evaluation/PUBLIC_GPU_ABLATION.md)，六次原生故障与恢复记录见[运行事件](evaluation/PUBLIC_GPU_EXECUTION_LOG.md)。从正式启动到完成约 35 小时 59 分钟，包含等待其他任务释放显存及故障恢复，不是连续 GPU 计算时长。
 
 启动时的 [GPU 预检证据](evaluation/PUBLIC_GPU_PREFLIGHT.json) 已包含实际矩阵计算校验、两个 embedding 和两个 reranker 的真实 DirectML kernel 记录，并通过 encoder 与多语言 reranker 同时驻留的 512×8 联合推理。四个 tokenizer 对全部 1,948 个查询的配对编码预检也通过。这些小规模冷启动测试不是正式检索成绩；正式评估由后台 supervisor 执行。
 
@@ -33,7 +33,7 @@
 
 **2026-10-16 补充的模型长度边界：**原始 MiniLM SentenceTransformer 的[固定版本配置](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/blob/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/sentence_bert_config.json)默认 `max_seq_length=128`；本次固定 Xenova 版本的[模型结构](https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2/resolve/2c4055b12046f11709e9df2c122e59ffbdc2f900/config.json)和[tokenizer 配置](https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2/resolve/2c4055b12046f11709e9df2c122e59ffbdc2f900/tokenizer_config.json)允许 512 位置。本实验显式覆盖为预登记的 256/512，不能称为该模型官方默认 pipeline 的复现，也未测量 128 基线。结构支持的长度、pipeline 默认上限和实际训练长度是不同信息；现有资料不足以确认该 checkpoint 的训练长度，更不能仅据默认值证明退化原因。保留原矩阵，不在看到 test 结果后改参数替换原结论。
 
-对应的[长度缓存诊断](evaluation/PUBLIC_GPU_LENGTH_DIAGNOSTIC.json)只读已完成 SciFact 的向量、tokenizer 和查询缓存，以相同短文本检查 padding 变化，以长文本观察新增内容后的表示变化；它不启动新推理，也不产生新的独立质量样本。
+对应的只读长度缓存诊断已覆盖 [SciFact](evaluation/PUBLIC_GPU_LENGTH_DIAGNOSTIC.json)、[FiQA](evaluation/PUBLIC_GPU_FIQA_LENGTH_DIAGNOSTIC.json) 和 [T2Retrieval](evaluation/PUBLIC_GPU_T2_LENGTH_DIAGNOSTIC.json)。它们使用已完成的向量、tokenizer 和查询缓存，以相同短文本检查 padding 变化，以长文本观察新增内容后的表示变化；不启动新推理，也不产生新的独立质量样本。三套数据中查询及未截断短文的向量基本一致，长文表示随长度变化，MiniLM 的变化幅度更大。这能缩小待排查范围，但不能单凭向量变化证明质量损益、语义稀释或训练长度原因。
 
 ## 每个组件如何报告“多少、为什么”
 
@@ -83,6 +83,7 @@ python backend/benchmarks/run_public_gpu_ablation.py --models-dir backend/data/p
 ```powershell
 python backend/benchmarks/analyze_public_length_effects.py --run-dir backend/artifacts/public-gpu/run --dataset scifact --output docs/evaluation/PUBLIC_GPU_LENGTH_DIAGNOSTIC.json
 python backend/benchmarks/analyze_public_length_effects.py --run-dir backend/artifacts/public-gpu/run --dataset fiqa --output docs/evaluation/PUBLIC_GPU_FIQA_LENGTH_DIAGNOSTIC.json
+python backend/benchmarks/analyze_public_length_effects.py --run-dir backend/artifacts/public-gpu/run --dataset t2retrieval --output docs/evaluation/PUBLIC_GPU_T2_LENGTH_DIAGNOSTIC.json
 ```
 
 ## 尚不覆盖的能力

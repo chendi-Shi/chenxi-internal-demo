@@ -637,6 +637,8 @@ def render_markdown(report):
              f"supervisor 退出码：`{report.get('supervisor_status', {}).get('returncode')}`。"
              "监督器的明确失败或停止优先于 worker 留存状态；这些是状态文件快照，不是存活探测。", "",
              "只有完整 query/配置记录、聚合复核及实际 GPU 执行证据通过验证的 job 进入质量表。原始文本、模型文件和本机路径不在本报告内。", "",
+             "原生进程退出独立记录于[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。"
+             "下文“已捕获 Python 查询失败”仅统计检查点捕获的 Python 失败；计数为 0 不代表全程无故障。", "",
              "| 项目 | 计划 | 已核验完成 |", "|---|---:|---:|",
              f"| dataset × model × length jobs | {report['planned']['jobs']} | {report['observed']['completed_verified_jobs']} |",
              f"| 配置单元 | {report['planned']['configuration_cells']} | {report['observed']['configuration_cells']} |",
@@ -685,7 +687,7 @@ def render_markdown(report):
                     candidate = f"{case['before_candidate_recall']} → {case['after_candidate_recall']}"
                     pool = f"{case['before_rerank_pool_recall']} → {case['after_rerank_pool_recall']}"
                     lines.append(f"| {comparison['experiment']} − {comparison['reference']} | {case['query_id']} | {case['ndcg10_delta_pp']:+.3f} | {candidate} | {pool} | {case['observable_explanation']} |")
-        lines += ["", f"完成前失败尝试：{job['failed_attempts_before_completion']}；最终质量表没有将失败当零分或完整结果。job 指纹：`{job['job_fingerprint']}`。", ""]
+        lines += ["", f"已捕获 Python 查询失败：{job['failed_attempts_before_completion']}；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`{job['job_fingerprint']}`。", ""]
     lines += ["## 跨模型与编码器输入长度", "",
               "只比较 dense、RRF、RRF+rerank、RRF+rewrite+rerank 四个固定配置；要求相同数据/问题哈希、完整相同 query IDs、配置及运行指纹。模型参考为矩阵中的首个模型，长度参考为较短编码器输入。256/512 仅改变文档和 query 的 embedding 编码器输入；两组 cross-encoder reranker 都固定 512。", ""]
     if report["cross_job_comparisons"]:

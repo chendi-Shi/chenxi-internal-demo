@@ -1,16 +1,18 @@
 # 公开数据 GPU 检索消融：增益与证据
 
-分析日期：2026-10-17（Asia/Shanghai）。发布状态：**partial_results**；有效运行状态：`running`。
+分析日期：2026-10-17（Asia/Shanghai）。发布状态：**completed**；有效运行状态：`completed`。
 
-Worker 保存状态：`running`；supervisor 状态：`gpu_experiments`；supervisor 退出码：`None`。监督器的明确失败或停止优先于 worker 留存状态；这些是状态文件快照，不是存活探测。
+Worker 保存状态：`completed`；supervisor 状态：`completed`；supervisor 退出码：`None`。监督器的明确失败或停止优先于 worker 留存状态；这些是状态文件快照，不是存活探测。
 
 只有完整 query/配置记录、聚合复核及实际 GPU 执行证据通过验证的 job 进入质量表。原始文本、模型文件和本机路径不在本报告内。
 
+原生进程退出独立记录于[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。下文“已捕获 Python 查询失败”仅统计检查点捕获的 Python 失败；计数为 0 不代表全程无故障。
+
 | 项目 | 计划 | 已核验完成 |
 |---|---:|---:|
-| dataset × model × length jobs | 12 | 11 |
-| 配置单元 | 216 | 198 |
-| query × 配置观测 | 140256 | 122256 |
+| dataset × model × length jobs | 12 | 12 |
+| 配置单元 | 216 | 216 |
+| query × 配置观测 | 140256 | 140256 |
 
 计划独立问题数：1948（按数据集分开）。已核验问题数：`{"fiqa": 648, "scifact": 300, "t2retrieval": 1000}`。重复配置不会增加独立问题数。
 
@@ -110,7 +112,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.067 
 | rrf_rerank_english − rrf_rerank | 1303 | +100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 70 | -91.972 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`02e77a83b26a7aa6c82b3d6e3dfe79551f98cd8ffb03e6ecb2b04c81fcbe98bb`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`02e77a83b26a7aa6c82b3d6e3dfe79551f98cd8ffb03e6ecb2b04c81fcbe98bb`。
 
 ## fiqa / e5_small / 编码器输入 512
 
@@ -214,7 +216,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**+0.019 
 | rrf_rerank_english − rrf_rerank | 699 | +68.454 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 3067 | -79.039 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`14bcc76242102d5a6f24a9f90b92017a312bf19e99e4a040827887e1d9b0dfcd`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`14bcc76242102d5a6f24a9f90b92017a312bf19e99e4a040827887e1d9b0dfcd`。
 
 ## t2retrieval / e5_small / 编码器输入 256
 
@@ -313,7 +315,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.032 
 | rrf_rerank_english − rrf_rerank | 18265 | +100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 10324 | -100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`1dab5ee0b79ce176d2b34e2bc053c3dfbee6543313e657257ce2dfcb70b7d38a`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`1dab5ee0b79ce176d2b34e2bc053c3dfbee6543313e657257ce2dfcb70b7d38a`。
 
 ## scifact / minilm_multilingual / 编码器输入 256
 
@@ -413,7 +415,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**+0.008 
 | rrf_rerank_english − rrf_rerank | 1303 | +71.094 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 70 | -91.972 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`25b89228a5aa35612bf98f8f25f76b88022204d283ec8b10390b53000a9858da`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`25b89228a5aa35612bf98f8f25f76b88022204d283ec8b10390b53000a9858da`。
 
 ## t2retrieval / e5_small / 编码器输入 512
 
@@ -512,7 +514,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.024 
 | rrf_rerank_english − rrf_rerank | 18265 | +100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 10324 | -100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`40eada2820b3d146dcfc22c3b47f60da1df05ae57df9e92074a8979805b10e31`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`40eada2820b3d146dcfc22c3b47f60da1df05ae57df9e92074a8979805b10e31`。
 
 ## fiqa / e5_small / 编码器输入 256
 
@@ -616,7 +618,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.047 
 | rrf_rerank_english − rrf_rerank | 699 | +68.454 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 3067 | -79.039 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`8010d26f34a3a2b89597b6f8633b027d49ac60da03b61bc6d683ee7a7463dffa`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`8010d26f34a3a2b89597b6f8633b027d49ac60da03b61bc6d683ee7a7463dffa`。
 
 ## scifact / e5_small / 编码器输入 256
 
@@ -716,7 +718,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.392 
 | rrf_rerank_english − rrf_rerank | 1303 | +100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 70 | -91.972 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`8cd2db0523461e7d49c866b47efc894422a57880c2c966592ea0d83f0ce00540`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`8cd2db0523461e7d49c866b47efc894422a57880c2c966592ea0d83f0ce00540`。
 
 ## scifact / minilm_multilingual / 编码器输入 512
 
@@ -816,7 +818,106 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.191 
 | rrf_rerank_english − rrf_rerank | 1303 | +68.454 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 70 | -91.972 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`c70e4882f19e12b32a7445b24687b5e17ebc30000ee290459910ffd870c57c08`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`c70e4882f19e12b32a7445b24687b5e17ebc30000ee290459910ffd870c57c08`。
+
+## t2retrieval / minilm_multilingual / 编码器输入 512
+
+split=`dev`；完整语料 118605 文档，1000 个独立问题，18000 条正式配置观测。
+
+| 配置 | Recall@10 | MRR@10 | nDCG@10 | 候选 Recall | 重排池 Recall |
+|---|---:|---:|---:|---:|---:|
+| dense | 0.14994 | 0.28735 | 0.15740 | 0.29652 | — |
+| dense_rerank | 0.23264 | 0.51065 | 0.28720 | 0.29652 | 0.24333 |
+| lexical | 0.60942 | 0.78006 | 0.62467 | 0.79630 | — |
+| lexical_rerank | 0.67320 | 0.86342 | 0.70858 | 0.79630 | 0.74967 |
+| lexical_rewrite | 0.60942 | 0.78006 | 0.62467 | 0.79630 | — |
+| normalized | 0.44006 | 0.63962 | 0.43076 | 0.85844 | — |
+| rrf | 0.54121 | 0.62880 | 0.48161 | 0.85844 | — |
+| rrf_candidates200 | 0.52627 | 0.62066 | 0.46937 | 0.88317 | — |
+| rrf_candidates25 | 0.56702 | 0.66850 | 0.52078 | 0.75801 | — |
+| rrf_candidates50 | 0.55822 | 0.64711 | 0.50256 | 0.81115 | — |
+| rrf_k10 | 0.57175 | 0.68109 | 0.53170 | 0.85844 | — |
+| rrf_k100 | 0.53276 | 0.62146 | 0.47224 | 0.85844 | — |
+| rrf_rerank | 0.70064 | 0.87489 | 0.72959 | 0.85844 | 0.76771 |
+| rrf_rerank100 | 0.70533 | 0.87779 | 0.73436 | 0.85844 | 0.81539 |
+| rrf_rerank20 | 0.66356 | 0.86593 | 0.70257 | 0.85844 | 0.67673 |
+| rrf_rerank_english | 0.28759 | 0.39090 | 0.26222 | 0.85844 | 0.76771 |
+| rrf_rewrite | 0.54132 | 0.62938 | 0.48217 | 0.85844 | — |
+| rrf_rewrite_rerank | 0.70064 | 0.87439 | 0.72923 | 0.85844 | 0.76771 |
+
+该语料编码截断率：33.22%（39401/118605）；这是本 job 完整语料计数，query/pair 累计计数另列在 inference telemetry。
+
+### 直接组件对照
+
+Δ=候选−参考；pp=差值×100；相对百分比仅在参考值>0时计算。
+
+| 候选 − 参考 | 参考 nDCG@10 | 候选 nDCG@10 | Δ pp | 相对 % | 配对95% CI pp | W/T/L |
+|---|---:|---:|---:|---:|---|---|
+| dense − lexical | 0.62467 | 0.15740 | -46.727 | -74.80 | [-49.262, -44.345] | 88/98/814 |
+| normalized − lexical | 0.62467 | 0.43076 | -19.391 | -31.04 | [-21.250, -17.522] | 190/136/674 |
+| rrf − normalized | 0.43076 | 0.48161 | +5.085 | +11.81 | [+4.320, +5.865] | 438/364/198 |
+| rrf − lexical | 0.62467 | 0.48161 | -14.306 | -22.90 | [-15.965, -12.690] | 211/126/663 |
+| rrf_rerank − rrf | 0.48161 | 0.72959 | +24.798 | +51.49 | [+23.121, +26.401] | 802/128/70 |
+| rrf_rewrite − rrf | 0.48161 | 0.48217 | +0.056 | +0.12 | [-0.003, +0.151] | 3/996/1 |
+| rrf_rewrite_rerank − rrf_rewrite | 0.48217 | 0.72923 | +24.705 | +51.24 | [+23.018, +26.316] | 801/129/70 |
+| rrf_rewrite_rerank − rrf_rerank | 0.72959 | 0.72923 | -0.037 | -0.05 | [-0.111, +0.000] | 0/999/1 |
+| rrf_k10 − rrf | 0.48161 | 0.53170 | +5.008 | +10.40 | [+4.133, +5.907] | 510/350/140 |
+| rrf_k100 − rrf | 0.48161 | 0.47224 | -0.937 | -1.95 | [-1.149, -0.716] | 22/764/214 |
+| rrf_candidates25 − rrf | 0.48161 | 0.52078 | +3.916 | +8.13 | [+2.954, +4.897] | 471/342/187 |
+| rrf_candidates50 − rrf | 0.48161 | 0.50256 | +2.095 | +4.35 | [+1.384, +2.816] | 396/471/133 |
+| rrf_candidates200 − rrf | 0.48161 | 0.46937 | -1.225 | -2.54 | [-1.781, -0.675] | 133/542/325 |
+| rrf_rerank20 − rrf_rerank | 0.72959 | 0.70257 | -2.702 | -3.70 | [-3.552, -1.895] | 205/518/277 |
+| rrf_rerank100 − rrf_rerank | 0.72959 | 0.73436 | +0.476 | +0.65 | [-0.223, +1.231] | 125/625/250 |
+| lexical_rerank − lexical | 0.62467 | 0.70858 | +8.391 | +13.43 | [+6.949, +9.806] | 504/314/182 |
+| dense_rerank − dense | 0.15740 | 0.28720 | +12.980 | +82.47 | [+11.762, +14.267] | 464/503/33 |
+| lexical_rewrite − lexical | 0.62467 | 0.62467 | +0.000 | +0.00 | [+0.000, +0.000] | 0/1000/0 |
+| rrf_rerank_english − rrf_rerank | 0.72959 | 0.26222 | -46.737 | -64.06 | [-48.720, -44.735] | 30/108/862 |
+
+rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.093 pp**，95% CI [-0.225, +0.003] pp。正值不等于完整路径总收益为正。
+
+### 可观察的变化样例
+
+每个直接对照最多展示一个改善和一个退化例；这是极端样例诊断，不代表发生率。正例名次与完整样例在 JSON。
+
+| 对照 | query_id | ΔnDCG pp | 候选 Recall 前→后 | 重排池 Recall 前→后 | 解释边界 |
+|---|---|---:|---|---|---|
+| dense − lexical | 19749 | +100.000 | 0.0 → 1.0 | None → None | 候选正例覆盖增加；最终排序变化仍需结合正例名次，不能据此断定语义原因。 |
+| dense − lexical | 10108 | -100.000 | 1.0 → 0.0 | None → None | 候选正例覆盖下降；这是已观察到的覆盖变化，不单独证明总体退化原因。 |
+| normalized − lexical | 10877 | +100.000 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| normalized − lexical | 13896 | -100.000 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf − normalized | 9801 | +51.188 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf − normalized | 21565 | -61.315 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf − lexical | 10877 | +100.000 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf − lexical | 4179 | -100.000 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rerank − rrf | 1597 | +100.000 | 1.0 → 1.0 | None → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rerank − rrf | 3838 | -100.000 | 1.0 → 1.0 | None → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rewrite − rrf | 7897 | +36.907 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rewrite − rrf | 23198 | -2.589 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rewrite_rerank − rrf_rewrite | 1597 | +100.000 | 1.0 → 1.0 | None → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rewrite_rerank − rrf_rewrite | 3838 | -100.000 | 1.0 → 1.0 | None → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rewrite_rerank − rrf_rerank | 19250 | -36.907 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_k10 − rrf | 7525 | +71.166 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_k10 − rrf | 10877 | -100.000 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_k100 − rrf | 10865 | +28.906 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_k100 − rrf | 13896 | -28.906 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_candidates25 − rrf | 3415 | +72.463 | 0.75 → 0.75 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_candidates25 − rrf | 10877 | -100.000 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_candidates50 − rrf | 9314 | +61.315 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_candidates50 − rrf | 10877 | -100.000 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_candidates200 − rrf | 22754 | +63.093 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_candidates200 − rrf | 11607 | -64.379 | 1.0 → 1.0 | None → None | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rerank20 − rrf_rerank | 3328 | +50.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rerank20 − rrf_rerank | 22754 | -100.000 | 1.0 → 1.0 | 1.0 → 0.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rerank100 − rrf_rerank | 12991 | +100.000 | 1.0 → 1.0 | 0.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rerank100 − rrf_rerank | 19250 | -50.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| lexical_rerank − lexical | 12274 | +100.000 | 1.0 → 1.0 | None → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| lexical_rerank − lexical | 18265 | -100.000 | 1.0 → 1.0 | None → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| dense_rerank − dense | 10877 | +100.000 | 1.0 → 1.0 | None → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| dense_rerank − dense | 3328 | -66.667 | 1.0 → 1.0 | None → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rerank_english − rrf_rerank | 18265 | +100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+| rrf_rerank_english − rrf_rerank | 10324 | -100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
+
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`eeeb67af0a55b9868c435fbe0fb0348674a3634a3c1d340b915708a4446f2c4f`。
 
 ## fiqa / minilm_multilingual / 编码器输入 256
 
@@ -920,7 +1021,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.001 
 | rrf_rerank_english − rrf_rerank | 699 | +71.094 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 6835 | -61.315 | 0.5 → 0.5 | 0.5 → 0.5 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`f63f89f007f7e4240da291a0ba1fa5d72ded905e94f03b77e74ce1bba457500a`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`f63f89f007f7e4240da291a0ba1fa5d72ded905e94f03b77e74ce1bba457500a`。
 
 ## t2retrieval / minilm_multilingual / 编码器输入 256
 
@@ -1019,7 +1120,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.059 
 | rrf_rerank_english − rrf_rerank | 18265 | +100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 10324 | -100.000 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`fd1fd4f78141d4855655e7f87f688940338b597ee060b2f6f68bb650b7b77b81`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`fd1fd4f78141d4855655e7f87f688940338b597ee060b2f6f68bb650b7b77b81`。
 
 ## fiqa / minilm_multilingual / 编码器输入 512
 
@@ -1123,7 +1224,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.141 
 | rrf_rerank_english − rrf_rerank | 699 | +71.094 | 1.0 → 1.0 | 1.0 → 1.0 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 | rrf_rerank_english − rrf_rerank | 6835 | -61.315 | 0.5 → 0.5 | 0.5 → 0.5 | 候选召回率不变；候选组成、相关等级和排序仍可能变化，不能据此认定候选集合相同。 |
 
-完成前失败尝试：0；最终质量表没有将失败当零分或完整结果。job 指纹：`fdd835071deec19b2b5d42cdb8b232171a6ed351eeac6c9baec2a6c5aaf1d315`。
+已捕获 Python 查询失败：0；原生进程退出另见[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)。最终质量表没有将失败当零分或完整结果。job 指纹：`fdd835071deec19b2b5d42cdb8b232171a6ed351eeac6c9baec2a6c5aaf1d315`。
 
 ## 跨模型与编码器输入长度
 
@@ -1163,10 +1264,18 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.141 
 | scifact / rrf | minilm_multilingual / 512 | minilm_multilingual / 256 | -11.676 | [-15.111, -8.243] | 53/142/105 |
 | scifact / rrf_rerank | minilm_multilingual / 512 | minilm_multilingual / 256 | +0.913 | [-0.179, +1.904] | 26/270/4 |
 | scifact / rrf_rewrite_rerank | minilm_multilingual / 512 | minilm_multilingual / 256 | +0.915 | [-0.184, +1.906] | 26/270/4 |
+| t2retrieval / dense | minilm_multilingual / 512 | e5_small / 512 | -55.506 | [-57.581, -53.516] | 28/78/894 |
+| t2retrieval / rrf | minilm_multilingual / 512 | e5_small / 512 | -27.582 | [-29.078, -26.082] | 67/101/832 |
+| t2retrieval / rrf_rerank | minilm_multilingual / 512 | e5_small / 512 | -2.917 | [-3.897, -1.922] | 246/507/247 |
+| t2retrieval / rrf_rewrite_rerank | minilm_multilingual / 512 | e5_small / 512 | -2.953 | [-3.933, -1.963] | 246/507/247 |
 | fiqa / dense | minilm_multilingual / 256 | e5_small / 256 | -20.232 | [-22.749, -17.949] | 48/274/326 |
 | fiqa / rrf | minilm_multilingual / 256 | e5_small / 256 | -13.785 | [-15.648, -11.916] | 58/284/306 |
 | fiqa / rrf_rerank | minilm_multilingual / 256 | e5_small / 256 | -3.082 | [-4.232, -1.940] | 93/439/116 |
 | fiqa / rrf_rewrite_rerank | minilm_multilingual / 256 | e5_small / 256 | -3.065 | [-4.225, -1.923] | 95/438/115 |
+| t2retrieval / dense | minilm_multilingual / 512 | minilm_multilingual / 256 | -3.693 | [-4.434, -3.023] | 78/740/182 |
+| t2retrieval / rrf | minilm_multilingual / 512 | minilm_multilingual / 256 | -4.105 | [-5.135, -3.163] | 241/380/379 |
+| t2retrieval / rrf_rerank | minilm_multilingual / 512 | minilm_multilingual / 256 | +0.240 | [-0.154, +0.632] | 162/782/56 |
+| t2retrieval / rrf_rewrite_rerank | minilm_multilingual / 512 | minilm_multilingual / 256 | +0.217 | [-0.175, +0.599] | 162/782/56 |
 | fiqa / dense | minilm_multilingual / 512 | minilm_multilingual / 256 | -0.512 | [-0.919, -0.182] | 13/616/19 |
 | fiqa / rrf | minilm_multilingual / 512 | minilm_multilingual / 256 | -1.824 | [-2.659, -1.108] | 40/540/68 |
 | fiqa / rrf_rerank | minilm_multilingual / 512 | minilm_multilingual / 256 | -0.294 | [-1.007, +0.387] | 36/595/17 |
@@ -1176,7 +1285,7 @@ rewrite×rerank 交互项（both−rewrite_only−rerank_only+RRF）：**-0.141 
 
 各 job 的 DML compute kernel 事件及覆盖信息保存在 JSON 的 gpu_proofs；请求 GPU provider 本身不算执行证据。CPU 算子仍单独记录。
 
-实际推理 telemetry 来源：`latest_completed_job_cumulative_snapshot`；原始 scope：`cumulative_campaign_through_this_job_completion`。快照创建时间：**2026-10-17 02:35:54（Asia/Shanghai）**（依据 `completed_at`，不是报告导出时间）。只取一个累计快照，绝不把每个 job 的累计值相加。
+实际推理 telemetry 来源：`run_state_cumulative_snapshot`；原始 scope：`unavailable`。快照创建时间：**2026-10-17 04:09:16（Asia/Shanghai）**（依据 `completed_at`，不是报告导出时间）。只取一个累计快照，绝不把每个 job 的累计值相加。
 其有效范围仅为当前 checkpoint 截至该快照已落盘的成功未缓存调用；同一 checkpoint 跨进程恢复可以继续累计。**这不是整个 campaign 的总成本，也不是运行墙钟时长。**
 不覆盖单独归档或其他 checkpoint 的运行、未写入 telemetry 的失败/native 崩溃调用、pilot 与联合显存测试、模型初始化及重载、快照之后的进行中工作。下载、数据准备、报告导出、网络、生成、能源及账单也不在此统计内。
 Pipeline p50/p95 混合首次推理和缓存回放，只保留在 JSON 作运行诊断，不能写成在线延迟。密集排序是 CPU exact scan；256/512 是 embedding 编码器输入截断，不是 chunking，reranker 均固定 512。初始化、生成、网络和生产并发不在该推理统计内。

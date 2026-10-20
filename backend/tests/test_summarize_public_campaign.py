@@ -257,7 +257,9 @@ class PublicCampaignExportTests(unittest.TestCase):
         self.assertEqual(report["source_run_status"], "budget_exhausted")
 
     def test_supervisor_native_failure_overrides_stale_worker_running(self):
-        self.job()
+        path, summary = self.job()
+        summary["reliability"]["failed_attempts_before_completion"] = 0
+        save_json(path, summary)
         save_json(self.run / "run_state.json", {"status": "running", "fingerprint": "run1"})
         save_json(self.root / "campaign-status.local.json", {
             "phase": "failed", "returncode": 3221225477, "failed_step": "gpu_experiments",
@@ -277,6 +279,11 @@ class PublicCampaignExportTests(unittest.TestCase):
         self.assertIn("有效运行状态：`failed`", markdown)
         self.assertIn("Worker 保存状态：`running`", markdown)
         self.assertIn("supervisor 退出码：`3221225477`", markdown)
+        self.assertIn("已捕获 Python 查询失败：0", markdown)
+        self.assertNotIn("完成前失败尝试", markdown)
+        introduction = markdown.split("\n## ", 1)[0]
+        self.assertIn("[执行日志](PUBLIC_GPU_EXECUTION_LOG.md)", introduction)
+        self.assertIn("计数为 0 不代表全程无故障", introduction)
 
     def test_worker_status_remains_compatible_without_supervisor(self):
         save_json(self.run / "run_state.json", {"status": "running", "fingerprint": "run1"})
