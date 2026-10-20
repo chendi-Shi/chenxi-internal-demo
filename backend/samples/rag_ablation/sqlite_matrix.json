@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "fixed_now": "2026-10-15T00:00:00+00:00",
+  "seed": 20261015,
+  "repeats": 5,
+  "warmup_rounds": 1,
+  "bootstrap_resamples": 5000,
+  "cutoffs": [1, 3, 5, 10],
+  "disabled_source_ids": ["synthetic_disabled"],
+  "baseline_id": "baseline",
+  "base_policy": {"source_weights": {}, "recency_boost": 0, "half_life_days": 90, "default_limit": 10},
+  "variants": [
+    {"id": "baseline", "parent": null, "kind": "baseline", "planner": "full", "policy": {}, "description": "Production bilingual planner and SQLite FTS5 BM25; neutral source weights and recency; return at most 10 documents."},
+    {"id": "no_concept_expansion", "parent": "baseline", "kind": "component_ablation", "planner": "no_concept_expansion", "policy": {}, "description": "Empty only hub_query.CONCEPTS during production planning; entity recognition, anchor concepts, stopwords and title guards stay enabled. Unexpanded words remain literals; query grouping can consequently change."},
+    {"id": "no_title_guards", "parent": "baseline", "kind": "component_ablation", "planner": "no_title_guards", "policy": {}, "description": "Keep the full production FTS expression but empty QueryPlan.entities and dates, removing the post-retrieval title guard only. Query metadata/date/source filters and disabled-source checks remain enforced."},
+    {"id": "raw_lexical_or", "parent": "baseline", "kind": "compound_control", "planner": "raw_lexical_or", "policy": {}, "description": "Comparator replacing the whole planner with OR of unique production search_tokens; no concept expansion, filler removal or title guards. This is not an isolated component effect."},
+    {"id": "raw_lexical_and", "parent": "baseline", "kind": "compound_control", "planner": "raw_lexical_and", "policy": {}, "description": "Comparator replacing the whole planner with AND of unique production search_tokens; no concept expansion, filler removal or title guards. This is not an isolated component effect."},
+    {"id": "recency_025", "parent": "baseline", "kind": "policy_sensitivity", "planner": "full", "policy": {"recency_boost": 0.25}, "description": "Change only recency_boost from 0 to the production default 0.25."},
+    {"id": "recency_1", "parent": "baseline", "kind": "policy_sensitivity", "planner": "full", "policy": {"recency_boost": 1}, "description": "Change only recency_boost from 0 to 1."},
+    {"id": "recency_3", "parent": "baseline", "kind": "policy_sensitivity", "planner": "full", "policy": {"recency_boost": 3}, "description": "Change only recency_boost from 0 to the allowed maximum 3."},
+    {"id": "half_life_30", "parent": "recency_1", "kind": "policy_sensitivity", "planner": "full", "policy": {"recency_boost": 1, "half_life_days": 30}, "description": "Relative to recency_1 change only half_life_days from 90 to 30; a half-life test at zero recency would be inert."},
+    {"id": "half_life_365", "parent": "recency_1", "kind": "policy_sensitivity", "planner": "full", "policy": {"recency_boost": 1, "half_life_days": 365}, "description": "Relative to recency_1 change only half_life_days from 90 to 365."},
+    {"id": "alpha_weight_2", "parent": "baseline", "kind": "policy_sensitivity", "planner": "full", "policy": {"source_weights": {"synthetic_alpha": 2}}, "description": "Change only the alpha source weight from implicit 1 to 2; labels are not used to choose this weight."},
+    {"id": "alpha_weight_10", "parent": "baseline", "kind": "policy_sensitivity", "planner": "full", "policy": {"source_weights": {"synthetic_alpha": 10}}, "description": "Change only the alpha source weight from implicit 1 to the allowed maximum 10."},
+    {"id": "beta_weight_2", "parent": "baseline", "kind": "policy_sensitivity", "planner": "full", "policy": {"source_weights": {"synthetic_beta": 2}}, "description": "Change only the beta source weight from implicit 1 to 2."},
+    {"id": "beta_weight_10", "parent": "baseline", "kind": "policy_sensitivity", "planner": "full", "policy": {"source_weights": {"synthetic_beta": 10}}, "description": "Change only the beta source weight from implicit 1 to the allowed maximum 10."},
+    {"id": "top_k_1", "parent": "baseline", "kind": "budget_sensitivity", "planner": "full", "policy": {"default_limit": 1}, "description": "Change only returned-document default_limit from 10 to 1; SQLite still scores all lexical matches before truncation."},
+    {"id": "top_k_3", "parent": "baseline", "kind": "budget_sensitivity", "planner": "full", "policy": {"default_limit": 3}, "description": "Change only returned-document default_limit from 10 to 3; retrieval/quality cutoffs remain 1, 3, 5 and 10."},
+    {"id": "top_k_5", "parent": "baseline", "kind": "budget_sensitivity", "planner": "full", "policy": {"default_limit": 5}, "description": "Change only returned-document default_limit from 10 to 5."}
+  ]
+}

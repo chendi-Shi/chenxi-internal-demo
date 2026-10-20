@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "verified_date": "2026-10-15",
+  "provider": "Hugging Face official dataset repositories",
+  "datasets": {
+    "t2retrieval": {
+      "language": "zh",
+      "evaluation_split": "dev",
+      "evaluation_note": "The official C-MTEB release exposes dev qrels only. This locked subset remains a development-split evaluation, not a held-out test claim.",
+      "default_max_queries": 1000,
+      "expected_corpus_count": 118605,
+      "expected_all_query_count": 22812,
+      "homepage": "https://huggingface.co/datasets/C-MTEB/T2Retrieval",
+      "citation": "T2Ranking: A large-scale Chinese Benchmark for Passage Ranking; C-MTEB release",
+      "license_metadata": "Not specified in the pinned C-MTEB dataset card; raw data stays local and is not republished.",
+      "corpus_columns": {"id": "id", "text": "text"},
+      "query_columns": {"id": "id", "query": "text"},
+      "qrel_columns": {"query_id": "qid", "document_id": "pid", "score": "score"},
+      "files": [
+        {
+          "role": "corpus", "format": "parquet", "local_name": "corpus.parquet",
+          "repo": "C-MTEB/T2Retrieval", "revision": "8731a845f1bf500a4f111cf1070785c793d10e64",
+          "path": "data/corpus-00000-of-00001-8afe7b7a7eca49e3.parquet",
+          "bytes": 156789043,
+          "sha256": "d4a207a9277eb1cf31f68ab6a7236cbf3e8fbf9493e0e2b577a34660929fcd17"
+        },
+        {
+          "role": "queries", "format": "parquet", "local_name": "queries.parquet",
+          "repo": "C-MTEB/T2Retrieval", "revision": "8731a845f1bf500a4f111cf1070785c793d10e64",
+          "path": "data/queries-00000-of-00001-930bf3b805a80dd9.parquet",
+          "bytes": 817492,
+          "sha256": "47a5866f1e668700420f44b200f9808c9e799208a46da147dfe380b40fb406ec"
+        },
+        {
+          "role": "qrels", "split": "dev", "format": "parquet", "local_name": "qrels-dev.parquet",
+          "repo": "C-MTEB/T2Retrieval-qrels", "revision": "1c83b8d1544e529875e3f6930f3a1fcf749a8e97",
+          "path": "data/dev-00000-of-00001-92ed0416056ff7e1.parquet",
+          "bytes": 1146734,
+          "sha256": "a283ce5c8bd739e7f5524107586eb21e68d7736172524b79eb5bd844c4b78c00"
+        }
+      ]
+    },
+    "fiqa": {
+      "language": "en",
+      "evaluation_split": "test",
+      "evaluation_note": "Official BEIR FiQA test questions; train and dev qrels are excluded from evaluation and checked for query-ID overlap.",
+      "default_max_queries": 1000,
+      "expected_corpus_count": 57638,
+      "expected_all_query_count": 6648,
+      "expected_evaluation_query_count": 648,
+      "homepage": "https://huggingface.co/datasets/BeIR/fiqa",
+      "citation": "BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models (2021); FiQA-2018",
+      "license_metadata": "cc-by-sa-4.0 (pinned HF dataset card)",
+      "corpus_columns": {"id": "_id", "title": "title", "text": "text"},
+      "query_columns": {"id": "_id", "query": "text"},
+      "qrel_columns": {"query_id": "query-id", "document_id": "corpus-id", "score": "score"},
+      "files": [
+        {
+          "role": "corpus", "format": "parquet", "local_name": "corpus.parquet",
+          "repo": "BeIR/fiqa", "revision": "979c07a7cb5ccc6ca009792241fa1250b98055dd",
+          "path": "corpus/corpus-00000-of-00001.parquet", "bytes": 27700817,
+          "sha256": "b36bb07dab3bfad488190818828e749a52faf5ba391c1d51dac8b06064576f99"
+        },
+        {
+          "role": "queries", "format": "parquet", "local_name": "queries.parquet",
+          "repo": "BeIR/fiqa", "revision": "979c07a7cb5ccc6ca009792241fa1250b98055dd",
+          "path": "queries/queries-00000-of-00001.parquet", "bytes": 321680,
+          "sha256": "e9b3863724ffd538d8efff19684ef8ae495bdbddd96b35e81bdc39e3e22860d6"
+        },
+        {
+          "role": "qrels", "split": "test", "format": "tsv", "local_name": "qrels-test.tsv",
+          "repo": "BeIR/fiqa-qrels", "revision": "252958f2d646e22cab6d0c72dd3f0d5de6d0655a",
+          "path": "test.tsv", "bytes": 25256, "git_blob_sha1": "4e4ef51a72222ce611f6c36b8c7c02d32e370e81"
+        },
+        {
+          "role": "qrels", "split": "dev", "format": "tsv", "local_name": "qrels-dev.tsv",
+          "repo": "BeIR/fiqa-qrels", "revision": "252958f2d646e22cab6d0c72dd3f0d5de6d0655a",
+          "path": "dev.tsv", "bytes": 18327, "git_blob_sha1": "abb5799d5c1105cf2663ca9f01e1917b18f565e1"
+        },
+        {
+          "role": "qrels", "split": "train", "format": "tsv", "local_name": "qrels-train.tsv",
+          "repo": "BeIR/fiqa-qrels", "revision": "252958f2d646e22cab6d0c72dd3f0d5de6d0655a",
+          "path": "train.tsv", "bytes": 209842, "git_blob_sha1": "866241ace964783bb3a8b2b143b2727345fc759b"
+        }
+      ]
+    },
+    "scifact": {
+      "language": "en",
+      "evaluation_split": "test",
+      "evaluation_note": "Official BEIR SciFact test questions; train qrels are excluded from evaluation and checked for query-ID overlap.",
+      "default_max_queries": 1000,
+      "expected_corpus_count": 5183,
+      "expected_all_query_count": 1109,
+      "expected_evaluation_query_count": 300,
+      "homepage": "https://huggingface.co/datasets/BeIR/scifact",
+      "citation": "BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models (2021); SciFact",
+      "license_metadata": "cc-by-sa-4.0 (pinned HF dataset card)",
+      "corpus_columns": {"id": "_id", "title": "title", "text": "text"},
+      "query_columns": {"id": "_id", "query": "text"},
+      "qrel_columns": {"query_id": "query-id", "document_id": "corpus-id", "score": "score"},
+      "files": [
+        {
+          "role": "corpus", "format": "parquet", "local_name": "corpus.parquet",
+          "repo": "BeIR/scifact", "revision": "b3b5335604bf5ee3c4447671af975ea25143d4f5",
+          "path": "corpus/corpus-00000-of-00001.parquet", "bytes": 4469916,
+          "sha256": "243324b35f03d82bd6d98a5f575966876e86cad7ce16e5333a35b1b793dc4f45"
+        },
+        {
+          "role": "queries", "format": "parquet", "local_name": "queries.parquet",
+          "repo": "BeIR/scifact", "revision": "b3b5335604bf5ee3c4447671af975ea25143d4f5",
+          "path": "queries/queries-00000-of-00001.parquet", "bytes": 64982,
+          "sha256": "1c37956c5dc8b810b60302323c24d1a9e79e26411ba8f5ad9d0888642e2a9034"
+        },
+        {
+          "role": "qrels", "split": "test", "format": "tsv", "local_name": "qrels-test.tsv",
+          "repo": "BeIR/scifact-qrels", "revision": "2938d17dc3b09882fdb8c12bbbe2e2dc0e75a029",
+          "path": "test.tsv", "bytes": 5389, "git_blob_sha1": "c62f58c75f10c0cee23483b7269bff2902ae4080"
+        },
+        {
+          "role": "qrels", "split": "train", "format": "tsv", "local_name": "qrels-train.tsv",
+          "repo": "BeIR/scifact-qrels", "revision": "2938d17dc3b09882fdb8c12bbbe2e2dc0e75a029",
+          "path": "train.tsv", "bytes": 14502, "git_blob_sha1": "3d7882aacef0cbe3befa238357e4bb165165d8ba"
+        }
+      ]
+    }
+  }
+}
